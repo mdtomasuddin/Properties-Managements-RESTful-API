@@ -47,7 +47,7 @@
                 </a>
                 </li>
 
-                <li class="dropdown stopevent ms-2">
+                {{-- <li class="dropdown stopevent ms-2">
                     <a class="btn btn-ghost btn-icon rounded-circle" href="#!" role="button"
                         id="dropdownNotification" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="icon-xs" data-feather="bell"></i>
@@ -56,8 +56,7 @@
                         aria-labelledby="dropdownNotification">
                         <div>
                             <div
-                                class="border-bottom px-3 pt-2 pb-3 d-flex
-      justify-content-between align-items-center">
+                                class="border-bottom px-3 pt-2 pb-3 d-flex justify-content-between align-items-center">
                                 <p class="mb-0 text-dark fw-medium fs-4">Notifications</p>
                                 <a href="#!" class="text-muted">
                                     <span>
@@ -136,7 +135,7 @@
                             </div>
                         </div>
                     </div>
-                </li>
+                </li> --}}
                 <!-- List -->
                 <li class="dropdown ms-2">
                     <a class="rounded-circle" href="#!" role="button" id="dropdownUser" data-bs-toggle="dropdown"
@@ -165,14 +164,12 @@
                                     Profile
                                 </a>
                             </li>
-                            <li>
+                            {{-- <li>
                                 <a class="dropdown-item" href="#!">
                                     <i class="me-2 icon-xxs dropdown-item-icon" data-feather="activity"></i>Activity
                                     Log
                                 </a>
-
-
-                            </li>
+                            </li> --}}
 
 
                             <li>
