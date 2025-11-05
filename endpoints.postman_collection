@@ -1,0 +1,548 @@
+{
+	"info": {
+		"_postman_id": "fd58ea36-334d-40d0-8a7e-d9e5dfbe8999",
+		"name": "Local",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15867367",
+		"_collection_link": "https://www.postman.com/fsd111-3896/workspace/auth/collection/15867367-fd58ea36-334d-40d0-8a7e-d9e5dfbe8999?action=share&source=collection_link&creator=15867367"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "forget password",
+					"item": [
+						{
+							"name": "otp send",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "govedax561@dfesc.com",
+											"type": "text"
+										},
+										{
+											"key": "operation",
+											"value": "password",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "aklein@example.org",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{live_url}}/api/v1/auth/forget-password/otp-send",
+									"host": [
+										"{{live_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"auth",
+										"forget-password",
+										"otp-send"
+									]
+								},
+								"description": "{  \n\"success\": true,  \n\"code\": 200,  \n\"message\": \"otp sended\",  \n\"data\": {  \n\"otp\": 195860  \n},  \n\"timestamp\": \"2024-12-09T13:52:57+00:00 GMT+00:00\"  \n}"
+							},
+							"response": []
+						},
+						{
+							"name": "otp match",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "govedax561@dfesc.com",
+											"type": "text"
+										},
+										{
+											"key": "otp",
+											"value": "242815",
+											"type": "text"
+										},
+										{
+											"key": "operation",
+											"value": "password",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "aklein@example.org",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{live_url}}/api/v1/auth/forget-password/otp-match",
+									"host": [
+										"{{live_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"auth",
+										"forget-password",
+										"otp-match"
+									]
+								},
+								"description": "{  \n\"success\": true,  \n\"code\": 200,  \n\"message\": \"otp verified\",  \n\"data\": null,  \n\"timestamp\": \"2024-12-09T13:53:37+00:00 GMT+00:00\"  \n}"
+							},
+							"response": []
+						},
+						{
+							"name": "reset-password",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "aklein@example.org",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "email",
+											"value": "govedax561@dfesc.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "12345678",
+											"type": "text"
+										},
+										{
+											"key": "password_confirmation",
+											"value": "12345678",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{live_url}}/api/v1/auth/forget-password/reset-password",
+									"host": [
+										"{{live_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"auth",
+										"forget-password",
+										"reset-password"
+									]
+								},
+								"description": "{  \n\"success\": true,  \n\"code\": 200,  \n\"message\": \"otp verified\",  \n\"data\": null,  \n\"timestamp\": \"2024-12-09T13:53:37+00:00 GMT+00:00\"  \n}"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Log the response to check structure\r",
+									"var jsonData = pm.response.json();\r",
+									"console.log(jsonData);  // This will print the entire response\r",
+									"\r",
+									"if (jsonData && jsonData.data && jsonData.data.token) {\r",
+									"    pm.globals.set('token', jsonData.data.token);\r",
+									"    console.log('Token set globally: ' + jsonData.data.token);\r",
+									"} else {\r",
+									"    console.error('Token not found in the response');\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "yamic50506@clubemp.com",
+									"type": "text"
+								},
+								{
+									"key": "first_name",
+									"value": "Mike",
+									"type": "text"
+								},
+								{
+									"key": "last_name",
+									"value": "sfasdf",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
+								},
+								{
+									"key": "password_confirmation",
+									"value": "12345678",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{live_url}}/api/v1/auth/register",
+							"host": [
+								"{{live_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"register"
+							]
+						},
+						"description": "{  \n\"success\": true,  \n\"code\": 200,  \n\"message\": \"user registration successfull\",  \n\"data\": {  \n\"token\": \"{{vault:json-web-token}}\",  \n\"role\": \"user\",  \n\"verify\": false  \n},  \n\"timestamp\": \"2024-12-09T13:51:47+00:00 GMT+00:00\"  \n}"
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Log the response to check structure\r",
+									"var jsonData = pm.response.json();\r",
+									"console.log(jsonData);  // This will print the entire response\r",
+									"\r",
+									"if (jsonData && jsonData.data && jsonData.data.token) {\r",
+									"    pm.globals.set('token', jsonData.data.token);\r",
+									"    console.log('Token set globally: ' + jsonData.data.token);\r",
+									"} else {\r",
+									"    console.error('Token not found in the response');\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "user1@mail.com",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "yamic50506@clubemp.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "password123",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{live_url}}/api/v1/auth/login",
+							"host": [
+								"{{live_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						},
+						"description": "{  \n\"success\": true,  \n\"code\": 200,  \n\"message\": \"user login successfull\",  \n\"data\": {  \n\"token\": \"{{vault:json-web-token}}\",  \n\"role\": \"helper\",  \n\"verify\": true  \n},  \n\"timestamp\": \"2024-12-09T11:55:37+00:00 GMT+00:00\"  \n}"
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{live_url}}/api/v1/auth/logout",
+							"host": [
+								"{{live_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"logout"
+							]
+						},
+						"description": "{  \n\"success\": true,  \n\"code\": 200,  \n\"message\": \"user logged out successfully\",  \n\"data\": null,  \n\"timestamp\": \"2024-12-09T13:52:45+00:00 GMT+00:00\"  \n}"
+					},
+					"response": []
+				},
+				{
+					"name": "otp send",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "user1@mail.com",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "operation",
+									"value": "email",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "yamic50506@clubemp.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{live_url}}/api/v1/auth/otp-send",
+							"host": [
+								"{{live_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"otp-send"
+							]
+						},
+						"description": "{  \n\"success\": true,  \n\"code\": 200,  \n\"message\": \"otp sended\",  \n\"data\": {  \n\"otp\": 195860  \n},  \n\"timestamp\": \"2024-12-09T13:52:57+00:00 GMT+00:00\"  \n}"
+					},
+					"response": []
+				},
+				{
+					"name": "otp match",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "user1@mail.com",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "otp",
+									"value": "739976",
+									"type": "text"
+								},
+								{
+									"key": "operation",
+									"value": "email",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "yamic50506@clubemp.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{live_url}}/api/v1/auth/otp-match",
+							"host": [
+								"{{live_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"otp-match"
+							]
+						},
+						"description": "{  \n\"success\": true,  \n\"code\": 200,  \n\"message\": \"otp verified\",  \n\"data\": null,  \n\"timestamp\": \"2024-12-09T13:53:37+00:00 GMT+00:00\"  \n}"
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "live_url",
+			"value": "https://localhost.test"
+		}
+	]
+}
