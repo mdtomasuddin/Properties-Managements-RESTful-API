@@ -3,7 +3,7 @@
     <div class="navbar-custom navbar navbar-expand-lg">
         <div class="container-fluid px-0">
             <a class="navbar-brand d-block d-md-none" href="index-2.html">
-              <img src="{{ asset('assets/backend/images/brand/logo/logo-2.svg') }}" alt="Image">
+              <img src="{{ asset('assets/backend/images/brand/logo/logo-2.png') }}" alt="Image">
             </a>
 
 
