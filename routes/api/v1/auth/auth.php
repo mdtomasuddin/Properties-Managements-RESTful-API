@@ -4,7 +4,6 @@ use App\Http\Controllers\Api\V1\Auth\AuthController;
 use App\Http\Controllers\Api\V1\Auth\ForgerPasswordController;
 use App\Http\Controllers\Api\V1\Auth\OTPController;
 use App\Http\Controllers\Api\V1\Auth\PasswordController;
-use App\Http\Controllers\Api\V1\Auth\SocialLoginController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('/v1/auth')->name('api.auth.')->group(function () {
@@ -32,11 +31,7 @@ Route::prefix('/v1/auth')->name('api.auth.')->group(function () {
             Route::post('/reset-password', 'resetPassword');
         });
 
-        Route::prefix('/social')->name('social.')->controller(SocialLoginController::class)->group(
-            function () {
-                Route::post('/login', 'socialLogin');
-            }
-        );
+      
     });
 
 

@@ -18,7 +18,7 @@ class SuperAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->role->name == 'super admin') {
+        if (Auth::check() && Auth::user()->role == 'admin') {
             return $next($request);
         }
         return $this->error(403, 'Only Agents are Allowed to Access');

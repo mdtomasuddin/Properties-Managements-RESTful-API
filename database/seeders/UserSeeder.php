@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
         DB::table('users')->insert([
             [
                 'name' => 'admin',
-                'email' => 'nolak85794@fantastu.com',
+                'email' => 'admin@admin.com',
                 'phone' => null, // or add a phone number
                 'password' => Hash::make('12345678'),
                 'avatar' => null,
@@ -30,6 +30,50 @@ class UserSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'name' => 'tomas',
+                'email' => 'mdtomasuddin1@gmail.com',
+                'phone' => null, // or add a phone number
+                'password' => Hash::make('12345678'),
+                'avatar' => null,
+                'role' => "admin",
+                'status' => 'active',
+                'is_otp_verified' => true, // or false if not verified
+                'email_verified_at' => now(),
+                'terms_and_conditions' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'resident',
+                'email' => 'resident@resident.com',
+                'phone' => null, // or add a phone number
+                'password' => Hash::make('12345678'),
+                'avatar' => null,
+                'role' => "resident",
+                'status' => 'active',
+                'is_otp_verified' => true, // or false if not verified
+                'email_verified_at' => now(),
+                'terms_and_conditions' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'property_owner',
+                'email' => 'property_owner@gmail.com',
+                'phone' => null, // or add a phone number
+                'password' => Hash::make('12345678'),
+                'avatar' => null,
+                'role' => "property_owner",
+                'status' => 'active',
+                'is_otp_verified' => true, // or false if not verified
+                'email_verified_at' => now(),
+                'terms_and_conditions' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+
         ]);
     }
 }
