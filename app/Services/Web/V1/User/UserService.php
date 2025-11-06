@@ -46,8 +46,7 @@ class UserService
             if ($request->has('search') && $request->search) {
                 $searchTerm = $request->search;
                 $query->where(function ($q) use ($searchTerm) {
-                    $q->where('first_name', 'like', '%' . $searchTerm . '%')
-                        ->orWhere('last_name', 'like', '%' . $searchTerm . '%')
+                    $q->where('name', 'like', '%' . $searchTerm . '%')
                         ->orWhere('handle', 'like', '%' . $searchTerm . '%')
                         ->orWhere('email', 'like', '%' . $searchTerm . '%')
                         ->orWhereHas('profile', function ($subQuery) use ($searchTerm) {
@@ -57,7 +56,6 @@ class UserService
             }
             return DataTables::of($query)
                 ->addColumn('name', function ($data) {
-                    $fullName = ($data->first_name ?? '') . ' ' . ($data->last_name ?? '');
                     $avatar = $data->avatar ? asset($data->avatar) : asset('assets/custom/images/avatar.jpg');
                     $route = route('admin.user.show', $data->handle);
                     return '<td>

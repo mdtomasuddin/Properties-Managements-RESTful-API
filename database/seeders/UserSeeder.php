@@ -17,16 +17,16 @@ class UserSeeder extends Seeder
     {
         DB::table('users')->insert([
             [
-                'first_name' => 'admin',
-                'last_name' => 'user',
-                'handle' => 'admin',
-                'email' => 'admin@admin.com',
-                'email_verified_at' => now(),
+                'name' => 'admin',
+                'email' => 'nolak85794@fantastu.com',
+                'phone' => null, // or add a phone number
                 'password' => Hash::make('12345678'),
                 'avatar' => null,
-                'role_id' => 1,
-                'status' => true,
-                'remember_token' => Str::random(10),
+                'role' => "admin",
+                'status' => 'active',
+                'is_otp_verified' => true, // or false if not verified
+                'email_verified_at' => now(),
+                'terms_and_conditions' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

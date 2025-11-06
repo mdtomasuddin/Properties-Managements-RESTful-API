@@ -18,7 +18,7 @@ interface SocialLoginRepositoryInterface
     /**
      * Creates a new user with the provided data.
      *
-     * @param array $data The user data (e.g., first_name, last_name, email, password, address).
+     * @param array $data The user data (e.g., name, lastname, email, password, address).
      *
      * @return User The created user object.
      */

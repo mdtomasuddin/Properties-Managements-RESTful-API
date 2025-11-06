@@ -13,30 +13,39 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name');
-            $table->string('last_name');
-
-            $table->string('handle')->unique();
-
-            $table->string('email', 255)->unique();
+            $table->string('name');
+            $table->string('email')->unique()->nullable();
+            $table->string('phone', 20)->unique()->nullable();
+            $table->string('password')->nullable();
+            $table->string('reffer_code')->nullable();
+            $table->string('invitation_code')->nullable();
+            $table->enum('role', ['admin', 'property_owner', 'resident'])->default('resident');
+            $table->timestamp('phone_verified_at')->nullable();
             $table->timestamp('email_verified_at')->nullable();
-
-            $table->string('password');
-
+            $table->string('otp', 6)->nullable();
+            $table->boolean('is_otp_verified')->default(false);
+            $table->timestamp('otp_expires_at')->nullable();
+            $table->timestamp('otp_verified_at')->nullable();
+            $table->boolean('terms_and_conditions')->default(false);
             $table->string('avatar')->nullable();
-
-            $table->foreignId('role_id')->constrained('roles')->cascadeOnDelete();
-
-            $table->boolean('status')->default(true);
-
-            $table->rememberToken();
-            $table->softDeletes();
+            $table->string('lang')->nullable();
+            $table->string('cover_photo')->nullable();
+            $table->text('address')->nullable();
+            $table->string('national_id')->nullable();
+            $table->string('emergency_contact_name')->nullable();
+            $table->string('emergency_contact_phone', 20)->nullable();
+            $table->string('organization')->nullable();
+            $table->string('designation')->nullable();
+            $table->boolean('subscription')->default(false);
+            $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
-            $table->string('email')->primary();
-            $table->string('token');
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('token')->nullable();
             $table->timestamp('created_at')->nullable();
         });
 

@@ -54,7 +54,7 @@
                                     <!-- text -->
                                     <div class="lh-1">
                                         <h2 class="mb-0">
-                                            {{ $user->first_name ?? 'N/A' }} {{ $user->last_name ?? 'N/A' }}
+                                            {{ $user->name ?? 'N/A' }} 
                                         </h2>
                                         <p class="mb-0 d-block">@i{{ $user->handle ?? 'N/A' }}</p>
                                     </div>

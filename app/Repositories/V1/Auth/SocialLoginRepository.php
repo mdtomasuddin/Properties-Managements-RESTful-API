@@ -29,7 +29,7 @@ class SocialLoginRepository implements SocialLoginRepositoryInterface
      * Begins a transaction, creates the user, and commits the transaction.
      * Rolls back if any exception occurs.
      *
-     * @param array $data The user data (first_name, last_name, email, password, address).
+     * @param array $data The user data (name, email, password, address).
      *
      * @return User The created user object.
      *
@@ -41,8 +41,7 @@ class SocialLoginRepository implements SocialLoginRepositoryInterface
         try {
             // Assuming 'authService->createUser' is replaced by direct user creation
             $user = User::create([
-                'first_name' => $data['first_name'],
-                'last_name' => $data['last_name'],
+                'name' => $data['name'],
                 'email' => $data['email'],
                 'password' => $data['password'],
                 'address' => $data['address'] ?? null,

@@ -18,7 +18,7 @@ class Admin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->role->slug == 'admin') {
+        if (Auth::check() && Auth::user()->role== 'admin') {
             return $next($request);
         }
         return $this->error(403, 'Only Admins are Allowed to Access');

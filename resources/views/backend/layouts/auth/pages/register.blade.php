@@ -29,26 +29,16 @@
                             @csrf
                             <!-- first name -->
                             <div class="mb-3">
-                                <label for="first_name" class="form-label">First Name</label>
-                                <input type="text" id="first_name" class="form-control" name="first_name"
-                                    placeholder="First Name" value="{{old('first_name')}}" >
-                                @error('first_name')
+                                <label for="name" class="form-label">First Name</label>
+                                <input type="text" id="name" class="form-control" name="name"
+                                    placeholder="First Name" value="{{old('name')}}" >
+                                @error('name')
                                     <div class="validation-error">
                                         {{ $message }}
                                     </div>
                                 @enderror
                             </div>
-                            <!-- last name -->
-                            <div class="mb-3">
-                                <label for="last_name" class="form-label">Last Name</label>
-                                <input type="text" id="last_name" class="form-control" name="last_name"
-                                    placeholder="Last Name" value="{{old('last_name')}}" >
-                                @error('last_name')
-                                    <div class="validation-error">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
+                           
                             <!-- Email -->
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>

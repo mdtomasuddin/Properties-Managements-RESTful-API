@@ -45,7 +45,6 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
     }
@@ -117,13 +116,13 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         return $this->hasMany(OTP::class);
     }
 
-    /**
-     * Getting the role of the user
-     *
-     * @return BelongsTo<Role, User>
-     */
-    public function role(): BelongsTo
-    {
-        return $this->belongsTo(Role::class);
-    }
+    // /**
+    //  * Getting the role of the user
+    //  *
+    //  * @return BelongsTo<Role, User>
+    //  */
+    // public function role(): BelongsTo
+    // {
+    //     return $this->belongsTo(Role::class);
+    // }
 }

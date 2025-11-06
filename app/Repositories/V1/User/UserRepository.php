@@ -57,8 +57,7 @@ class UserRepository implements UserRepositoryInterface
     {
         try {
             $user->update([
-                'first_name' => $data['first_name'],
-                'last_name' => $data['last_name'],
+                'name' => $data['name'],
                 'email' => $data['email'],
             ]);
             $user->profile()->update([
