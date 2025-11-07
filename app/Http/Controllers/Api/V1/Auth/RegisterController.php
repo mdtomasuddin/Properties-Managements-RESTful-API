@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Api\V1\Auth;
 
 use App\Helpers\Helper;
@@ -141,11 +140,13 @@ class RegisterController
                 'token_type' => 'bearer',
                 'token'      => $result['token'], // JWT token
                 'data'       => [
-                    'id'      => $result['user']->id,
-                    'name'    => $result['user']->name,
-                    'email'   => $result['user']->email,
-                    'phone'   => $result['user']->phone,
-                    'address' => $result['user']->address,
+                    'id'          => $result['user']->id,
+                    'name'        => $result['user']->name,
+                    'email'       => $result['user']->email,
+                    'phone'       => $result['user']->phone,
+                    'address'     => $result['user']->address,
+                    'avatar'      => $result['user']->avatar,
+                    'cover_photo' => $result['user']->cover_photo,
                 ],
             ], 200);
         } catch (Exception $e) {

@@ -5,11 +5,70 @@ namespace App\Helpers;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class Helper
 {
+
+    /**
+     * Upload a file to the specified folder with a given name.
+     *
+     * @param UploadedFile $file The file to be uploaded.
+     * @param string $folder The folder where the file should be uploaded.
+     * @param string $name The name to be given to the uploaded file.
+     * @return string|null The path to the uploaded file or null if the upload fails.
+     */
+    public static function fileUpload($file, string $folder, ?string $name = null): ?string
+    {
+        if (! $file || ! $file->isValid()) {
+            Log::error('File is not valid.');
+            return null;
+        }
+
+        // Append a unique identifier to the file name
+        $uniqueId  = Str::random(10);
+        $imageName = ($name ? Str::slug($name) : $uniqueId) . '_' . time() . '.' . $file->extension();
+        $path      = public_path('uploads/' . $folder);
+        if (! file_exists($path)) {
+            if (! mkdir($path, 0755, true) && ! is_dir($path)) {
+                Log::error('Failed to create directory: ' . $path);
+                return null;
+            }
+        }
+
+        try {
+            $file->move($path, $imageName);
+            Log::info('File uploaded successfully to: ' . $path . '/' . $imageName);
+            return 'uploads/' . $folder . '/' . $imageName;
+        } catch (Exception $e) {
+            Log::error('File upload error: ' . $e->getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Delete a file or image at the specified path.
+     *
+     * @param string $path The path to the file to be deleted.
+     * @return void
+     */
+    public static function fileDelete(string $path): void
+    {
+        if (file_exists($path)) {
+            try {
+                unlink($path);
+                Log::info('File deleted successfully: ' . $path);
+            } catch (Exception $e) {
+                Log::error('File deletion error: ' . $e->getMessage());
+            }
+        } else {
+            Log::warning('File not found for deletion: ' . $path);
+        }
+    }
+
+
     /**
      * Upload an image and return its URL.
      *

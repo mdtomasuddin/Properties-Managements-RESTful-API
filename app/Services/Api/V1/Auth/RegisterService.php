@@ -1,7 +1,7 @@
 <?php
-
 namespace App\Services\Api\V1\Auth;
 
+use App\Helpers\Helper;
 use App\Models\User;
 use Carbon\Carbon;
 use Exception;
@@ -135,18 +135,31 @@ class RegisterService
     /**
      * storePersonalInfoService
      * PersonalInfo & password set
+     * Handle avatar upload ||  cover photo upload
      * JWT Token Create.
      */
     public function storePersonalInfoService(array $data): array
     {
         $user = User::where('phone', $data['phone'])->firstOrFail(); // Find user by phone
 
+        // Handle avatar upload ||  cover photo upload
+        if (! empty($data['avatar'])) {
+            $avatarName     = time() . '_' . $data['avatar']->getClientOriginalName();
+            $data['avatar'] = Helper::fileUpload($data['avatar'], 'profile_picture', $avatarName);
+        }
+        if (! empty($data['cover_photo'])) {
+            $coverName           = time() . '_' . $data['cover_photo']->getClientOriginalName();
+            $data['cover_photo'] = Helper::fileUpload($data['cover_photo'], 'cover_photo', $coverName);
+        }
+
         // Update user personal info & password
         $user->update([
-            'name'     => $data['name'] ?? $user->name,
-            'email'    => $data['email'] ?? $user->email,
-            'address'  => $data['address'] ?? $user->address,
-            'password' => bcrypt($data['password']),
+            'name'        => $data['name'] ?? $user->name,
+            'email'       => $data['email'] ?? $user->email,
+            'address'     => $data['address'] ?? $user->address,
+            'password'    => bcrypt($data['password']),
+            'avatar'      => $data['avatar'] ?? $user->avatar,
+            'cover_photo' => $data['cover_photo'] ?? $user->cover_photo,
         ]);
 
         try {

@@ -61,6 +61,30 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         'otp'                     => 'string',
     ];
 
+
+    /**
+     * 
+     */
+    //getAvatarAttribute
+    public function getAvatarAttribute($value): ?string
+    {
+        if (empty($value)) {
+            return null;
+        }
+        return filter_var($value, FILTER_VALIDATE_URL) ? $value : url($value);
+    }
+
+    // Accessor for cover_photo
+    public function getCoverPhotoAttribute($value): ?string
+    {
+        if (empty($value)) {
+            return null;
+        }
+        return filter_var($value, FILTER_VALIDATE_URL) ? $value : url($value);
+    }
+
+
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
@@ -95,18 +119,18 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
      * @param mixed $url
      * @return string
      */
-    public function getAvatarAttribute($url): string
-    {
-        if ($url) {
-            if (strpos($url, 'http://') === 0 || strpos($url, 'https://') === 0) {
-                return $url;
-            } else {
-                return asset('storage/' . $url);
-            }
-        } else {
-            return asset('assets/img/user_placeholder.png');
-        }
-    }
+    // public function getAvatarAttribute($url): string
+    // {
+    //     if ($url) {
+    //         if (strpos($url, 'http://') === 0 || strpos($url, 'https://') === 0) {
+    //             return $url;
+    //         } else {
+    //             return asset('storage/' . $url);
+    //         }
+    //     } else {
+    //         return asset('assets/img/user_placeholder.png');
+    //     }
+    // }
 
     /**
      * profile

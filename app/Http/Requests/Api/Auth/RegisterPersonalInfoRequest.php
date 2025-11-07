@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Requests\Api\Auth;
 
 use Illuminate\Contracts\Validation\Validator;
@@ -23,11 +24,13 @@ class RegisterPersonalInfoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'phone'    => 'nullable',
-            'name'     => 'required|string|max:200',
-            'email'    => 'nullable|email|max:200',
-            'address'  => 'nullable|string|max:500',
-            'password' => 'required|string|min:8|max:150|confirmed',
+            'phone'       => 'required',
+            'name'        => 'required|string|max:200',
+            'email'       => 'nullable|email|max:200',
+            'address'     => 'nullable|string|max:500',
+            'password'    => 'required|string|min:8|max:150|confirmed',
+            'avatar'      => 'nullable|image|mimes:jpeg,png,jpg,gif|max:4048',
+            'cover_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:4096',
         ];
     }
 
@@ -38,6 +41,7 @@ class RegisterPersonalInfoRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'phone.required'     => 'The phone Number field is required.',
             'name.required'      => 'The name field is required.',
             'name.string'        => 'The name must be a valid string.',
             'email.email'        => 'Please enter a valid email address.',
@@ -45,6 +49,10 @@ class RegisterPersonalInfoRequest extends FormRequest
             'password.required'  => 'The password field is required.',
             'password.min'       => 'The password must be at least 8 characters.',
             'password.confirmed' => 'The password confirmation does not match.',
+            'avatar.image'       => 'The avatar must be an image file.',
+            'avatar.mimes'       => 'The avatar must be a file of type: jpeg, png, jpg, gif.',
+            'cover_photo.image'  => 'The cover photo must be an image file.',
+            'cover_photo.mimes'  => 'The cover photo must be a file of type: jpeg, png, jpg, gif.',
         ];
     }
 
