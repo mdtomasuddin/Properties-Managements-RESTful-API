@@ -6,7 +6,6 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -42,14 +41,25 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
      *
      * @return array<string, string>
      */
-    protected function casts(): array
-    {
-        return [
-            'password' => 'hashed',
-        ];
-    }
-
-
+    protected $casts = [
+        'password'                => 'hashed',
+        'name'                    => 'string',
+        'email'                   => 'string',
+        'phone'                   => 'string',
+        'subscription'            => 'boolean',
+        'role'                    => 'string',
+        'status'                  => 'string',
+        'avatar'                  => 'string',
+        'lang'                    => 'string',
+        'cover_photo'             => 'string',
+        'address'                 => 'string',
+        'national_id'             => 'string',
+        'emergency_contact_name'  => 'string',
+        'emergency_contact_phone' => 'string',
+        'reffer_code'             => 'string',
+        'invitation_code'         => 'string',
+        'otp'                     => 'string',
+    ];
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.

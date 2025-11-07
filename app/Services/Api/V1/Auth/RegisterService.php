@@ -6,6 +6,8 @@ use App\Models\User;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Log;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class RegisterService
 {
@@ -65,7 +67,7 @@ class RegisterService
 
     /**
      * Verify OTP (TOKEN CREATED HERE)
-     * otp_expires_at check time 
+     * otp_expires_at check time
      * phone_verified_at  Carbon::now()
      */
     public function verifyOtp(array $data): array
@@ -100,7 +102,7 @@ class RegisterService
     /**
      * Resend OTP
      * new otp send
-     * Phone number is already verified. 
+     * Phone number is already verified.
      */
     public function resendOtp(array $data): array
     {
@@ -127,6 +129,38 @@ class RegisterService
 
         return [
             'user' => $user,
+        ];
+    }
+
+    /**
+     * storePersonalInfoService
+     * PersonalInfo & password set
+     * JWT Token Create.
+     */
+    public function storePersonalInfoService(array $data): array
+    {
+        $user = User::where('phone', $data['phone'])->firstOrFail(); // Find user by phone
+
+        // Update user personal info & password
+        $user->update([
+            'name'     => $data['name'] ?? $user->name,
+            'email'    => $data['email'] ?? $user->email,
+            'address'  => $data['address'] ?? $user->address,
+            'password' => bcrypt($data['password']),
+        ]);
+
+        try {
+            $token = JWTAuth::attempt(['phone' => $data['phone'], 'password' => $data['password']]);
+            if (! $token) {
+                throw new Exception('Authentication failed.');
+            }
+        } catch (JWTException $e) {
+            throw new Exception('Could not create token: ' . $e->getMessage());
+        }
+
+        return [
+            'token' => $token,
+            'user'  => $user,
         ];
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api\V1\Auth;
 
+use App\Helpers\Helper;
+use App\Http\Requests\Api\Auth\RegisterPersonalInfoRequest;
 use App\Http\Requests\Api\Auth\RegisterRequest;
 use App\Http\Requests\Api\Auth\ResendOtpRequest;
 use App\Http\Requests\Api\Auth\VerifyOtpRequest;
@@ -20,7 +22,7 @@ class RegisterController
      * call Register Service 3 function ->
      * register ->call
      * verifyOtp ->call
-     * resendOtp->call 
+     * resendOtp->call
      */
     public function __construct(RegisterService $registerService)
     {
@@ -29,7 +31,7 @@ class RegisterController
 
     /**
      * Handle user registration (NO TOKEN)
-     * Only Phone number Create User. 
+     * Only Phone number Create User.
      * Call RegisterService &&  RegisterRequest
      */
     public function register(RegisterRequest $request): JsonResponse
@@ -117,6 +119,40 @@ class RegisterController
                 'status'  => false,
                 'message' => $e->getMessage(),
             ], 400);
+        }
+    }
+
+    /**
+     * Store RegisterPersonalInfo
+     * RegisterPersonalInfoRequest .
+     * storePersonalInfoService service call
+     */
+    public function RegisterPersonalInfo(RegisterPersonalInfoRequest $request): JsonResponse
+    {
+        try {
+            $data   = $request->validated();
+            $result = $this->registerService->storePersonalInfoService($data);
+
+            return response()->json([
+                'status'     => true,
+                'message'    => 'Personal info & registered saved  successfully.',
+                'code'       => 200,
+                'role'       => $result['user']->role,
+                'token_type' => 'bearer',
+                'token'      => $result['token'], // JWT token
+                'data'       => [
+                    'id'      => $result['user']->id,
+                    'name'    => $result['user']->name,
+                    'email'   => $result['user']->email,
+                    'phone'   => $result['user']->phone,
+                    'address' => $result['user']->address,
+                ],
+            ], 200);
+        } catch (Exception $e) {
+            // Log::error('Register personal info error: ' . $e->getMessage());
+            return Helper::jsonResponse(false, 'Failed to save personal info.', 400, [
+                $e->getMessage(),
+            ]);
         }
     }
 }
