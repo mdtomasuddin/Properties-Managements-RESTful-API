@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\V1\Auth\LoginController;
 use App\Http\Controllers\Api\V1\Auth\LogoutController;
 use App\Http\Controllers\Api\V1\Auth\PasswordResetController;
 use App\Http\Controllers\Api\V1\Auth\RegisterController;
+use App\Http\Controllers\Api\V1\Auth\RegisterResidentController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('/v1/auth')->name('api.auth.')->group(function () {
@@ -11,7 +12,8 @@ Route::prefix('/v1/auth')->name('api.auth.')->group(function () {
         Route::post('/register', [RegisterController::class, 'register']);
         Route::post('/verify-number', [RegisterController::class, 'verifyOtpToPhone']);
         Route::post('/resend-otp', [RegisterController::class, 'resendOtp']);
-        Route::post('/register/personal-info', [RegisterController::class, 'RegisterPersonalInfo']); // register & password set.
+        Route::post('/register/property-info', [RegisterController::class, 'RegisterPersonalInfo']);         // register & password set property.
+        Route::post('/register/resident-info', [RegisterResidentController::class, 'RegisterResidentInfo']); // register & password set resident.
         Route::post('/login', [LoginController::class, 'login']);
     });
 

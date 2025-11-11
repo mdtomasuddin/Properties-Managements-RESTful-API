@@ -1,12 +1,10 @@
 <?php
-
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -84,6 +82,23 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     }
 
     /**
+     * Accessor for nid_file attribute
+     * Accessor for getNidfileAttribute
+     * @return array|null
+     */
+    public function getNidfileAttribute($value): ?array
+    {
+        if (empty($value)) {
+            return null;
+        }
+        $files = is_array($value) ? $value : json_decode($value, true);
+        if (! is_array($files)) {
+            return null;
+        }
+        return array_map(fn($file) => filter_var($file, FILTER_VALIDATE_URL) ? $file : url($file), $files);
+    }
+
+    /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
      * @return mixed
@@ -140,25 +155,8 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     }
 
     /**
-     * otps
-     * @return HasMany<OTP, User>
+     * refferal code auto generate
      */
-    public function otps(): HasMany
-    {
-        return $this->hasMany(OTP::class);
-    }
-
-    // /**
-    //  * Getting the role of the user
-    //  *
-    //  * @return BelongsTo<Role, User>
-    //  */
-    // public function role(): BelongsTo
-    // {
-    //     return $this->belongsTo(Role::class);
-    // }
-
-    //refferal code auto generate
     protected static function boot()
     {
         parent::boot();

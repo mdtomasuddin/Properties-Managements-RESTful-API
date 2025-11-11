@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->string('reffer_code')->nullable();
             $table->string('invitation_code')->nullable();
-            $table->enum('role', ['admin', 'property_owner', 'resident'])->default('resident');
+            $table->enum('role', ['admin', 'property_owner', 'resident'])->default('property_owner');
             $table->timestamp('phone_verified_at')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('otp', 6)->nullable();

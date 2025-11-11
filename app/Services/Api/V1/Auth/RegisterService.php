@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services\Api\V1\Auth;
 
 use App\Helpers\Helper;
@@ -48,7 +49,7 @@ class RegisterService
 
             $user = User::create([
                 'phone'          => $data['phone'],
-                'role'           => $data['role'] ?? 'resident',
+                'role'           => $data['role'] ?? 'property_owner',
                 'otp'            => $otp,
                 'otp_expires_at' => $otpExpiresAt,
             ]);
