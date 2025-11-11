@@ -26,6 +26,7 @@ class UserSeeder extends Seeder
                 'status' => 'active',
                 'is_otp_verified' => true, // or false if not verified
                 'email_verified_at' => now(),
+                'phone_verified_at' => now(),
                 'terms_and_conditions' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -40,6 +41,7 @@ class UserSeeder extends Seeder
                 'status' => 'active',
                 'is_otp_verified' => true, // or false if not verified
                 'email_verified_at' => now(),
+                'phone_verified_at' => now(),
                 'terms_and_conditions' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -47,13 +49,14 @@ class UserSeeder extends Seeder
             [
                 'name' => 'resident',
                 'email' => 'resident@resident.com',
-                'phone' => null, // or add a phone number
+                'phone' => '01712345678', // or add a phone number
                 'password' => Hash::make('12345678'),
                 'avatar' => null,
                 'role' => "resident",
                 'status' => 'active',
                 'is_otp_verified' => true, // or false if not verified
                 'email_verified_at' => now(),
+                'phone_verified_at' => now(),
                 'terms_and_conditions' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -68,6 +71,7 @@ class UserSeeder extends Seeder
                 'status' => 'active',
                 'is_otp_verified' => true, // or false if not verified
                 'email_verified_at' => now(),
+                'phone_verified_at' => now(),
                 'terms_and_conditions' => true,
                 'created_at' => now(),
                 'updated_at' => now(),

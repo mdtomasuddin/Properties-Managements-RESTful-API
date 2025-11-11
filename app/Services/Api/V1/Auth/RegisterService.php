@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services\Api\V1\Auth;
 
 use App\Helpers\Helper;
@@ -111,7 +112,10 @@ class RegisterService
             throw new Exception('User not found.');
         }
 
-        if ($user->phone_verified_at) {
+        // if ($user->phone_verified_at) {
+        //     throw new Exception('Phone number is already verified.');
+        // }
+        if (empty($user->otp)) {
             throw new Exception('Phone number is already verified.');
         }
 
