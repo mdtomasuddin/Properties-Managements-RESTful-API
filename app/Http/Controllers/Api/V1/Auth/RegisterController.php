@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Api\V1\Auth;
 
 use App\Helpers\Helper;
@@ -62,11 +63,11 @@ class RegisterController
      * Create JWT token ONLY after successful OTP verification
      * status  200
      */
-    public function verifyOtp(VerifyOtpRequest $request): JsonResponse
+    public function verifyOtpToPhone(VerifyOtpRequest $request): JsonResponse
     {
         try {
             $data   = $request->validated();
-            $result = $this->registerService->verifyOtp($data);
+            $result = $this->registerService->verifyOtpToPhone($data);
 
             $token = JWTAuth::fromUser($result['user']); // Create JWT token ONLY after successful OTP verification
 

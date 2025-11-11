@@ -16,7 +16,7 @@ class PasswordResetService
     {
         try {
             $user = User::where('phone', $phone)->first();
-            if (!$user) {
+            if (! $user) {
                 throw new Exception('Invalid phone number');
             }
 
@@ -25,10 +25,9 @@ class PasswordResetService
             // $otp = rand(1000, 9999);
             // You can later integrate SMS sending logic here.
             $user->update([
-                'otp' => $otp,
+                'otp'            => $otp,
                 'otp_expires_at' => Carbon::now()->addMinutes(10),
             ]);
-
 
             return [
                 'message' => 'OTP Code Sent Successfully',
@@ -38,8 +37,6 @@ class PasswordResetService
             throw $e;
         }
     }
-
-
 
     /**
      * Verify the provided OTP code.
@@ -53,12 +50,16 @@ class PasswordResetService
                 ->first();
             // dd($user);
 
-            if (!$user) {
+            if (! $user) {
                 throw new Exception('Invalid OTP Code');
             }
 
             $user->update([
-                'otp_verified_at' => Carbon::now(),
+                'otp_verified_at'      => Carbon::now(),
+                'otp'                  => null,
+                'otp_expires_at'       => null,
+                'is_otp_verified'      => true,
+                'terms_and_conditions' => true,
             ]);
 
             return ['message' => 'OTP Verified Successfully'];
@@ -66,8 +67,6 @@ class PasswordResetService
             throw $e;
         }
     }
-
-
 
     /**
      * Reset the user's password.
@@ -78,7 +77,7 @@ class PasswordResetService
             $user = User::where('phone', $data['phone'])->first();
             // dd($user);
 
-            if (!$user) {
+            if (! $user) {
                 throw new Exception('Invalid phone number');
             }
             if (is_null($user->otp_verified_at)) {
@@ -86,10 +85,10 @@ class PasswordResetService
             }
 
             $user->update([
-                'password' => Hash::make($data['password']),
+                'password'        => Hash::make($data['password']),
                 'otp_verified_at' => null,
-                'otp_expires_at' => null,
-                'otp' => null,
+                'otp_expires_at'  => null,
+                'otp'             => null,
 
             ]);
 

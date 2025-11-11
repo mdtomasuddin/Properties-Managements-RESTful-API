@@ -26,7 +26,7 @@ class RegisterPersonalInfoRequest extends FormRequest
         return [
             'phone'       => 'required',
             'name'        => 'required|string|max:200',
-            'email'       => 'nullable|email|max:200',
+            'email'       => 'required|string|email|max:255|unique:users,email',
             'address'     => 'nullable|string|max:500',
             'password'    => 'required|string|min:8|max:150|confirmed',
             'avatar'      => 'nullable|image|mimes:jpeg,png,jpg,gif|max:4048',

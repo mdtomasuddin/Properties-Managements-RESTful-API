@@ -71,7 +71,7 @@ class RegisterService
      * otp_expires_at check time
      * phone_verified_at  Carbon::now()
      */
-    public function verifyOtp(array $data): array
+    public function verifyOtpToPhone(array $data): array
     {
         $user = User::where('phone', $data['phone'])->first();
         if (! $user) {
