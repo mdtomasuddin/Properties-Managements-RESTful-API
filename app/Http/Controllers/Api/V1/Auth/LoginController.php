@@ -37,7 +37,7 @@ class LoginController
             $token = $result['token'];
 
             if (! empty($user->otp_expires_at)) {
-                return $this->helper->jsonResponse(false, 'A verification email has been sent. Please check your inbox.', 403);
+                return $this->helper->jsonResponse(false, 'A verification  has been sent. Please check your inbox.', 403);
             }
 
             return response()->json([

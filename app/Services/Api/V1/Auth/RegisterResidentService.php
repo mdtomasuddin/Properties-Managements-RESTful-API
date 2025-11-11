@@ -32,12 +32,20 @@ class RegisterResidentService
             $data['cover_photo'] = Helper::fileUpload($data['cover_photo'], 'cover_photo', $coverName);
         }
 
-        // Handle NID files (array)
-        if (! empty($data['nid_file']) && is_array($data['nid_file'])) {
+
+        // Handle multiple NID files upload
+        if (!empty($data['nid_file'])) {
+            if ($user->nid_file && is_array($user->nid_file)) {
+                foreach ($user->nid_file as $oldFile) {
+                    $oldImagePath = ltrim(parse_url($oldFile, PHP_URL_PATH), '/');
+                    Helper::fileDelete($oldImagePath);
+                }
+            }
+
             $uploadedNidFiles = [];
             foreach ($data['nid_file'] as $file) {
-                $nidName            = time() . '_' . $file->getClientOriginalName();
-                $uploadedNidFiles[] = Helper::fileUpload($file, 'nid_files', $nidName);
+                $nidName = time() . '_' . $file->getClientOriginalName();
+                $uploadedNidFiles[] = Helper::fileUpload($file, 'nid_file', $nidName);
             }
             $data['nid_file'] = $uploadedNidFiles;
         }

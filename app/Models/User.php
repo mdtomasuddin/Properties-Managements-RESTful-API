@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -26,13 +27,9 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 
     /**
      * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
+     *hidden
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    protected $hidden = ['password', 'remember_token', 'created_at', 'updated_at', 'deleted_at', 'is_otp_verified', 'otp_expires_at', 'otp_verified_at', 'terms_and_conditions', 'phone_verified_at', 'email_verified_at', 'otp'];
 
     /**
      * Get the attributes that should be cast.
@@ -86,16 +83,23 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
      * Accessor for getNidfileAttribute
      * @return array|null
      */
-    public function getNidfileAttribute($value): ?array
+    public function getNidFileAttribute($value): ?array
     {
-        if (empty($value)) {
-            return null;
+        $images = json_decode($value, true);
+        if (! is_array($images)) {
+            return [];
         }
-        $files = is_array($value) ? $value : json_decode($value, true);
-        if (! is_array($files)) {
-            return null;
-        }
-        return array_map(fn($file) => filter_var($file, FILTER_VALIDATE_URL) ? $file : url($file), $files);
+        return array_map(function ($image) {
+            // Check if the image is already a valid URL
+            if (filter_var($image, FILTER_VALIDATE_URL)) {
+                return $image;
+            }
+            // Check if it's an API request and convert relative path to a full URL
+            if (request()->is('api/*') && ! empty($image)) {
+                return url($image);
+            }
+            return $image;
+        }, $images);
     }
 
     /**

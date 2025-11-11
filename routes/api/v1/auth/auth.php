@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\Auth\LogoutController;
 use App\Http\Controllers\Api\V1\Auth\PasswordResetController;
 use App\Http\Controllers\Api\V1\Auth\RegisterController;
 use App\Http\Controllers\Api\V1\Auth\RegisterResidentController;
+use App\Http\Controllers\Api\V1\Auth\UserInfoController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('/v1/auth')->name('api.auth.')->group(function () {
@@ -18,6 +19,9 @@ Route::prefix('/v1/auth')->name('api.auth.')->group(function () {
     });
 
     Route::post('/logout', [LogoutController::class, 'logout'])->middleware('auth:api'); //logout
+    Route::get('/user-information', [UserInfoController::class, 'userInformation'])->middleware('auth:api');
+    Route::post('/profile-update', [UserInfoController::class, 'updateProfile'])->middleware('auth:api');
+
     Route::controller(PasswordResetController::class)->group(function () {
         Route::post('/forget-password', 'sendOtpToPhone');
         Route::post('/verify-otp', 'verifyOTP');

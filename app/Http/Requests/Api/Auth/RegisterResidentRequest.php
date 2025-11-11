@@ -5,6 +5,7 @@ namespace App\Http\Requests\Api\Auth;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Facades\Auth;
 
 class RegisterResidentRequest extends FormRequest
 {
@@ -26,7 +27,7 @@ class RegisterResidentRequest extends FormRequest
         return [
             'phone'           => 'required|string|max:20',
             'name'            => 'required|string|max:200',
-            'email'           => 'required|string|email|max:255|unique:users,email',
+            'email'           => 'nullable|string|email|max:255',
             'address'         => 'nullable|string|max:500',
             'invitation_code' => 'nullable|string|max:500',
             'password'        => 'required|string|min:8|max:150|confirmed',
