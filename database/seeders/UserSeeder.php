@@ -24,6 +24,7 @@ class UserSeeder extends Seeder
                 'avatar' => null,
                 'role' => "admin",
                 'status' => 'active',
+                'reffer_code' => '123466',
                 'is_otp_verified' => true, // or false if not verified
                 'email_verified_at' => now(),
                 'phone_verified_at' => now(),
@@ -39,6 +40,7 @@ class UserSeeder extends Seeder
                 'avatar' => null,
                 'role' => "admin",
                 'status' => 'active',
+                'reffer_code' => '123455',
                 'is_otp_verified' => true, // or false if not verified
                 'email_verified_at' => now(),
                 'phone_verified_at' => now(),
@@ -53,6 +55,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('12345678'),
                 'avatar' => null,
                 'role' => "resident",
+                'reffer_code' => '123456',
                 'status' => 'active',
                 'is_otp_verified' => true, // or false if not verified
                 'email_verified_at' => now(),
@@ -68,6 +71,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('12345678'),
                 'avatar' => null,
                 'role' => "property_owner",
+                'reffer_code' => '654321',
                 'status' => 'active',
                 'is_otp_verified' => true, // or false if not verified
                 'email_verified_at' => now(),

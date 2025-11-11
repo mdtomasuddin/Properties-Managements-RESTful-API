@@ -54,6 +54,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         'cover_photo'             => 'string',
         'address'                 => 'string',
         'national_id'             => 'string',
+        'nid_file'                => 'array',
         'emergency_contact_name'  => 'string',
         'emergency_contact_phone' => 'string',
         'reffer_code'             => 'string',
@@ -61,9 +62,8 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         'otp'                     => 'string',
     ];
 
-
     /**
-     * 
+     *
      */
     //getAvatarAttribute
     public function getAvatarAttribute($value): ?string
@@ -82,8 +82,6 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         }
         return filter_var($value, FILTER_VALIDATE_URL) ? $value : url($value);
     }
-
-
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
@@ -159,4 +157,18 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     // {
     //     return $this->belongsTo(Role::class);
     // }
+
+    //refferal code auto generate
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($user) {
+            if (empty($user->reffer_code)) {
+                do {
+                    $code = mt_rand(100000, 999999);
+                } while (self::where('reffer_code', $code)->exists());
+                $user->reffer_code = $code;
+            }
+        });
+    }
 }

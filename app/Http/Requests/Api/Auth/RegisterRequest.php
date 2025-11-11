@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Requests\Api\Auth;
 
 use Illuminate\Contracts\Validation\Validator;
@@ -17,6 +16,7 @@ class RegisterRequest extends FormRequest
     {
         return [
             'phone' => 'required|string|regex:/^[0-9]{10,15}$/|unique:users,phone',
+            'role'  => 'nullable|in:property_owner,resident',
         ];
     }
 
@@ -26,6 +26,7 @@ class RegisterRequest extends FormRequest
             'phone.required' => 'Phone number is required.',
             'phone.unique'   => 'This phone number is already registered.',
             'phone.regex'    => 'Please enter a valid phone number.',
+            'role.in'        => 'The selected role is invalid.',
         ];
     }
 

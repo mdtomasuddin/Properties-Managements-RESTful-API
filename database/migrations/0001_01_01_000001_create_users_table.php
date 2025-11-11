@@ -32,6 +32,7 @@ return new class extends Migration
             $table->string('cover_photo')->nullable();
             $table->text('address')->nullable();
             $table->string('national_id')->nullable();
+            $table->json('nid_file')->nullable();
             $table->string('emergency_contact_name')->nullable();
             $table->string('emergency_contact_phone', 20)->nullable();
             $table->string('organization')->nullable();
