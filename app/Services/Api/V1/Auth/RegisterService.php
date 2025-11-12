@@ -144,7 +144,11 @@ class RegisterService
      */
     public function storePersonalInfoService(array $data): array
     {
-        $user = User::where('phone', $data['phone'])->firstOrFail(); // Find user by phone
+        $user = User::where('phone', $data['phone'])->first();
+        if (!$user) {
+            throw new Exception('Phone number not found.');
+        }
+
 
         // Handle avatar upload ||  cover photo upload
         if (! empty($data['avatar'])) {

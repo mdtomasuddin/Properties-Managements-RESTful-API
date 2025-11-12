@@ -9,6 +9,9 @@ use App\Http\Requests\Api\Auth\PasswordResetRequest;
 use App\Services\Api\V1\Auth\PasswordResetService;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+
 
 class PasswordResetController
 {
@@ -78,6 +81,37 @@ class PasswordResetController
             return $this->helper->jsonResponse(true, $response['message'], 200);
         } catch (Exception $e) {
             return $this->helper->jsonResponse(false, $e->getMessage(), 400);
+        }
+    }
+
+
+
+
+    /**
+     * Change the user's password
+     * old_password & confirmed
+     * changePassword login user
+     */
+    public function changePassword(Request $request)
+    {
+        $validatedData = $request->validate([
+            'old_password' => 'required|string',
+            'password'     => 'required|string|min:6|confirmed',
+        ]);
+        // dd($validatedData);
+        try {
+            $user = auth('api')->user();
+            if (! Hash::check($validatedData['old_password'], $user->password)) {
+                return $this->helper->jsonResponse(false, 'Current password is incorrect', 422);
+            }
+
+            // Update the password
+            $user->update([
+                'password' => bcrypt($validatedData['password']),
+            ]);
+            return $this->helper->jsonResponse(true, 'Password updated successfully', 200);
+        } catch (Exception $e) {
+            return $this->helper->jsonResponse(false, 'something went wrong', 403);
         }
     }
 }

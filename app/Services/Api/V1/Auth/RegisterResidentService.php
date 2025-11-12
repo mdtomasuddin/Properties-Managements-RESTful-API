@@ -17,7 +17,11 @@ class RegisterResidentService
      */
     public function RegisterResidentInfo(array $data): array
     {
-        $user = User::where('phone', $data['phone'])->firstOrFail();
+        $user = User::where('phone', $data['phone'])->first();
+        if (!$user) {
+            throw new Exception('Phone number not found.');
+        }
+
 
 
         // Handle avatar upload
