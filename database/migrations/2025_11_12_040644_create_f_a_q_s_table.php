@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('f_a_q_s', function (Blueprint $table) {
             $table->id();
-            $table->string('section')->nullable();
             $table->text('question')->nullable(false);
             $table->text('answer')->nullable(false);
             $table->enum('status', ['active', 'inactive'])->default('active');
