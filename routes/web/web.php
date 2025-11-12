@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\CMS\FaqController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -13,3 +14,6 @@ Route::get('/dashboard', function () {
 require 'v1/auth.php';
 require 'v1/user.php';
 require 'v1/settings/mail.php';
+//faq  FaqController
+Route::resource('faq', FaqController::class)->parameters(['faq' => 'id']);
+Route::get('faq-status/{id}', [FaqController::class, 'status'])->name('faq.status');
