@@ -4,13 +4,34 @@ namespace App\Http\Controllers\Api\Property;
 
 use App\Helpers\Helper;
 use App\Models\Resident;
+use Exception;
 // use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class ResidentController
 {
+
+    /**
+     * Retrieve a paginated list of Resident.
+     * This method retrieves Resident.
+     * The number of Resident `per_page` query parameter defult ===100.
+     * @param Request $request
+     */
+    public function index(Request $request)
+    {
+        try {
+            $perPage = $request->query('per_page', 100);
+            $data    = Resident::where('user_id', Auth::user()->id)->paginate($perPage); //get
+
+            return Helper::jsonResponse(true, 'Resident retrieved successfully.', 200, $data);
+        } catch (Exception $e) {
+            return Helper::jsonResponse(false, 'Failed to retrieve Resident.', 500, [
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
 
     /**
      * Store a new Resident and associated data.
@@ -76,6 +97,26 @@ class ResidentController
             return Helper::jsonResponse(true, 'Resident created successfully.', 201, $resident);
         } catch (\Exception $e) {
             return Helper::jsonResponse(false, 'Resident creation failed', 500, [
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    /**
+     * Display details of a specific resident.
+     * This method retrieves the details of a resident by its ID and returns the information.
+     * @param int $id
+     */
+    public function show($id)
+    {
+        try {
+            $data = Resident::where('user_id', Auth::user()->id)->find($id);
+            if (! $data) {
+                return Helper::jsonResponse(false, 'Resident Not Found.', 404);
+            }
+            return Helper::jsonResponse(true, 'Resident details retrieved successfully.', 200, $data);
+        } catch (Exception $e) {
+            return Helper::jsonResponse(false, 'Failed to retrieve Resident details', 404, [
                 'error' => $e->getMessage(),
             ]);
         }
