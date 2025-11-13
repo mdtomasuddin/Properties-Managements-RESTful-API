@@ -5,14 +5,12 @@ namespace App\Http\Controllers\Api\Property;
 use App\Helpers\Helper;
 use App\Models\Resident;
 use Exception;
-// use Illuminate\Http\Request;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class ResidentController
 {
-
     /**
      * Retrieve a paginated list of Resident.
      * This method retrieves Resident.
@@ -43,21 +41,21 @@ class ResidentController
         try {
             // Validation
             $validator = Validator::make($request->all(), [
-                'property_id'                  => 'required|exists:properties,id',
-                'unit_flat_number'             => 'nullable|max:50',
+                'property_id'                  => '|exists:properties,id',
+                'unit_flat_number'             => 'required|max:100',
                 'name'                         => 'required|string|max:255',
-                'phone'                        => 'nullable|max:20',
+                'phone'                        => 'required|max:20',
                 'address'                      => 'nullable|string|max:500',
-                'payment_frequency'            => 'nullable|in:monthly,quarterly,yearly',
+                'payment_frequency'            => 'required|in:monthly,quarterly,yearly',
                 'auto_rent_reminder'           => 'boolean',
-                'monthly_rent'                 => 'nullable|numeric|min:1|max:5000000',
+                'monthly_rent'                 => 'required|numeric|min:1|max:5000000',
                 'fixed_monthly_recurring_cost' => 'nullable|numeric|min:1|max:5000000',
-                'due_amount'                   => 'nullable|numeric|min:1|max:5000000',
-                'advance_paid_amount'          => 'nullable|numeric|min:1|max:5000000',
-                'start_date'                   => 'nullable|date',
-                'end_date'                     => 'nullable|date|after_or_equal:start_date',
-                'agreement_file.*'             => 'nullable|file|mimes:pdf,jpg,jpeg,png,doc,docx,txt|max:30480',
-                'tenant_file.*'                => 'nullable|file|mimes:pdf,jpg,jpeg,png,doc,docx,txt|max:30480',
+                'due_amount'                   => 'required|numeric|min:1|max:5000000',
+                'advance_paid_amount'          => 'required|numeric|min:1|max:5000000',
+                'start_date'                   => 'required|date',
+                'end_date'                     => 'required|date|after_or_equal:start_date',
+                'agreement_file.*'             => 'required|file|mimes:pdf,jpg,jpeg,png,doc,docx,txt|max:30480',
+                'tenant_file.*'                => 'required|file|mimes:pdf,jpg,jpeg,png,doc,docx,txt|max:30480',
                 'sms_invitation'               => 'nullable|string|max:5000',
             ]);
 
@@ -117,6 +115,133 @@ class ResidentController
             return Helper::jsonResponse(true, 'Resident details retrieved successfully.', 200, $data);
         } catch (Exception $e) {
             return Helper::jsonResponse(false, 'Failed to retrieve Resident details', 404, [
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    /**
+     * Update an existing Resident.
+     * This method validates the incoming update request,
+     * handles document uploads (if Resident are provided), and updates.
+     * @param Request $request
+     * @param int $id
+     */
+    public function update(Request $request, $id)
+    {
+        try {
+            // Validate
+            $validator = Validator::make($request->all(), [
+                'property_id'                  => 'nullable|exists:properties,id',
+                'unit_flat_number'             => 'nullable|max:100',
+                'name'                         => 'nullable|string|max:255',
+                'phone'                        => 'nullable|max:20',
+                'address'                      => 'nullable|string|max:500',
+                'payment_frequency'            => 'nullable|in:monthly,quarterly,yearly',
+                'auto_rent_reminder'           => 'nullable|boolean',
+                'monthly_rent'                 => 'nullable|numeric|min:1|max:5000000',
+                'fixed_monthly_recurring_cost' => 'nullable|numeric|min:1|max:5000000',
+                'due_amount'                   => 'nullable|numeric|min:1|max:5000000',
+                'advance_paid_amount'          => 'nullable|numeric|min:1|max:5000000',
+                'start_date'                   => 'nullable|date',
+                'end_date'                     => 'nullable|date|after_or_equal:start_date',
+                'agreement_file.*'             => 'nullable|file|mimes:pdf,jpg,jpeg,png,doc,docx,txt|max:30480',
+                'tenant_file.*'                => 'nullable|file|mimes:pdf,jpg,jpeg,png,doc,docx,txt|max:30480',
+                'sms_invitation'               => 'nullable|string|max:5000',
+            ]);
+
+            // First error get
+            if ($validator->fails()) {
+                $message = $validator->errors()->first();
+                return Helper::jsonResponse(false, $message, 422);
+            }
+
+            $resident = Resident::where('user_id', Auth::user()->id)->find($id);
+            if (! $resident) {
+                return Helper::jsonResponse(false, 'Resident not found', 404);
+            }
+
+            $validated = $validator->validated();
+
+            // Handle agreement_file upload
+            if ($request->hasFile('agreement_file')) {
+                if ($resident->agreement_file && is_array($resident->agreement_file)) {
+                    foreach ($resident->agreement_file as $agreement_Path) {
+                        $Path = ltrim(parse_url($agreement_Path, PHP_URL_PATH), '/');
+                        Helper::fileDelete($Path); // Delete old files
+                    }
+                }
+                // Upload new files
+                $agreement_files = [];
+                foreach ($request->file('agreement_file') as $file) {
+                    $fileName          = time() . '_' . uniqid() . '_' . $file->getClientOriginalName();
+                    $agreement_files[] = Helper::fileUpload($file, 'agreement_file', $fileName);
+                }
+                $validated['agreement_file'] = $agreement_files;
+            }
+
+            // Handle tenant_file upload
+            if ($request->hasFile('tenant_file')) {
+                if ($resident->tenant_file && is_array($resident->tenant_file)) {
+                    foreach ($resident->tenant_file as $tenant_Path) {
+                        $Path = ltrim(parse_url($tenant_Path, PHP_URL_PATH), '/');
+                        Helper::fileDelete($Path); // Delete old files
+                    }
+                }
+                // Upload new files
+                $tenant_files = [];
+                foreach ($request->file('tenant_file') as $file) {
+                    $fileName       = time() . '_' . uniqid() . '_' . $file->getClientOriginalName();
+                    $tenant_files[] = Helper::fileUpload($file, 'tenant_file', $fileName);
+                }
+                $validated['tenant_file'] = $tenant_files;
+            }
+
+            $resident->update($validated);
+            return Helper::jsonResponse(true, 'Resident updated successfully.', 200, $resident);
+        } catch (Exception $e) {
+            return Helper::jsonResponse(false, 'Resident update failed', 500, [
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+
+
+
+    /***
+     * Delete a specific Resident and its associated documents.
+     * This method deletes the specified Resident ,
+     * @param int $id
+     */
+    public function destroy($id)
+    {
+        try {
+
+            $resident = Resident::where('user_id', Auth::user()->id)->find($id);
+            if (! $resident) {
+                return Helper::jsonResponse(false, 'Rsident not found.', 404);
+            }
+
+            // Delete exiting agreement_file
+            if (! empty($resident->agreement_file) && is_array($resident->agreement_file)) {
+                foreach ($resident->agreement_file as $agreement_Path) {
+                    $path = ltrim(parse_url($agreement_Path, PHP_URL_PATH), '/');
+                    Helper::fileDelete($path);
+                }
+            }
+            // Delete exiting tenant_file
+            if (! empty($resident->tenant_file) && is_array($resident->tenant_file)) {
+                foreach ($resident->tenant_file as $tenant_Path) {
+                    $path = ltrim(parse_url($tenant_Path, PHP_URL_PATH), '/');
+                    Helper::fileDelete($path);
+                }
+            }
+            //delete
+            $resident->delete();
+            return Helper::jsonResponse(true, 'Resident deleted successfully.', 200);
+        } catch (\Exception $e) {
+            return Helper::jsonResponse(false, 'Resident deletion failed.', 500, [
                 'error' => $e->getMessage(),
             ]);
         }
