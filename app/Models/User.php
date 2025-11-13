@@ -173,4 +173,13 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
             }
         });
     }
+
+
+    /**
+     * all relationship user to others table 
+     */
+    public function properties()
+    {
+        return $this->hasMany(Property::class);
+    }
 }
