@@ -3,6 +3,7 @@
 namespace App\Services\Api\PropertyResident;
 
 use App\Helpers\Helper;
+use App\Models\FinancialAccount;
 use App\Models\Property;
 use App\Models\Resident;
 use Exception;
@@ -73,9 +74,6 @@ class PropertyResidentService
             ];
         }
     }
-
-
-
 
     /**
      * Create a new Resident for a given Property.
@@ -157,6 +155,53 @@ class PropertyResidentService
             return [
                 'success' => true,
                 'data'    => $resident,
+            ];
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'message' => $e->getMessage(),
+                'code'    => 422,
+            ];
+        }
+    }
+
+    /**
+     * Create a new FinancialAccount.
+     * Validates request data, assigns defaults, and stores the account.
+     * Returns success status and created FinancialAccount data.
+     * createFinancialAccount call =>
+     */
+    public function createFinancialAccount($request)
+    {
+        try {
+            // Validation data
+            $validator = Validator::make($request->all(), [
+                'property_id'         => 'nullable|exists:properties,id',
+                'bank_name'           => 'required|string|max:200',
+                'branch'              => 'required|string|max:255',
+                'account_number'      => 'required|string|max:50',
+                'account_holder_name' => 'required|string|max:255',
+            ]);
+
+            if ($validator->fails()) {
+                throw new Exception($validator->errors()->first());
+            }
+
+            //FinancialAccount  Data
+            $validated            = $validator->validated();
+            $FinancialAccountData = [
+                'user_id'             => Auth::id(),
+                'bank_name'           => $validated['bank_name'] ?? null,
+                'branch'              => $validated['branch'] ?? null,
+                'account_number'      => $validated['account_number'] ?? null,
+                'account_holder_name' => $validated['account_holder_name'] ?? null,
+            ];
+
+            $FinancialAccount = FinancialAccount::create($FinancialAccountData);
+
+            return [
+                'success' => true,
+                'data'    => $FinancialAccount,
             ];
         } catch (Exception $e) {
             return [
