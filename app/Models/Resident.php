@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -7,7 +8,7 @@ class Resident extends Model
 {
     protected $guarded = [];
 
-    protected $hidden = ['updated_at', 'deleted_at', 'created_at','status'];
+    protected $hidden = ['updated_at', 'deleted_at', 'created_at', 'status'];
 
     protected $casts = [
         'user_id'                      => 'integer',

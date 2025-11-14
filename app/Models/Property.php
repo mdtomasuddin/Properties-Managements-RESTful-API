@@ -8,7 +8,7 @@ class Property extends Model
 {
     protected $guarded = [];
 
-    protected $hidden = ['updated_at', 'deleted_at', 'created_at'];
+    protected $hidden = ['updated_at', 'deleted_at', 'created_at','status'];
 
     protected $casts = [
         'id'                 => 'integer',
