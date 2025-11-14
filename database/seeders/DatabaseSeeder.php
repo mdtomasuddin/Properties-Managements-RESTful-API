@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             FAQSeeder::class,
             PropertySeeder::class,
+            CategorySeeder::class, //live time use 
         ]);
     }
 }
