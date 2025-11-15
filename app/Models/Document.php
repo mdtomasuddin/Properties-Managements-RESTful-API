@@ -24,6 +24,24 @@ class Document extends Model
     ];
 
     /**
+     * Accessor to get live URL for the document file.
+     */
+    public function getFileAttribute($value): ?string
+    {
+        if (empty($value)) {
+            return null;
+        }
+        // If accessed via API, generate full URL
+        if (filter_var($value, FILTER_VALIDATE_URL)) {
+            return $value;
+        }
+        if (request()->is('api/*')) {
+            return url($value);
+        }
+        return $value;
+    }
+
+    /**
      * relationship class Document extends Model to  others table
      */
     public function user()
