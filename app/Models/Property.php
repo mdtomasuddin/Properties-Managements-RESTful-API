@@ -8,7 +8,7 @@ class Property extends Model
 {
     protected $guarded = [];
 
-    protected $hidden = ['updated_at', 'deleted_at', 'created_at','status'];
+    protected $hidden = ['updated_at', 'deleted_at', 'created_at', 'status'];
 
     protected $casts = [
         'id'                 => 'integer',
@@ -54,5 +54,10 @@ class Property extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function documents()
+    {
+        return $this->hasMany(Document::class);
     }
 }

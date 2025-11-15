@@ -1,9 +1,9 @@
 <?php
-
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use Dom\Document;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -187,8 +187,13 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         return $this->hasMany(FinancialAccount::class);
     }
 
-    public function categories()
+    public function category()
     {
         return $this->hasMany(Category::class);
+    }
+
+    public function documents()
+    {
+        return $this->hasMany(Document::class);
     }
 }
