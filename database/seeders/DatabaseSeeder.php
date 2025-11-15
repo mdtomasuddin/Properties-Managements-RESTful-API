@@ -1,5 +1,4 @@
 <?php
-
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -17,7 +16,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             FAQSeeder::class,
             PropertySeeder::class,
-            CategorySeeder::class, //live time use 
+            CategorySeeder::class, //live time use
+            DocumentSeeder::class,
         ]);
     }
 }

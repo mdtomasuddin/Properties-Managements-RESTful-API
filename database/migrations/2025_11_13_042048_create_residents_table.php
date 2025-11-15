@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('unit_flat_number')->nullable();
             $table->string('name')->nullable();
             $table->string('phone', 20)->nullable();
+            $table->string('email')->nullable();
             $table->string('address')->nullable();
             $table->enum('payment_frequency', ['monthly', 'quarterly', 'yearly'])->default('monthly');
             $table->boolean('auto_rent_reminder')->default(false);

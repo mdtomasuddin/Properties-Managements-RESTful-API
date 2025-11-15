@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -23,6 +22,7 @@ class Resident extends Model
         'tenant_file'                  => 'array',
         'unit_flat_number'             => 'string',
         'sms_invitation'               => 'string',
+        'email'                        => 'string',
         'status'                       => 'string',
         'created_at'                   => 'datetime',
         'updated_at'                   => 'datetime',
