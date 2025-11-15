@@ -4,6 +4,8 @@ use App\Helpers\Helper;
 use App\Http\Middleware\Admin;
 use App\Http\Middleware\EnsureGuestJwt;
 use App\Http\Middleware\IsVerifyed;
+use App\Http\Middleware\PropertyCheckMiddleware;
+use App\Http\Middleware\ResidentCheckMiddleware;
 use App\Http\Middleware\SuperAdmin;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
@@ -14,8 +16,6 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -39,7 +39,6 @@ use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\HttpKernel\Exception\UnsupportedMediaTypeHttpException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
-
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__ . '/../routes/web/web.php',
@@ -57,10 +56,12 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            'guest.api' => EnsureGuestJwt::class, // only for guest users
-            'verified.api' => IsVerifyed::class, // is user verified
-            'super_admin' => SuperAdmin::class, // only super admin
-            'admin' => Admin::class, // only admin
+            'guest.api'      => EnsureGuestJwt::class,          // only for guest users
+            'verified.api'   => IsVerifyed::class,              // is user verified
+            'super_admin'    => SuperAdmin::class,              // only super admin
+            'admin'          => Admin::class,                   // only admin
+            'property_check' => PropertyCheckMiddleware::class, // property porichalok  check
+            'resident_check' => ResidentCheckMiddleware::class, // resident  check
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
@@ -119,7 +120,7 @@ return Application::configure(basePath: dirname(__DIR__))
                     return Helper::error(500, 'Route Not Found', $e->getMessage());
                 } else if ($e instanceof ServiceUnavailableHttpException) {
                     return Helper::error(503, 'Service Unavailable', $e->getMessage());
-                } else if (!$e instanceof ValidationException) {
+                } else if (! $e instanceof ValidationException) {
                     return Helper::error(422, 'Validation Error', $e->getMessage());
                 }
             }
