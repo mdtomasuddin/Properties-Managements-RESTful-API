@@ -7,22 +7,22 @@ use Illuminate\Database\Eloquent\Model;
 class Emergency extends Model
 {
     protected $guarded = [];
-    protected $hidden = ['updated_at', 'deleted_at'];
+    protected $hidden  = ['updated_at', 'deleted_at'];
 
     protected $casts = [
-        'id'                   => 'integer',
-        'user_id'              => 'integer',
-        'category_id'          => 'integer',
-        'property_id'          => 'integer',
-        'title'                => 'string',
-        'message'              => 'string',
-        'attachments'          => 'array',
-        'status'               => 'string',
-        'created_at'           => 'datetime',
-        'updated_at'           => 'datetime',
-        'deleted_at'           => 'datetime',
+        'id'             => 'integer',
+        'user_id'        => 'integer',
+        'category_id'    => 'integer',
+        'property_id'    => 'integer',
+        'user_type'      => 'string',
+        'emergency_type' => 'string',
+        'description'    => 'string',
+        'location'       => 'string',
+        'status'         => 'string',
+        'created_at'     => 'datetime',
+        'updated_at'     => 'datetime',
+        'deleted_at'     => 'datetime',
     ];
-
 
     /**
      * Relationship with  (assuming a many-to-many relation)

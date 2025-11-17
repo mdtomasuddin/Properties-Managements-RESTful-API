@@ -39,4 +39,9 @@ class Category extends Model
     {
         return $this->hasMany(Announcement::class);
     }
+    
+    public function emergeny()
+    {
+        return $this->hasMany(Emergency::class);
+    }
 }
