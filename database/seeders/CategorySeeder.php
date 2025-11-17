@@ -50,7 +50,7 @@ class CategorySeeder extends Seeder
                 'user_id' => 1,
                 'name'    => 'Emergency Notice',
                 'type'    => 'emergency',
-                'section' => 'emergency',
+                'section' => 'announcement',
             ],
 
             /**
