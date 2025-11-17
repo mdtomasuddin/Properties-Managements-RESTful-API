@@ -13,4 +13,4 @@ Route::apiResource('residents', ResidentController::class);                 //CR
 Route::apiResource('property-resident', PropertyResidentController::class); //property owner first added =>(property|resident|FinancialAccount)
 Route::apiResource('category', CategoryController::class);                  //'payment', 'emergency', 'maintenance', 'announcement', 'document'=section
 Route::apiResource('documents', DocumentController::class);
-Route::apiResource('announcement', AnnouncementController::class); //
+Route::apiResource('announcement', AnnouncementController::class); //CRUD
