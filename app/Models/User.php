@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -195,5 +196,10 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     public function documents()
     {
         return $this->hasMany(Document::class);
+    }
+    
+    public function announcements()
+    {
+        return $this->hasMany(Announcement::class);
     }
 }
