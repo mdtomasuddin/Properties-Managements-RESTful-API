@@ -51,7 +51,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'resident',
                 'email' => 'resident@resident.com',
-                'phone' => '01712345678', // or add a phone number
+                'phone' => '01822221111', // or add a phone number
                 'password' => Hash::make('12345678'),
                 'avatar' => null,
                 'role' => "resident",
@@ -67,7 +67,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'property_owner',
                 'email' => 'property_owner@gmail.com',
-                'phone' => null, // or add a phone number
+                'phone' =>'01811111111', // or add a phone number
                 'password' => Hash::make('12345678'),
                 'avatar' => null,
                 'role' => "property_owner",

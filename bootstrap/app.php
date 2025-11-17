@@ -5,6 +5,7 @@ use App\Http\Middleware\Admin;
 use App\Http\Middleware\EnsureGuestJwt;
 use App\Http\Middleware\IsVerifyed;
 use App\Http\Middleware\PropertyCheckMiddleware;
+use App\Http\Middleware\PropertyOrResidentMiddleware;
 use App\Http\Middleware\ResidentCheckMiddleware;
 use App\Http\Middleware\SuperAdmin;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -62,6 +63,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin'          => Admin::class,                   // only admin
             'property_check' => PropertyCheckMiddleware::class, // property porichalok  check
             'resident_check' => ResidentCheckMiddleware::class, // resident  check
+            'property_or_resident_check' => PropertyOrResidentMiddleware::class, // resident  check
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
