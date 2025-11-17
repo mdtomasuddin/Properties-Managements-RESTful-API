@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Api\Property\Announcement;
 
 use App\Helpers\Helper;
@@ -11,6 +10,47 @@ use Illuminate\Support\Facades\Validator;
 
 class AnnouncementController
 {
+    /**
+     * This method retrieves Announcement.
+     * The number of Announcement `per_page` query parameter defult ===100.
+     * @param Request $request
+     */
+    public function index(Request $request)
+    {
+        try {
+            $perPage    = $request->query('per_page', 100);
+            $search     = $request->query('search');
+            $categoryId = $request->query('category_id');
+            $propertyId = $request->query('property_id');
+            $sortBy     = $request->query('sortby', 'desc');
+
+            $query = Announcement::with(['property:id,property_name', 'category:id,name'])->where('user_id', Auth::id());
+
+            // search
+            if (! empty($search)) {
+                $query->where('name', 'like', '%' . $search . '%');
+            }
+
+            // categoryId
+            if (! empty($categoryId)) {
+                $query->where('category_id', $categoryId);
+            }
+
+            //property
+            if (! empty($propertyId)) {
+                $query->where('property_id', $propertyId);
+            }
+            // dynamic sorting
+            $query->orderBy('created_at', $sortBy);
+            $data = $query->paginate($perPage);
+
+            return Helper::jsonResponse(true, 'Announcement retrieved successfully.', 200, $data);
+        } catch (\Exception $e) {
+            return Helper::jsonResponse(false, 'Failed to retrieve Announcement.', 500, [
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
 
     /**
      * Store a new Announcement with a single file.
@@ -59,6 +99,23 @@ class AnnouncementController
             return Helper::jsonResponse(true, 'Announcement created successfully.', 201, $announcement);
         } catch (Exception $e) {
             return Helper::jsonResponse(false, 'Announcement creation failed.', 500, [
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    /**
+     * This method retrieves Announcement show.
+     * @param Request $request $id
+     */
+    public function show($id)
+    {
+        try {
+            $data = Announcement::with(['property:id,property_name', 'category:id,name'])->where('user_id', Auth::id())->find($id);
+
+            return Helper::jsonResponse(true, 'Announcements retrieved successfully.', 200, $data);
+        } catch (Exception $e) {
+            return Helper::jsonResponse(false, 'Failed to retrieve Announcements.', 500, [
                 'error' => $e->getMessage(),
             ]);
         }
