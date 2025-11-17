@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('property_id')->constrained()->onDelete('cascade');
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
-            $table->enum('user_type', ['resident', 'owner'])->default('owner');
+            $table->enum('user_type', ['resident', 'property_owner'])->default('property_owner');
             $table->string('emergency_type')->nullable();
             $table->string('location')->nullable();
             $table->text('description')->nullable();

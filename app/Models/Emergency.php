@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Emergency extends Model
 {
     protected $guarded = [];
-    protected $hidden  = ['updated_at', 'deleted_at'];
+    protected $hidden  = ['updated_at', 'deleted_at', 'emergency_type', 'status'];
 
     protected $casts = [
         'id'             => 'integer',
