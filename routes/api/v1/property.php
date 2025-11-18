@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Category\CategoryController;
+use App\Http\Controllers\Api\PaymentRequest\PaymentRequestController;
 use App\Http\Controllers\Api\PropertyResident\PropertyResidentController;
 use App\Http\Controllers\Api\Property\Announcement\AnnouncementController;
 use App\Http\Controllers\Api\Property\Document\DocumentController;
@@ -13,3 +14,4 @@ Route::apiResource('residents', ResidentController::class);                 //CR
 Route::apiResource('property-resident', PropertyResidentController::class); //property owner first added =>(property|resident|FinancialAccount)
 Route::apiResource('documents', DocumentController::class);
 Route::apiResource('announcement', AnnouncementController::class); //CRUD
+Route::apiResource('payment-request', PaymentRequestController::class); //C
