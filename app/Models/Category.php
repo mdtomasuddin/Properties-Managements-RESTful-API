@@ -39,9 +39,17 @@ class Category extends Model
     {
         return $this->hasMany(Announcement::class);
     }
-    
+
     public function emergeny()
     {
         return $this->hasMany(Emergency::class);
+    }
+    public function paymentrequest()
+    {
+        return $this->hasMany(PaymentRequest::class);
+    }
+     public function payment()
+    {
+        return $this->hasMany(Payment::class);
     }
 }
