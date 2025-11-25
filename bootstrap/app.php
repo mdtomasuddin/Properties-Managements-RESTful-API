@@ -61,7 +61,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'verified.api'   => IsVerifyed::class,              // is user verified
             'super_admin'    => SuperAdmin::class,              // only super admin
             'admin'          => Admin::class,                   // only admin
-            'property_check' => PropertyCheckMiddleware::class, // property porichalok  check
+            '' => PropertyCheckMiddleware::class, // property porichalok  check
             'resident_check' => ResidentCheckMiddleware::class, // resident  check
             'property_or_resident_check' => PropertyOrResidentMiddleware::class, // resident  check
         ]);
