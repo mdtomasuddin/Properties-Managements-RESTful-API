@@ -80,4 +80,10 @@ class Property extends Model
     {
         return $this->hasMany(PaymentReminder::class);
     }
+
+    //message relationship
+    public function conversations()
+    {
+        return $this->hasMany(Conversation::class);
+    }
 }
