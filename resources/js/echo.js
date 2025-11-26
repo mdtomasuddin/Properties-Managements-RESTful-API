@@ -12,3 +12,12 @@ window.Echo = new Echo({
     forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? 'https') === 'https',
     enabledTransports: ['ws', 'wss'],
 });
+
+
+
+// listening to private channel conversation1
+let channelName = 'chat.1';
+window.Echo.private(channelName)
+    .listen('MessageSent', (e) => {
+        console.log(e);
+    });

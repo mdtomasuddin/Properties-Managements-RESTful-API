@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1\Messaging;
 
+use App\Events\MessageSent;
 use App\Helpers\Helper;
 use App\Http\Requests\Api\Message\SendMessageRequest;
 use App\Models\Conversation;
@@ -100,6 +101,7 @@ class MessageController
 
             // Broadcast the message to others (optional, but uncomment to enable)
             // broadcast(new MessageSent($data))->toOthers();
+            broadcast(new MessageSent($data));
             return Helper::jsonResponse(true, 'Message sent successfully.', 201, $data);
         } catch (Exception $e) {
             return Helper::jsonResponse(false, 'Failed to send message.', 500, [

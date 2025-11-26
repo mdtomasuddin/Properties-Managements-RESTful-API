@@ -22,7 +22,7 @@ Route::middleware(['auth:api', 'resident_check'])->group(function () {
 });
 
 //property && resident Both API Endpoint &&  *property_or_resident_check
-Route::middleware(['auth:api', 'property_or_resident_check'])->group(function () {
+Route::middleware(['auth:api'])->group(function () {
     require 'v1/propertyresident.php';
 
     //Message Section All API Endpoint .
