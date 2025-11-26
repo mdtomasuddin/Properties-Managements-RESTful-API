@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Api\V1\Messaging;
 
 use App\Helpers\Helper;
@@ -139,37 +140,44 @@ class MessageController
     }
 
     /**
-     * conversations get
+     * Get conversations
+     * Get the authenticated user's conversations with participant details and unread message counts.
+     * @param Request $request
+     * @return JsonResponse
      */
     public function conversations(Request $request)
     {
-        $user  = Auth::user();
-        $query = $user->conversations->with([
-            'participants' => function ($query) {
-                $query->with('user:id,name,avatar,role')->where('user_id', '!=', Auth::user()->id);
-            },
-            'lastMessage:id,sender_id,receiver_id,conversation_id,message,file_path,type,is_read,created_at',
-        ]);
+        $user = Auth::user();
+
+        // Start a query for conversations
+        $query = Conversation::whereHas('participants', function ($q) use ($user) {
+            $q->where('user_id', $user->id);
+        })
+            ->with([
+                'participants' => function ($query) {
+                    $query->with('user:id,name,avatar,role')->where('user_id', '!=', Auth::user()->id);
+                },
+                'lastMessage:id,sender_id,receiver_id,conversation_id,message,file_path,type,is_read,created_at',
+            ])
+            // Sort conversations by the last message's created_at timestamp
+            ->orderByDesc(Message::select('created_at')->whereColumn('conversation_id', 'conversations.id')->limit(1));
 
         // Filter by participant name
         if ($request->filled('search')) {
             $search = $request->input('search');
             $query->whereHas('participants.user', function ($q) use ($search, $user) {
                 $q->where('id', '!=', $user->id)
-                    ->where(function ($q2) use ($search) {
-                        $q2->where('name', 'like', '%' . $search . '%');
-                    });
+                    ->where('name', 'like', '%' . $search . '%');
             });
         }
 
         // Get conversations
-        $data = $query->get()->sortByDesc(function ($conversation) {
-            return optional($conversation->lastMessage)->created_at;
-        })->values();
+        $data = $query->get();
 
         // Calculate unread messages count per conversation
         $data->each(function ($conversation) use ($user) {
-            $unreadCount                = Message::where('conversation_id', $conversation->id)->where('receiver_id', $user->id)->where('is_read', false)->count();
+            $unreadCount = Message::where('conversation_id', $conversation->id)
+                ->where('receiver_id', $user->id)->where('is_read', false)->count();
             $conversation->unread_count = $unreadCount; // Add unread count to each conversation
         });
 
