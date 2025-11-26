@@ -16,6 +16,7 @@ class Conversation extends Model
         'created_at',
         'updated_at',
         'pivot',
+        'property_id',
     ];
 
     // public function sender()
@@ -46,9 +47,5 @@ class Conversation extends Model
     public function participants()
     {
         return $this->hasMany(Participant::class);
-    }
-    public function property()
-    {
-        return $this->belongsTo(Property::class);
     }
 }

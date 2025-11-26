@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\Faq\FaqController;
 use App\Http\Controllers\Api\V1\Firebase\FirebaseTokenController;
+use App\Http\Controllers\Api\V1\Messaging\MessageController;
 use Illuminate\Support\Facades\Route;
 
 /**
@@ -23,6 +24,14 @@ Route::middleware(['auth:api', 'resident_check'])->group(function () {
 //property && resident Both API Endpoint &&  *property_or_resident_check
 Route::middleware(['auth:api', 'property_or_resident_check'])->group(function () {
     require 'v1/propertyresident.php';
+
+    //Message Section All API Endpoint .
+    Route::controller(MessageController::class)->group(function () {
+        Route::post('/conversation/{id}', 'ConversationCreate');
+        Route::post('/send-message/{id}', 'sendMessage');
+        Route::get('/chat/{id}', 'getChat');
+        Route::get('/conversations', 'conversations');
+    });
 });
 
 // Firebase Token Module
