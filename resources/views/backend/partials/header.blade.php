@@ -172,12 +172,12 @@
                             </li> --}}
 
 
-                            <li>
+                            {{-- <li>
                                 <a class="dropdown-item d-flex align-items-center" href="#!">
 
                                     <i class="me-2 icon-xxs dropdown-item-icon" data-feather="settings"></i>Settings
                                 </a>
-                            </li>
+                            </li> --}}
                             <li>
                                 <form class="dropdown-item" method="POST" action="{{ route('logout') }}">
                                     @csrf

@@ -9,7 +9,7 @@ return [
     | Your Firebase project ID from the Firebase Console
     |
     */
-    'project_id' => env('FIREBASE_PROJECT_ID'),
+    'project_id'       => env('FIREBASE_PROJECT_ID'),
 
     /*
     |--------------------------------------------------------------------------
@@ -19,7 +19,7 @@ return [
     | Path to the Firebase service account credentials JSON file.
     | By default, the package looks for the firebase.json file in your Laravel storage directory.
     | It's recommended to keep your Firebase credentials in the storage directory for security.
-    | 
+    |
     | If you need to use a different location, you can modify this value directly in the published config.
     |
     */
@@ -34,7 +34,7 @@ return [
     | using your project ID, but you can override it if needed.
     |
     */
-    'api_url' => null, // Will be auto-generated if null
+    'api_url'          => null, // Will be auto-generated if null
 
     /*
     |--------------------------------------------------------------------------
@@ -44,10 +44,16 @@ return [
     | Default settings for FCM notifications
     |
     */
-    'defaults' => [
-        'sound' => 'default',
-        'priority' => 'normal',
+    'defaults'         => [
+        'sound'        => 'default',
+        'priority'     => 'normal',
         'time_to_live' => 86400, // 24 hours
+    ],
+
+    'fcm'              => [
+        'token_model'   => App\Models\FirebaseToken::class,
+        'token_column'  => 'token',
+        'token_user_id' => 'user_id',
     ],
 
     /*
@@ -60,5 +66,5 @@ return [
     | as users won't be able to modify test files in the vendor directory.
     |
     */
-    'test_token' => env('FCM_TEST_TOKEN', 'fMYt3W8XSJqTMEIvYR1234:APA91bEH_3kDyFMuXO5awEcbkwqg9LDyZ8QK-9qAw3qsF-4NvUq98Y5X9iJKX2JkpRGLEN_2PXXXPmLTCWtQWYPmL3RKJki_6GVQgHGpXzD8YG9z1EUlZ6LWmjOUCxGrYD8QVnqH1234')
+    'test_token'       => env('FCM_TEST_TOKEN', 'fMYt3W8XSJqTMEIvYR1234:APA91bEH_3kDyFMuXO5awEcbkwqg9LDyZ8QK-9qAw3qsF-4NvUq98Y5X9iJKX2JkpRGLEN_2PXXXPmLTCWtQWYPmL3RKJki_6GVQgHGpXzD8YG9z1EUlZ6LWmjOUCxGrYD8QVnqH1234'),
 ];
