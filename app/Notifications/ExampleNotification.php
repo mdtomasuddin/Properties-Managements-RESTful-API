@@ -11,9 +11,7 @@ class ExampleNotification extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct(private string $title, private string $body)
-    {
-    }
+    public function __construct(private string $title, private string $body) {}
 
     /**
      * Get the notification's delivery channels.

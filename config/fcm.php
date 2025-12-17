@@ -9,7 +9,7 @@ return [
     | Your Firebase project ID from the Firebase Console
     |
     */
-    'project_id'       => env('FIREBASE_PROJECT_ID'),
+    'project_id'       => 'touchpnt-062',
 
     /*
     |--------------------------------------------------------------------------
@@ -23,7 +23,7 @@ return [
     | If you need to use a different location, you can modify this value directly in the published config.
     |
     */
-    'credentials_path' => storage_path('firebase.json'),
+    'credentials_path' => storage_path('app/private/touchpnt-062-firebase-adminsdk-fbsvc-80b1a7d81b.json'),
 
     /*
     |--------------------------------------------------------------------------

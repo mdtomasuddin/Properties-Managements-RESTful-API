@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use DevKandil\NotiFire\Traits\HasFcm;
 use Dom\Document;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,7 +18,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, SoftDeletes, HasApiTokens;
+    use  HasFcm, HasFactory, Notifiable, SoftDeletes, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -222,5 +223,13 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     public function conversations()
     {
         return $this->belongsToMany(Conversation::class, 'participants');
+    }
+
+    /**
+     * Get the user's firebase tokens
+     */
+    public function firebaseTokens()
+    {
+        return $this->hasMany(FirebaseToken::class);
     }
 }
