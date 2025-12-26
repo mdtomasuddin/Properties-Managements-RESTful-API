@@ -1,6 +1,7 @@
 <?php
 
-namespace DevKandil\NotiFire\Traits;
+// namespace DevKandil\NotiFire\Traits;
+namespace App\Traits;
 
 use DevKandil\NotiFire\Facades\Fcm;
 

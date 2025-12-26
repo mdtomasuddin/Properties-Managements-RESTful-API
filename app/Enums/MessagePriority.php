@@ -1,6 +1,7 @@
 <?php
 
-namespace DevKandil\NotiFire\Enums;
+// namespace DevKandil\NotiFire\Enums;
+namespace App\Enums;
 
 enum MessagePriority: string
 {

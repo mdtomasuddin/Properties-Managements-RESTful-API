@@ -1,6 +1,7 @@
 <?php
 
-namespace DevKandil\NotiFire\Notifications;
+// namespace DevKandil\NotiFire\Notifications;
+namespace App\Notifications;
 
 use DevKandil\NotiFire\FcmMessage;
 use DevKandil\NotiFire\Enums\MessagePriority;

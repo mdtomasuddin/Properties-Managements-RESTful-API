@@ -1,6 +1,7 @@
 <?php
 
-namespace DevKandil\NotiFire\Contracts;
+// namespace DevKandil\NotiFire\Contracts;
+namespace App\Contracts;
 
 use DevKandil\NotiFire\FcmMessage;
 use DevKandil\NotiFire\Enums\MessagePriority;
@@ -54,7 +55,7 @@ interface FcmServiceInterface
      * @return self
      */
     public function withIcon(string $icon): self;
-    
+
     /**
      * Set the notification color.
      *
