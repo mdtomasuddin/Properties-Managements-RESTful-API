@@ -292,9 +292,7 @@ class Helper
     {
         if (! empty($tokens)) {
             try {
-                $data = Fcm::withTitle($title)
-                    ->withBody($body)
-                    ->sendNotification($tokens);
+                $data = Fcm::withTitle($title)->withBody($body)->sendNotification($tokens);
                 Log::info('Notification sent:', ['data' => $data]);  // Log for debugging
             } catch (\Exception $e) {
                 Log::error('FCM Notification error:', ['error' => $e->getMessage()]);

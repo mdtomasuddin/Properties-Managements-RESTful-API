@@ -2,7 +2,8 @@
 
 namespace App\Notifications;
 
-use DevKandil\NotiFire\FcmMessage;
+use App\Helpers\Helper;
+use App\Models\FirebaseToken;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 
@@ -10,26 +11,37 @@ class MaintenanceNotification extends Notification
 {
 
     use Queueable;
-    public $maintenance;
 
+    public $maintenance;
+    public $title;
+    public $body;
+
+    //constructor
     public function __construct($maintenance)
     {
         $this->maintenance = $maintenance;
+        $this->title       = 'New Maintenance Request for-' . $maintenance->property->property_name;
+        $this->body        = 'A new maintenance request has been created for-Name: ' . $maintenance->user->name . '. Description: ' . $maintenance->description;
     }
 
+    //channels to send notification
     public function via($notifiable)
     {
-        // শুধু ডাটাবেস চ্যানেল ব্যবহার করছি কারণ পুশ আমরা ম্যানুয়ালি পাঠাব
-        return ['database'];
+        $tokens = FirebaseToken::where('user_id', $notifiable->id)->pluck('token')->toArray();
+        if (! empty($tokens)) {
+            Helper::send($tokens, $this->title, $this->body); //send push notification
+        }
+        return ['database']; //database insert notification
     }
 
+    //data to store in database
     public function toArray($notifiable)
     {
         return [
             'maintenance_id' => $this->maintenance->id,
-            'title' => 'New Maintenance Request',
-            'body' => 'A new maintenance request has been created.',
-            'type' => 'maintenance'
+            'type'           => 'maintenance',
+            'title'          => $this->title,
+            'body'           => $this->body,
         ];
     }
 }

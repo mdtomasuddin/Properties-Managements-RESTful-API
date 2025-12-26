@@ -13,7 +13,7 @@ class PropertySeeder extends Seeder
     public function run(): void
     {
         $propertyData = [
-            'user_id'            => 3,
+            'user_id'            => 4,
             'property_type'      => 'multi_unit',
             'property_name'      => 'Property A',
             'property_address'   => 'Dhaka',

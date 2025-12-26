@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api\Resident\Maintenance;
 
 use App\Helpers\Helper;
-use App\Models\FirebaseToken;
 use App\Models\Maintenance;
 use App\Models\Property;
 use App\Models\User;
@@ -12,8 +11,6 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Log;
-
 
 class MaintenanceController
 {
@@ -54,7 +51,6 @@ class MaintenanceController
             ]);
         }
     }
-
 
     /**
      * Store a new Maintenance with a single file.
@@ -117,10 +113,16 @@ class MaintenanceController
     //         ]);
     //     }
     // }
+
+    /**
+     * Store a new Maintenance with multiple files.
+     * This method validates the handles Maintenance uploads, and creates a new Maintenance.
+     * @param Request $request || store
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request)
     {
         try {
-            // ১. ভ্যালিডেশন (আগের মতোই থাকবে)
             $validator = Validator::make($request->all(), [
                 'property_id'   => 'required|integer|exists:properties,id',
                 'category_id'   => 'required|integer|exists:categories,id',
@@ -133,9 +135,8 @@ class MaintenanceController
                 return Helper::jsonResponse(false, $validator->errors()->first(), 422);
             }
 
-            // ২. ডাটা প্রসেসিং ও ফাইল আপলোড
             $validated = $validator->validated();
-            $files = [];
+            $files     = [];
             if ($request->hasFile('attachments')) {
                 foreach ($request->attachments as $file) {
                     $files[] = Helper::fileUpload($file, 'MaintenanceDocFile', $file->getClientOriginalName());
@@ -143,35 +144,25 @@ class MaintenanceController
             }
             $validated['attachments'] = $files;
             $validated['user_id']     = Auth::id();
+            $maintenance              = Maintenance::create($validated); //created maintenance
 
-            // ৩. মেইনটেন্যান্স রেকর্ড তৈরি
-            $maintenance = Maintenance::create($validated);
-
-            // ৪. প্রপার্টি মালিককে খুঁজে বের করা
-            $property = Property::find($validated['property_id']);
-            $owner = User::find($property->user_id);
-
-            if ($owner) {
-                // ৫. ডাটাবেসে নোটিফিকেশন সেভ করা
-                // এটি সরাসরি আপনার 'notifications' টেবিলে ডাটা ইনসার্ট করবে
-                $owner->notify(new MaintenanceNotification($maintenance));
-
-                // ৬. পুশ নোটিফিকেশন পাঠানো (FCM)
-                // টোকেনগুলো সংগ্রহ করা (array format এ)
-                $tokens = FirebaseToken::where('user_id', $owner->id)
-                    ->pluck('token')
-                    ->toArray();
-
-                if (!empty($tokens)) {
-                    $title = 'New Maintenance Request';
-                    $body  = 'A new maintenance request has been created for your property.';
-
-                    // আপনার হেল্পার ক্লাস ব্যবহার করে পুশ পাঠানো
-                    Helper::send($tokens, $title, $body);
-                }
+            // push notification starting------------------>
+            $property = Property::with('user')->find($maintenance->property_id);
+            if ($property && $property->user) {
+                $property->user->notify(new MaintenanceNotification($maintenance));
             }
+            // push notification ended <------------------
 
-            return Helper::jsonResponse(true, 'Maintenance created, saved to DB and push sent.', 201, $maintenance);
+            return Helper::jsonResponse(true, 'Maintenance created, saved to DB and push sent.', 201, [
+                'id'          => $maintenance->id,
+                'category_id' => $maintenance->category_id,
+                'property_id' => $maintenance->property_id,
+                'user_id'     => $maintenance->user_id,
+                'description' => $maintenance->description,
+                'attachments' => $maintenance->attachments,
+                'status'      => $maintenance->status,
+                'created_at'  => $maintenance->created_at,
+            ]);
         } catch (Exception $e) {
             return Helper::jsonResponse(false, 'Error: ' . $e->getMessage(), 500);
         }
