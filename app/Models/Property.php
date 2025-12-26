@@ -76,7 +76,7 @@ class Property extends Model
     {
         return $this->hasMany(Payment::class);
     }
-        public function paymentReminder()
+    public function paymentReminder()
     {
         return $this->hasMany(PaymentReminder::class);
     }
@@ -85,5 +85,9 @@ class Property extends Model
     public function conversations()
     {
         return $this->hasMany(Conversation::class);
+    }
+    public function residents()
+    {
+        return $this->hasMany(Resident::class);
     }
 }

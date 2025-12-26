@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->enum('payment_frequency', ['monthly', 'quarterly', 'yearly'])->default('monthly');
             $table->boolean('auto_rent_reminder')->default(false);
-            //next page 
+            //next page
             $table->decimal('monthly_rent', 10, 2)->nullable();
             $table->decimal('fixed_monthly_recurring_cost', 10, 2)->default(0);
             $table->decimal('due_amount', 10, 2)->default(0);

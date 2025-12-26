@@ -58,4 +58,14 @@ class Resident extends Model
             return url($file);
         }, $files);
     }
+
+    //relationship resident to user table
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function property()
+    {
+        return $this->belongsTo(Property::class);
+    }
 }
