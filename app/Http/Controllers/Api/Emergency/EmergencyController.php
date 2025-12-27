@@ -58,39 +58,40 @@ class EmergencyController
      * This method validates the handles Emergency , and creates a new Emergency.
      * @param Request $request || store
      */
-    public function store(Request $request)
-    {
-        try {
-            // Validate the request data
-            $validator = Validator::make($request->all(), [
-                'property_id'    => 'required|integer|exists:properties,id',
-                'category_id'    => 'required|integer|exists:categories,id',
-                'user_type'      => 'nullable|in:property_owner,resident',
-                'emergency_type' => 'nullable|string|max:500',
-                'location'       => 'required|string|max:500',
-                'description'    => 'required|string|max:1500',
-                'status'         => 'nullable|in:active,inactive,published,draft,cancelled',
-            ]);
+    // public function store(Request $request)
+    // {
+    //     try {
+    //         // Validate the request data
+    //         $validator = Validator::make($request->all(), [
+    //             'property_id'    => 'required|integer|exists:properties,id',
+    //             'category_id'    => 'required|integer|exists:categories,id',
+    //             'user_type'      => 'nullable|in:property_owner,resident',
+    //             'emergency_type' => 'nullable|string|max:500',
+    //             'location'       => 'required|string|max:500',
+    //             'description'    => 'required|string|max:1500',
+    //             'status'         => 'nullable|in:active,inactive,published,draft,cancelled',
+    //         ]);
 
-            // Return the first validation
-            if ($validator->fails()) {
-                $message = $validator->errors()->first();
-                return Helper::jsonResponse(false, $message, 422);
-            }
+    //         // Return the first validation
+    //         if ($validator->fails()) {
+    //             $message = $validator->errors()->first();
+    //             return Helper::jsonResponse(false, $message, 422);
+    //         }
 
-            // Get validated data
-            $validated = $validator->validated();
+    //         // Get validated data
+    //         $validated = $validator->validated();
 
-            $validated['user_id'] = Auth::id();
-            $emergency            = Emergency::create($validated);
+    //         $validated['user_id'] = Auth::id();
+    //         $emergency            = Emergency::create($validated);
 
-            return Helper::jsonResponse(true, 'Emergency created successfully.', 201, $emergency);
-        } catch (Exception $e) {
-            return Helper::jsonResponse(false, 'Emergency creation failed.', 500, [
-                'error' => $e->getMessage(),
-            ]);
-        }
-    }
+    //         return Helper::jsonResponse(true, 'Emergency created successfully.', 201, $emergency);
+    //     } catch (Exception $e) {
+    //         return Helper::jsonResponse(false, 'Emergency creation failed.', 500, [
+    //             'error' => $e->getMessage(),
+    //         ]);
+    //     }
+    // }
+
 
     // public function store(Request $request)
     // {
@@ -138,6 +139,58 @@ class EmergencyController
     //             }
     //         }
     //         // End notification here
+
+    //         return Helper::jsonResponse(true, 'Emergency created successfully.', 201, $emergency);
+    //     } catch (Exception $e) {
+    //         return Helper::jsonResponse(false, 'Emergency creation failed.', 500, [
+    //             'error' => $e->getMessage(),
+    //         ]);
+    //     }
+    // }
+
+    //referral code based notification
+    // public function store(Request $request)
+    // {
+    //     try {
+    //         $validator = Validator::make($request->all(), [
+    //             'property_id'    => 'required|integer|exists:properties,id',
+    //             'category_id'    => 'required|integer|exists:categories,id',
+    //             'user_type'      => 'nullable|in:property_owner,resident',
+    //             'emergency_type' => 'nullable|string|max:500',
+    //             'location'       => 'required|string|max:500',
+    //             'description'    => 'required|string|max:1500',
+    //             'status'         => 'nullable|in:active,inactive,published,draft,cancelled',
+    //         ]);
+
+    //         if ($validator->fails()) {
+    //             return Helper::jsonResponse(false, $validator->errors()->first(), 422);
+    //         }
+
+    //         $validated = $validator->validated();
+    //         $validated['user_id'] = Auth::id();
+    //         $emergency = Emergency::create($validated);
+
+    //         // Send notification starting here
+    //         $property = Property::with('user')->find($emergency->property_id);
+
+    //         if ($property && $property->user) {
+    //             $owner = $property->user; // User A
+    //             $ownerRefferCode = $owner->reffer_code;
+
+    //             if ($ownerRefferCode) {
+    //                 $recipients = \App\Models\User::where('invitation_code', $ownerRefferCode)->where('status', 'active')->get();
+
+    //                 $recipients->push($owner);
+    //                 $finalRecipients = $recipients;
+    //                 // $finalRecipients = $recipients->unique('id');
+    //                 if ($finalRecipients->isNotEmpty()) {
+    //                     \Illuminate\Support\Facades\Notification::send(
+    //                         $finalRecipients,
+    //                         new EmergencyNotification($emergency)
+    //                     );
+    //                 }
+    //             }
+    //         }
 
     //         return Helper::jsonResponse(true, 'Emergency created successfully.', 201, $emergency);
     //     } catch (Exception $e) {
