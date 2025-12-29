@@ -1,9 +1,9 @@
 <?php
-
 namespace App\Http\Controllers\Api\Property;
 
 use App\Helpers\Helper;
 use App\Models\Property;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -194,6 +194,31 @@ class PropertyController
             return Helper::jsonResponse(true, 'property deleted successfully.', 200);
         } catch (\Exception $e) {
             return Helper::jsonResponse(false, 'property deletion failed.', 500, [
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    /**
+     * Retrieve residents associated with a specific property.
+     * This method fetches residents linked to the property using the property's referral code.
+     * @param int $id
+     */
+    public function getResidentsByProperty($id)
+    {
+        try {
+            $property = Property::where('id', $id)->where('user_id', Auth::id())->first();
+
+            if (! $property) {
+                return Helper::jsonResponse(false, 'Property not found.', 404);
+            }
+            // Get property owner's referral code.
+            $referralCode = Auth::user()->reffer_code;
+            $residents    = User::where('invitation_code', $referralCode)->select('id', 'name', 'email', 'role', 'phone')->get();
+
+            return Helper::jsonResponse(true, 'Residents retrieved successfully.', 200, $residents);
+        } catch (Exception $e) {
+            return Helper::jsonResponse(false, 'Failed to retrieve residents.', 500, [
                 'error' => $e->getMessage(),
             ]);
         }
