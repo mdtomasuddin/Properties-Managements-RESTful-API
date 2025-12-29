@@ -14,7 +14,10 @@ class Notification extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'data' => 'array',
+        'id'            => 'string',
+        'type'          => 'string',
+        'notifiable_id' => 'integer',
+        'data'          => 'array',
     ];
 
     /**

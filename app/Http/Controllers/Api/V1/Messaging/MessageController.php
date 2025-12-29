@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Api\V1\Messaging;
 
 use App\Events\MessageSent;
@@ -161,7 +160,7 @@ class MessageController
                 },
                 'lastMessage:id,sender_id,receiver_id,conversation_id,message,file_path,type,is_read,created_at',
             ])
-            // Sort conversations by the last message's created_at timestamp
+        // Sort conversations by the last message's created_at timestamp
             ->orderByDesc(Message::select('created_at')->whereColumn('conversation_id', 'conversations.id')->limit(1));
 
         // Filter by participant name

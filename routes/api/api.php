@@ -3,8 +3,8 @@
 use App\Http\Controllers\Api\Faq\FaqController;
 use App\Http\Controllers\Api\V1\Firebase\FirebaseTokenController;
 use App\Http\Controllers\Api\V1\Messaging\MessageController;
+use App\Http\Controllers\Api\V1\Notification\NotificationController;
 use Illuminate\Support\Facades\Route;
-
 
 /**
  * V1 API Routes:
@@ -33,6 +33,9 @@ Route::middleware(['auth:api'])->group(function () {
         Route::get('/chat/{id}', 'getChat');
         Route::get('/conversations', 'conversations');
     });
+
+    // Notification Section All API Endpoint .
+    Route::get('/notification', [NotificationController::class, 'getNotification']);
 });
 
 // Firebase Token Module
