@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Notifications;
 
 use App\Helpers\Helper;
