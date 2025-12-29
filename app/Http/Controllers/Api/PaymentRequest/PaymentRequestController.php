@@ -1,8 +1,11 @@
 <?php
+
 namespace App\Http\Controllers\Api\PaymentRequest;
 
 use App\Helpers\Helper;
 use App\Models\PaymentRequest;
+use App\Models\User;
+use App\Notifications\PaymentRequestNotification;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -90,11 +93,41 @@ class PaymentRequestController
             $validated['user_id']     = Auth::id();
             $paymentRequest           = PaymentRequest::create($validated);
 
+            // Send Notification START
+            $this->sendPaymentRequestNotification($paymentRequest);
+            $paymentRequest->unsetRelations();
+            // Send Notification END
+
             return Helper::jsonResponse(true, 'Payment request created successfully.', 201, $paymentRequest);
         } catch (Exception $e) {
             return Helper::jsonResponse(false, 'Payment request creation failed.', 500, [
                 'error' => $e->getMessage(),
             ]);
+        }
+    }
+
+    /**
+     * Extracted Notification Logic for PaymentRequest.
+     * @param mixed $paymentRequest || send notification || send_to -> all_resident , individual selected_resident_id
+     */
+    private function sendPaymentRequestNotification($paymentRequest)
+    {
+        $recipients = collect();
+        // Determine recipients based on send_to
+        if ($paymentRequest->send_to === 'all_resident') {
+            $owner = $paymentRequest->property->user; // Property owner
+            if ($owner && $owner->reffer_code) {
+                // Get all residents with matching invitation_code
+                $residents  = User::where('invitation_code', $owner->reffer_code)->get();
+                $recipients = $recipients->merge($residents);
+                $recipients->push($owner); // Include the property owner
+            }
+        } elseif ($paymentRequest->send_to === 'individual' && ! empty($paymentRequest->selected_resident_id)) {
+            $recipients = User::whereIn('id', $paymentRequest->selected_resident_id)->get(); //only selected residents
+        }
+        $finalRecipients = $recipients->unique('id'); // Remove duplicate users
+        if ($finalRecipients->isNotEmpty()) {
+            \Illuminate\Support\Facades\Notification::send($finalRecipients, new PaymentRequestNotification($paymentRequest));
         }
     }
 }
