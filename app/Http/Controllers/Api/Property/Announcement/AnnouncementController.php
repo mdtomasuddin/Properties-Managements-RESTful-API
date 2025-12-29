@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api\Property\Announcement;
 
 use App\Helpers\Helper;
 use App\Models\Announcement;
+use App\Models\User;
+use App\Notifications\AnnouncementNotification;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -64,6 +66,7 @@ class AnnouncementController
      * Store a new Announcement with a single file.
      * This method validates the handles Announcement uploads, and creates a new Announcement.
      * @param Request $request || store
+     * call sendAnnouncementNotification to send notification
      */
     public function store(Request $request)
     {
@@ -72,7 +75,7 @@ class AnnouncementController
             $validator = Validator::make($request->all(), [
                 'property_id'            => 'required|integer|exists:properties,id',
                 'category_id'            => 'required|integer|exists:categories,id',
-                'title'                  => 'required|string|max:500',
+                'title'                  => 'nullable|string|max:500',
                 'message'                => 'required|string|max:1000',
                 'send_to'                => 'required|in:individual,all_resident',
                 'selected_resident_id'   => 'nullable|array',
@@ -104,7 +107,14 @@ class AnnouncementController
             $validated['attachments'] = $files;
             $validated['user_id']     = Auth::id();
             $announcement             = Announcement::create($validated);
-
+            /**
+             * Send Notification starting  here
+             */
+            $this->sendAnnouncementNotification($announcement);
+            $announcement->unsetRelations();
+            /**
+             * notification end here
+             */
             return Helper::jsonResponse(true, 'Announcement created successfully.', 201, $announcement);
         } catch (Exception $e) {
             return Helper::jsonResponse(false, 'Announcement creation failed.', 500, [
@@ -134,7 +144,8 @@ class AnnouncementController
      * Update an existing Announcement.
      * This method validates the incoming update request,
      * @param Request $request property_id |category_id
-     * @param int $id
+     * @param int $id\
+     * call sendAnnouncementNotification to send notification
      */
     public function update(Request $request, $id)
     {
@@ -186,11 +197,47 @@ class AnnouncementController
 
             $validated['user_id'] = Auth::id();
             $announcement->update($validated);
+
+            /**
+             * Send Notification starting  here
+             */
+            $this->sendAnnouncementNotification($announcement);
+            $announcement->unsetRelations();
+            /**
+             * notification end here
+             */
             return Helper::jsonResponse(true, 'Announcement updated successfully.', 200, $announcement);
         } catch (Exception $e) {
             return Helper::jsonResponse(false, 'Announcement update failed.', 500, [
                 'error' => $e->getMessage(),
             ]);
+        }
+    }
+
+    /**
+     * Extracted Notification Logic for Announcements.
+     * @param mixed $announcement || send notification || send_to -> all_resident , individual selected_resident_id
+     */
+    private function sendAnnouncementNotification($announcement)
+    {
+        if ($announcement->status === 'published') {
+            $recipients = collect();
+            // Determine recipients based on send_to
+            if ($announcement->send_to === 'all_resident') {
+                $owner = $announcement->property->user; // Property owner
+                if ($owner && $owner->reffer_code) {
+                    // Get all residents with matching invitation_code
+                    $residents  = User::where('invitation_code', $owner->reffer_code)->get();
+                    $recipients = $recipients->merge($residents);
+                    $recipients->push($owner); // Include the property owner
+                }
+            } elseif ($announcement->send_to === 'individual' && ! empty($announcement->selected_resident_id)) {
+                $recipients = User::whereIn('id', $announcement->selected_resident_id)->get(); //only selected residents
+            }
+            $finalRecipients = $recipients->unique('id'); // Remove duplicate users
+            if ($finalRecipients->isNotEmpty()) {
+                \Illuminate\Support\Facades\Notification::send($finalRecipients, new AnnouncementNotification($announcement));
+            }
         }
     }
 
