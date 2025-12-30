@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Property;
 
 use App\Helpers\Helper;
 use App\Models\Resident;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -92,8 +93,25 @@ class ResidentController
             // Create Resident
             $resident = Resident::create($validated);
 
+            /**
+             *User create automatically for resident role
+             *Check if user already exists with the same phone number
+             */
+            $existingUser = User::where('phone', $validated['phone'])->first();
+            if ($existingUser) {
+                return Helper::jsonResponse(false, 'Phone number already exists.', 422);
+            }
+            User::create([
+                'name'            => $validated['name'] ?? null,
+                'phone'           => $validated['phone'] ?? null,
+                'address'         => $validated['address'] ?? null,
+                'role'            => 'resident',
+                'invitation_code' => Auth::user()->reffer_code,
+            ]);
+            //phone number a invitation SMS logic can be added here if needed .
+
             return Helper::jsonResponse(true, 'Resident created successfully.', 201, $resident);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return Helper::jsonResponse(false, 'Resident creation failed', 500, [
                 'error' => $e->getMessage(),
             ]);
@@ -205,9 +223,6 @@ class ResidentController
             ]);
         }
     }
-
-
-
 
     /***
      * Delete a specific Resident and its associated documents.

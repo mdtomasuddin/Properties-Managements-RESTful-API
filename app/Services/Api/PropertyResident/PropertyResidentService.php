@@ -1,11 +1,11 @@
 <?php
-
 namespace App\Services\Api\PropertyResident;
 
 use App\Helpers\Helper;
 use App\Models\FinancialAccount;
 use App\Models\Property;
 use App\Models\Resident;
+use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -151,6 +151,23 @@ class PropertyResidentService
             ];
 
             $resident = Resident::create($residentData);
+
+            /**
+             *Create corresponding User for Resident
+             *Check if user already exists with the same phone number
+             */
+            $existingUser = User::where('phone', $validated['phone'])->first();
+            if ($existingUser) {
+                return Helper::jsonResponse(false, 'Phone number already exists.', 422);
+            }
+            User::create([
+                'name'            => $validated['name'] ?? null,
+                'phone'           => $validated['phone'] ?? null,
+                'address'         => $validated['address'] ?? null,
+                'role'            => 'resident',
+                'invitation_code' => Auth::user()->reffer_code,
+            ]);
+            //phone number a invitation SMS logic can be added here if needed .
 
             return [
                 'success' => true,
