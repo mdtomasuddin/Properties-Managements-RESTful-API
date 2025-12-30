@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\Property\Announcement\AnnouncementController;
 use App\Http\Controllers\Api\Property\Document\DocumentController;
 use App\Http\Controllers\Api\Property\PropertyController;
 use App\Http\Controllers\Api\Property\ResidentController;
+use App\Http\Controllers\Api\V1\Plan\PlanController;
 use Illuminate\Support\Facades\Route;
 
 Route::apiResource('property', PropertyController::class);                  //CRUD
@@ -17,3 +18,4 @@ Route::apiResource('payment-request', PaymentRequestController::class); //C
 
 //get residents by property
 Route::get('property-by-resident/{id}', [PropertyController::class, 'getResidentsByProperty']);
+Route::apiResource('plans', PlanController::class);// plans get.
