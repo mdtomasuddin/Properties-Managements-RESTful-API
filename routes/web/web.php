@@ -19,9 +19,8 @@ require 'v1/settings/mail.php';
 Route::resource('faq', FaqController::class)->parameters(['faq' => 'id']);
 Route::get('faq-status/{id}', [FaqController::class, 'status'])->name('faq.status');
 
-
-//subscription plan manage admin dashbaord.
-Route::prefix('subscription-plans')->name('subscription-plan.')->group(function () {
+//subscription plan routes
+Route::prefix('plan')->name('plan.')->group(function () {
     Route::get('/', [PlanController::class, 'index'])->name('index');
     Route::patch('/{plan}', [PlanController::class, 'update'])->name('update');
     Route::post('/{plan}/toggle-status', [PlanController::class, 'toggleStatus'])->name('toggle-status');

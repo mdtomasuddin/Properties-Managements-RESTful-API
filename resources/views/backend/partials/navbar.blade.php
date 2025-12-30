@@ -29,6 +29,13 @@
                         <i data-feather="mail" class="nav-icon me-2 icon-xxs"></i> Email Setting
                     </a>
                 </li>
+
+                {{-- pricing & plan   --}}
+                <li class="nav-item">
+                    <a class="nav-link {{ Route::is('plan.index') ? 'active' : '' }}" href="{{ route('plan.index') }}">
+                        <i data-feather="credit-card" class="nav-icon me-2 icon-xxs"></i> Subscription Plans
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

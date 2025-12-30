@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -18,6 +19,7 @@ class DatabaseSeeder extends Seeder
             PropertySeeder::class,
             CategorySeeder::class, //live time use
             DocumentSeeder::class,
+            PlanSeeder::class,
         ]);
     }
 }
