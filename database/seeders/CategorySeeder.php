@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Seeders;
 
 use App\Models\Category;
@@ -190,6 +191,35 @@ class CategorySeeder extends Seeder
                 'type'    => 'cleaning',
                 'section' => 'payment',
             ],
+
+            /**
+             * Security Contact Section
+             * Security Contact 4 category.
+             */
+            [
+                'user_id' => 1,
+                'name'    => '24/7 Security Desk',
+                'type'    => '24/7_security_desk',
+                'section' => 'security_contact',
+            ],
+            [
+                'user_id' => 1,
+                'name'    => 'Emergency Response Team',
+                'type'    => 'emergency_response_team',
+                'section' => 'security_contact',
+            ],
+            [
+                'user_id' => 1,
+                'name'    => '24/7 Security Desk (Alt)',
+                'type'    => '24/7_security_desk_alt',
+                'section' => 'security_contact',
+            ],
+            [
+                'user_id' => 1,
+                'name'    => 'CCTV Surveillance',
+                'type'    => 'cctv_surveillance',
+                'section' => 'security_contact',
+            ]
 
         ];
 

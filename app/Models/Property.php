@@ -90,4 +90,8 @@ class Property extends Model
     {
         return $this->hasMany(Resident::class);
     }
+    public function securityContacts()
+    {
+        return $this->hasMany(SecurityContact::class);
+    }
 }

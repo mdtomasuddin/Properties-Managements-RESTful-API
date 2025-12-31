@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('icon')->nullable();
             $table->string('type')->nullable();
-            $table->enum('section', ['payment', 'emergency', 'maintenance', 'announcement', 'document'])->nullable();
+            $table->enum('section', ['payment', 'emergency', 'maintenance', 'announcement', 'document','security_contact'])->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
             $table->softDeletes();
