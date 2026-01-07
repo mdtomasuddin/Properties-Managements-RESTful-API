@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class ResidentSeeder extends Seeder
 {
@@ -12,6 +14,30 @@ class ResidentSeeder extends Seeder
      */
     public function run(): void
     {
-        
+        DB::table('residents')->insert([
+            [
+                'user_id'              => 3, 
+                'property_id'          => 1,
+                'unit_flat_number'     => '1A',
+                'name'                 => 'Resident 1',
+                'phone'                => '01822221111',
+                'email'                => 'resident1@example.com',
+                'address'              => 'Dhaka, Bangladesh',
+                'payment_frequency'    => 'monthly',
+                'auto_rent_reminder'   => true,
+                'monthly_rent'         => 1000.00,
+                'fixed_monthly_recurring_cost' => 50.00,
+                'due_amount'           => 0.00,
+                'advance_paid_amount'  => 500.00,
+                'start_date'           => Carbon::now()->toDateString(),
+                'end_date'             => Carbon::now()->addYear()->toDateString(),
+                'agreement_file'       => json_encode([]),
+                'tenant_file'          => json_encode([]),
+                'sms_invitation'       => 'Welcome to your new home! Your rent is due monthly.',
+                'status'               => 'active',
+                'created_at'           => now(),
+                'updated_at'           => now(),
+            ],
+        ]);
     }
 }

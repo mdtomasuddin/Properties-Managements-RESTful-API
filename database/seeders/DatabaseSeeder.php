@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class, //live time use
             DocumentSeeder::class,
             PlanSeeder::class,
+            ResidentSeeder::class,
         ]);
     }
 }
