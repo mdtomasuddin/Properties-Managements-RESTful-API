@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Api\V1\Property\PaymentReminder;
 
 use App\Helpers\Helper;
@@ -13,8 +12,40 @@ class PaymentReminderController
 {
 
     /**
+     * This method retrieves PaymentReminder.
+     * The number of PaymentReminder `per_page` query parameter defult ===100.
+     * @param Request $request
+     */
+    public function index(Request $request)
+    {
+        try {
+            $perPage    = $request->query('per_page', 100);
+            $propertyId = $request->query('property_id');
+            $status     = $request->query('status');
+
+            $query = PaymentReminder::with(['property:id,property_name'])->where('user_id', Auth::id());
+            //property
+            if (! empty($propertyId)) {
+                $query->where('property_id', $propertyId);
+            }
+
+            //  status filter
+            if (! empty($status)) {
+                $query->where('status', $status);
+            }
+
+            $data = $query->paginate($perPage);
+            return Helper::jsonResponse(true, 'Data retrieved successfully.', 200, $data);
+        } catch (Exception $e) {
+            return Helper::jsonResponse(false, 'Failed to retrieve Data.', 500, [
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    /**
      * Store a new PaymentReminder with a single file.
-     * This method validates the handles Payment Request uploads, and creates a new PaymentReminder.
+     * This method validates the handles Data uploads, and creates a new PaymentReminder.
      * @param Request $request || store
      */
     public function store(Request $request)
@@ -23,7 +54,7 @@ class PaymentReminderController
             // Validate request
             $validator = Validator::make($request->all(), [
                 'property_id'                => 'required|exists:properties,id',
-                'resident_id' => 'nullable|exists:residents,id',
+                'resident_id'                => 'nullable|exists:residents,id',
                 'auto_reminders'             => 'sometimes|boolean',
                 'start_reminder_days_before' => 'required_if:auto_reminders,true|integer|min:1|max:31',
                 'manual_reminder_date'       => 'nullable|date|after_or_equal:today',

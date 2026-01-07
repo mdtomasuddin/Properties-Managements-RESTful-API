@@ -8,7 +8,7 @@ class PaymentReminder extends Model
 {
     protected $guarded = [];
 
-    protected $hidden = ['updated_at', 'deleted_at'];
+    protected $hidden = ['updated_at', 'deleted_at', 'status', 'resident_id', 'user_id'];
 
     protected $casts = [
         'id'                       => 'integer',
