@@ -16,7 +16,7 @@ class PaymentRequest extends Model
         'property_id'          => 'integer',
         'category_id'          => 'integer',
         'send_to'              => 'string',
-        'selected_resident_id' => 'array',
+        'resident_id'          => 'integer',
         'attachments'          => 'array',
         'amount'               => 'decimal:2',
         'description'          => 'string',
