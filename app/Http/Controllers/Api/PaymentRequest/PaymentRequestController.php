@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\PaymentRequest;
 
 use App\Helpers\Helper;
 use App\Models\PaymentRequest;
+use App\Models\Property;
 use App\Models\User;
 use App\Notifications\PaymentRequestNotification;
 use Exception;
@@ -61,17 +62,18 @@ class PaymentRequestController
     public function store(Request $request)
     {
         try {
-            // Validate request
             $validator = Validator::make($request->all(), [
-                'property_id'          => 'required|exists:properties,id',
-                'category_id'          => 'required|exists:categories,id',
-                'send_to'              => 'required|in:individual,all_resident',
-                'selected_resident_id' => 'nullable|array',
-                'amount'               => 'required',
-                'attachments'          => 'nullable|array',
-                'description'          => 'nullable|string|max:5000',
-                'due_date'             => 'nullable|date|after_or_equal:today',
-                'status'               => 'nullable|in:draft,sent,partially_paid,paid,cancelled,active,inactive',
+                'property_id'            => 'required|exists:properties,id',
+                'category_id'            => 'required|exists:categories,id',
+                'send_to'                => 'required|in:individual,all_resident',
+                'selected_resident_id'   => 'required_if:send_to,individual|array',
+                'selected_resident_id.*' => 'exists:users,id',
+                'amount'                 => 'required|numeric|min:0.01',
+                'attachments'            => 'nullable|array',
+                'attachments.*'          => 'file|mimes:png,jpg,jpeg,gif,pdf|max:10240',
+                'description'            => 'nullable|string|max:5000',
+                'due_date'               => 'nullable|date|after_or_equal:today',
+                'status'                 => 'nullable|string|in:paid,due,cancelled,draft,sent,partially_paid',
             ]);
 
             // return the first error
@@ -89,20 +91,38 @@ class PaymentRequestController
                 }
             }
 
-            $validated['attachments'] = $files;
-            $validated['user_id']     = Auth::id();
-            $paymentRequest           = PaymentRequest::create($validated);
+            //Identify Target Residents
+            $targetUserIds = [];
+            if ($validated['send_to'] === 'all_resident') {
+                $property      = Property::with('user')->findOrFail($validated['property_id']);
+                $ownerId       = $property->user->reffer_code;
+                $targetUserIds = User::where('invitation_code', $ownerId)->pluck('id')->toArray();
+            } else {
+                $targetUserIds = $validated['selected_resident_id'];
+            }
 
-            // Send Notification START
-            $this->sendPaymentRequestNotification($paymentRequest);
-            $paymentRequest->unsetRelations();
-            // Send Notification END
-
-            return Helper::jsonResponse(true, 'Payment request created successfully.', 201, $paymentRequest);
+            //create payment request
+            $createdRequests = [];
+            foreach ($targetUserIds as $userId) {
+                $paymentRequest = PaymentRequest::create([
+                    'user_id'     => Auth::id(),
+                    'property_id' => $validated['property_id'],
+                    'category_id' => $validated['category_id'],
+                    'resident_id' => $userId,
+                    'amount'      => $validated['amount'],
+                    'send_to'     => $validated['send_to'],
+                    'description' => $validated['description'] ?? null,
+                    'due_date'    => $validated['due_date'] ?? null,
+                    'status'      => $validated['status'] ?? 'due',
+                    'attachments' => $files,
+                ]);
+                $this->sendPaymentRequestNotification($paymentRequest);
+                $createdRequests[] = $paymentRequest;
+                $paymentRequest->unsetRelations();
+            }
+            return Helper::jsonResponse(true, 'Payment requests created successfully.', 201, $createdRequests);
         } catch (Exception $e) {
-            return Helper::jsonResponse(false, 'Payment request creation failed.', 500, [
-                'error' => $e->getMessage(),
-            ]);
+            return Helper::jsonResponse(false, 'Creation failed: ' . $e->getMessage(), 500);
         }
     }
 
@@ -112,22 +132,9 @@ class PaymentRequestController
      */
     private function sendPaymentRequestNotification($paymentRequest)
     {
-        $recipients = collect();
-        // Determine recipients based on send_to
-        if ($paymentRequest->send_to === 'all_resident') {
-            $owner = $paymentRequest->property->user; // Property owner
-            if ($owner && $owner->reffer_code) {
-                // Get all residents with matching invitation_code
-                $residents  = User::where('invitation_code', $owner->reffer_code)->get();
-                $recipients = $recipients->merge($residents);
-                $recipients->push($owner); // Include the property owner
-            }
-        } elseif ($paymentRequest->send_to === 'individual' && ! empty($paymentRequest->selected_resident_id)) {
-            $recipients = User::whereIn('id', $paymentRequest->selected_resident_id)->get(); //only selected residents
-        }
-        $finalRecipients = $recipients->unique('id'); // Remove duplicate users
-        if ($finalRecipients->isNotEmpty()) {
-            \Illuminate\Support\Facades\Notification::send($finalRecipients, new PaymentRequestNotification($paymentRequest));
+        $resident = User::find($paymentRequest->resident_id);
+        if ($resident) {
+            $resident->notify(new PaymentRequestNotification($paymentRequest));
         }
     }
 }
