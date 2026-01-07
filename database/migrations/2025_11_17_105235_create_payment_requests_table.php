@@ -22,7 +22,7 @@ return new class extends Migration
             $table->json('attachments')->nullable();
             $table->text('description')->nullable();
             $table->date('due_date')->nullable();
-            $table->enum('status', ['paid', 'due', 'cancelled', 'draft', 'sent', 'partially_paid', 'active', 'inactive'])->default('sent');
+            $table->enum('status', ['paid', 'due', 'cancelled', 'draft', 'sent', 'partially_paid', 'active', 'inactive'])->default('due');
             $table->timestamps();
             $table->softDeletes();
         });
