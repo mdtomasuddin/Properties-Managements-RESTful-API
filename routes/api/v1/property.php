@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\Property\Document\DocumentController;
 use App\Http\Controllers\Api\Property\PropertyController;
 use App\Http\Controllers\Api\Property\ResidentController;
 use App\Http\Controllers\Api\V1\Plan\PlanController;
+use App\Http\Controllers\Api\V1\Property\PaymentReminder\PaymentReminderController;
 use App\Http\Controllers\Api\V1\Property\SecurityContact\SecurityContactController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,4 +21,5 @@ Route::apiResource('payment-request', PaymentRequestController::class); //C
 //get residents by property
 Route::get('property-by-resident/{id}', [PropertyController::class, 'getResidentsByProperty']);
 Route::apiResource('plans', PlanController::class); // plans get.
-Route::apiResource('security-contact', SecurityContactController::class);//security contact CRUD
+Route::apiResource('security-contact', SecurityContactController::class); //security contact CRUD
+Route::apiResource('payment-reminder', PaymentReminderController::class); //payment reminder

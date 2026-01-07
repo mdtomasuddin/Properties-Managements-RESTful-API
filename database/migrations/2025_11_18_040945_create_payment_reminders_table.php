@@ -13,17 +13,19 @@ return new class extends Migration
     {
         Schema::create('payment_reminders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
-            $table->foreignId('resident_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('property_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('resident_id')->nullable()->constrained()->onDelete('set null');
             $table->boolean('auto_reminders')->default(false);
             $table->integer('start_reminder_days_before')->nullable();
             $table->date('manual_reminder_date')->nullable();
             $table->text('reminder_note')->nullable();
             $table->boolean('late_payment_fines')->default(false);
-            $table->enum('reminder_schedule', ['first_reminder', 'due_date_reminder', 'overdue_notice'])->nullable();
-            $table->boolean('is_active')->default(true);
-            $table->enum('status', ['active', 'resolved', 'cancelled'])->default('active');
+            $table->decimal('late_payment_fines_amount', 10, 2)->default(0);
+            $table->boolean('first_reminder_active')->default(false);
+            $table->boolean('due_date_reminder_active')->default(false);
+            $table->boolean('overdue_notice_active')->default(false);
+            $table->enum('status', ['active', 'inactive', 'partially_paid', 'paid', 'partially_refunded', 'refunded', 'cancelled'])->default('active');
             $table->timestamps();
         });
     }
