@@ -10,29 +10,15 @@ class PaymentPaymentRequest extends Model
 
     protected $guarded = [];
 
-    protected $hidden = ['updated_at', 'deleted_at'];
+    protected $hidden = ['updated_at'];
 
-    protected $casts = [
-        'id'                 => 'integer',
-        'user_id'            => 'integer',
-        'payment_id'         => 'integer',
-        'property_id'        => 'integer',
-        'payment_request_id' => 'integer',
-        'created_at'         => 'datetime',
-        'updated_at'         => 'datetime',
-    ];
-
-
-    /**
-     * Relationship with  (assuming a many-to-many relation)
-     */
-    public function property()
+    public function paymentRequest()
     {
-        return $this->belongsTo(Property::class);
+        return $this->belongsTo(PaymentRequest::class);
     }
 
-    public function user()
+    public function payment()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Payment::class);
     }
 }

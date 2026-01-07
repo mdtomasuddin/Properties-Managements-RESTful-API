@@ -11,21 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payment_payment_requests', function (Blueprint $table) {
+        Schema::create('payment_payment_request', function (Blueprint $table) {
             $table->id();
             $table->foreignId('payment_id')->constrained()->onDelete('cascade');
             $table->foreignId('payment_request_id')->constrained()->onDelete('cascade');
-            $table->decimal('amount_paid', 10, 2)->nullable();
-            $table->enum('status', ['partially_paid', 'paid', 'partially_refunded', 'refunded'])->default('paid');
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('payment_payment_requests');
+        Schema::dropIfExists('payment_payment_request');
     }
 };
