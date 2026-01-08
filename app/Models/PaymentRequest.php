@@ -69,4 +69,8 @@ class PaymentRequest extends Model
     {
         return $this->belongsToMany(Resident::class);
     }
+    public function payments()
+    {
+        return $this->hasMany(PaymentPaymentRequest::class);
+    }
 }

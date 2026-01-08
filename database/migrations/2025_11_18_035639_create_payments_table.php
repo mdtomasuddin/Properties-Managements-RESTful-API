@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('property_id')->constrained()->onDelete('cascade');
-            $table->json('payment_items')->nullable();
             $table->decimal('total_amount', 10, 2)->nullable();
+            $table->string('invoice_number')->nullable();
             $table->date('payment_date')->nullable();
             $table->enum('payment_method', ['cash', 'online'])->nullable();
             // Bank details.
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('bank_name')->nullable();
             $table->string('branch_name')->nullable();
             $table->string('swift_code')->nullable();
-            $table->enum('status', ['draft', 'sent', 'partially_paid', 'paid', 'cancelled', 'active', 'inactive'])->default('sent');
+            $table->enum('status', ['paid', 'unpaid', 'pending', 'due', 'overdue', 'cancelled', 'refunded'])->default('pending');
             $table->timestamps();
             $table->softDeletes();
         });

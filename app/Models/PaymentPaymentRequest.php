@@ -10,11 +10,12 @@ class PaymentPaymentRequest extends Model
 
     protected $guarded = [];
 
-    protected $hidden = ['updated_at'];
+    protected $hidden = ['updated_at', 'created_at'];
 
-    public function paymentRequest()
+
+    public function payment_request()
     {
-        return $this->belongsTo(PaymentRequest::class);
+        return $this->belongsTo(PaymentRequest::class, 'payment_request_id');
     }
 
     public function payment()

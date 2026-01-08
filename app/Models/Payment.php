@@ -9,6 +9,9 @@ class Payment extends Model
 
     protected $guarded = [];
 
+
+    protected $hidden = ['updated_at', 'deleted_at'];
+
     protected $casts = [
         'id'                 => 'integer',
         'user_id'            => 'integer',
@@ -51,5 +54,14 @@ class Payment extends Model
     public function residents()
     {
         return $this->belongsToMany(Resident::class);
+    }
+    public function paymentRequests()
+    {
+        return $this->hasMany(PaymentPaymentRequest::class);
+    }
+
+    public function payment_payment_requests()
+    {
+        return $this->hasMany(PaymentPaymentRequest::class);
     }
 }

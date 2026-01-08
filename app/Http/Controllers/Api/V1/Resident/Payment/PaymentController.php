@@ -8,6 +8,7 @@ use App\Models\PaymentPaymentRequest;
 use App\Models\PaymentRequest;
 use App\Models\Property;
 use App\Notifications\PaymentSendNotification;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -15,6 +16,40 @@ use Illuminate\Support\Facades\Validator;
 
 class PaymentController
 {
+    /**
+     * This method retrieves Payment.
+     * The number of Payment `per_page` query parameter defult === 50.
+     * @param Request $request
+     */
+    public function index(Request $request)
+    {
+        try {
+            $perPage = $request->query('per_page', 50);
+            $status  = $request->query('status');
+            // query to get data
+            $query = Payment::with([
+                'property:id,property_name,user_id',
+                'property.user:id,name,email,phone',
+                'user:id,name,email,phone',
+                'payment_payment_requests.payment_request' => function ($query) {
+                    $query->select('id', 'category_id', 'amount');
+                },
+                'payment_payment_requests.payment_request.category:id,name',
+            ])->where('user_id', Auth::id());
+
+            // Filter by status
+            if (! empty($status)) {
+                $query->where('status', $status);
+            }
+            $data = $query->latest()->paginate($perPage);
+            return Helper::jsonResponse(true, 'Data retrieved successfully.', 200, $data);
+        } catch (Exception $e) {
+            return Helper::jsonResponse(false, 'Failed to retrieve data.', 500, [
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
     /**
      * Store a newly created resource in storage.
      * payment all due  and paymentrequest status update.
@@ -50,6 +85,7 @@ class PaymentController
                 'user_id'        => Auth::id(),
                 'property_id'    => $request->property_id,
                 'total_amount'   => $paymentRequests->sum('amount'),
+                'invoice_number' => 'INV-' . date('Y') . '-' . date('m') . '-' . date('d') . '-' . str_pad(Payment::whereYear('created_at', date('Y'))->count() + 1, 3, '0', STR_PAD_LEFT),
                 'payment_date'   => now(),
                 'payment_method' => $request->payment_method,
                 'account_name'   => $request->account_name,
