@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -67,5 +68,11 @@ class Resident extends Model
     public function property()
     {
         return $this->belongsTo(Property::class);
+    }
+
+    //phone  and user table phone mass korle oi user a data get korbe
+    public function resientUser()
+    {
+        return $this->belongsTo(User::class, 'phone', 'phone');
     }
 }

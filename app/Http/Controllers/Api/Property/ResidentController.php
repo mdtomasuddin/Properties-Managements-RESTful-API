@@ -13,20 +13,34 @@ use Illuminate\Support\Facades\Validator;
 class ResidentController
 {
     /**
-     * Retrieve a paginated list of Resident.
-     * This method retrieves Resident.
-     * The number of Resident `per_page` query parameter defult ===100.
+     * Display a listing of the resource.
+     * The number of Resident `per_page` query parameter defult ===50.
      * @param Request $request
      */
     public function index(Request $request)
     {
         try {
-            $perPage = $request->query('per_page', 100);
-            $data    = Resident::where('user_id', Auth::user()->id)->paginate($perPage); //get
+            $propertyId = $request->query('property_id');
+            $userId     = Auth::id();
+            $perPage    = $request->query('per_page', 50);
+            $search     = $request->query('search');
 
-            return Helper::jsonResponse(true, 'Resident retrieved successfully.', 200, $data);
+            $query = Resident::with('resientUser:id,name,phone,email,avatar,address')
+                ->select(['id', 'property_id', 'phone', 'unit_flat_number', 'monthly_rent', 'payment_frequency'])
+                ->where('property_id', $propertyId)->where('user_id', $userId);
+
+            //search  name or phone
+            if (! empty($search)) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'LIKE', "%{$search}%")
+                        ->orWhere('phone', 'LIKE', "%{$search}%");
+                });
+            }
+
+            $data = $query->paginate($perPage);
+            return Helper::jsonResponse(true, 'Data retrieved successfully.', 200, $data, true);
         } catch (Exception $e) {
-            return Helper::jsonResponse(false, 'Failed to retrieve Resident.', 500, [
+            return Helper::jsonResponse(false, 'Failed to retrieve data.', 500, [
                 'error' => $e->getMessage(),
             ]);
         }
