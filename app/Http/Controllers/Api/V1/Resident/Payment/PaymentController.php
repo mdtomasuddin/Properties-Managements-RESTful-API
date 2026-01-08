@@ -9,6 +9,7 @@ use App\Models\PaymentRequest;
 use App\Models\Property;
 use App\Notifications\PaymentSendNotification;
 use Exception;
+use function Symfony\Component\String\s;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -120,6 +121,67 @@ class PaymentController
         } catch (\Exception $e) {
             DB::rollBack();
             return Helper::jsonResponse(false, 'Payment failed: ' . $e->getMessage(), 500);
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     * @return \Illuminate\Http\Response
+     * Property payment requests list only Authenticated Resident.
+     */
+    public function show($id)
+    {
+        try {
+            $payment = Payment::with([
+                'property:id,property_name,user_id',
+                'property.user:id,name,email,phone',
+                'user:id,name,email,phone',
+                'payment_payment_requests.payment_request' => function ($query) {
+                    $query->select('id', 'category_id', 'amount');
+                },
+                'payment_payment_requests.payment_request.category:id,name',
+            ])->where('user_id', Auth::id())->find($id);
+
+            if (! $payment) {
+                return Helper::jsonResponse(false, 'Payment record not found.', 404);
+            }
+
+            //Build Response
+            $data = [
+                'invoice'           => [
+                    'invoice_number' => (string) $payment->invoice_number,
+                    'issue_date'     => $payment->created_at->format('Y-m-d'),
+                    'billing_period' => $payment->created_at->format('F Y'),
+                    'status'         => (string) $payment->status ?? 'N/A',
+                ],
+                'resident'          => [
+                    'name'  => (string) $payment->user->name ?? 'N/A',
+                    'email' => (string) $payment->user->email ?? 'N/A',
+                    'phone' => (string) $payment->user->phone ?? 'N/A',
+                ],
+                'property'          => [
+                    'property_name' => (string) $payment->property->property_name ?? 'N/A',
+                    'name'          => (string) $payment->property->user->name ?? 'N/A',
+                    'phone'         => (string) $payment->property->user->phone ?? 'N/A',
+                ],
+                'payment_breakdown' => $payment->payment_payment_requests->map(function ($pivot) {
+                    return [
+                        'category' => (string) $pivot->payment_request->category->name ?? 'General',
+                        'amount'   => (int) $pivot->payment_request->amount,
+                    ];
+                }),
+                'total_amount'      => (int) $payment->total_amount,
+                'payment_detail'    => [
+                    'payment_method' => (string) $payment->payment_method,
+                    'payment_date'   => $payment->payment_date ? $payment->payment_date->format('Y-m-d') : 'N/A',
+                ],
+            ];
+
+            return Helper::jsonResponse(true, 'Data retrieved successfully.', 200, $data);
+        } catch (Exception $e) {
+            return Helper::jsonResponse(false, 'Failed to retrieve data.', 500, [
+                'error' => $e->getMessage(),
+            ]);
         }
     }
 }
