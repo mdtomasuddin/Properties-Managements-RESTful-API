@@ -9,4 +9,5 @@ use Illuminate\Support\Facades\Route;
 Route::apiResource('maintenance', MaintenanceController::class); //only create & list
 Route::apiResource('neighbor', NeighborController::class);
 Route::apiResource('total-due', TotalDueController::class);
-Route::apiResource('payments', PaymentController::class);  //payment all due & payment 
+Route::get('/due-invoice/{id}', [TotalDueController::class, 'DueInvoice']); //due invoice
+Route::apiResource('payments', PaymentController::class);                   //payment all due & payment
