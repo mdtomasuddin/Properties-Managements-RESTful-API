@@ -6,6 +6,8 @@ use App\Helpers\Helper;
 use App\Models\Payment;
 use App\Models\PaymentPaymentRequest;
 use App\Models\PaymentRequest;
+use App\Models\Property;
+use App\Notifications\PaymentSendNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -69,6 +71,15 @@ class PaymentController
             // Update Statuses in one query
             PaymentRequest::whereIn('id', $paymentRequests->pluck('id'))->update(['status' => 'paid']);
             DB::commit();
+
+            // push notification starting------------------>
+            $property = Property::with('user')->find($request->property_id);
+            if ($property && $property->user) {
+                $property->user->notify(new PaymentSendNotification($payment));
+            }
+            $payment->unsetRelations();
+            // push notification ending------------------>
+
             return Helper::jsonResponse(true, 'Payment processed successfully.', 201, $payment);
         } catch (\Exception $e) {
             DB::rollBack();
