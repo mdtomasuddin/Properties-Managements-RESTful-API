@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\V1\User\ProfileInfoController;
 use App\Http\Controllers\Web\V1\User\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -8,3 +9,6 @@ Route::prefix('/admin/user')->name('admin.user.')->middleware('auth')->controlle
     Route::get('/{user:handle}', 'show')->name('show');
     Route::get('/status/{user:handle}', 'status')->name('status');
 });
+
+
+Route::resource('profile', ProfileInfoController::class)->parameters(['profile' => 'id'])->middleware('auth');
