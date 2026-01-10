@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Property;
 
 use App\Helpers\Helper;
+use App\Models\Payment;
 use App\Models\Resident;
 use App\Models\User;
 use Exception;
@@ -140,22 +141,33 @@ class ResidentController
     public function show($id)
     {
         try {
-            $data = Resident::where('user_id', Auth::user()->id)->find($id);
+            //Fatch resident user data
+            $data = Resident::with('resientUser:id,name,phone,email,avatar,address')
+                ->select(['id', 'property_id', 'phone', 'unit_flat_number', 'monthly_rent', 'payment_frequency', 'tenant_file', 'agreement_file'])->find($id);
+
             if (! $data) {
-                return Helper::jsonResponse(false, 'Resident Not Found.', 404);
+                return Helper::jsonResponse(false, 'Resident Not Found', 404);
             }
-            return Helper::jsonResponse(true, 'Resident details retrieved successfully.', 200, $data);
+            //get payment history
+            $paymentHistory = Payment::select('id', 'user_id', 'invoice_number', 'total_amount', 'payment_date')->where('user_id', $data->resientUser->id ?? null)->latest()->get();
+
+            //build response
+            $data = [
+                'resident'        => $data,
+                'payment_history' => $paymentHistory,
+            ];
+            return Helper::jsonResponse(true, 'Data retrieved successfully', 200, $data);
         } catch (Exception $e) {
-            return Helper::jsonResponse(false, 'Failed to retrieve Resident details', 404, [
+            return Helper::jsonResponse(false, 'Failed to retrieve data', 500, [
                 'error' => $e->getMessage(),
             ]);
         }
     }
 
     /**
-     * Update an existing Resident.
+     * Update an existing Resident
      * This method validates the incoming update request,
-     * handles document uploads (if Resident are provided), and updates.
+     * handles document uploads (if Resident are provided), and updates
      * @param Request $request
      * @param int $id
      */
