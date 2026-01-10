@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services\Api\PropertyResident;
 
 use App\Helpers\Helper;
@@ -92,6 +93,7 @@ class PropertyResidentService
                 'phone'                        => 'required|max:20',
                 'address'                      => 'nullable|string|max:500',
                 'payment_frequency'            => 'required|in:monthly,quarterly,yearly',
+                'payment_deadline'             => 'nullable|date|after_or_equal:start_date',
                 'auto_rent_reminder'           => 'boolean',
                 'monthly_rent'                 => 'required|numeric|min:1|max:5000000',
                 'fixed_monthly_recurring_cost' => 'nullable|numeric|min:0|max:5000000',
@@ -138,6 +140,7 @@ class PropertyResidentService
                 'phone'                        => $validated['phone'] ?? null,
                 'address'                      => $validated['address'] ?? null,
                 'payment_frequency'            => $validated['payment_frequency'] ?? null,
+                'payment_deadline'             => $validated['payment_deadline'] ?? null,
                 'auto_rent_reminder'           => $validated['auto_rent_reminder'] ?? false,
                 'monthly_rent'                 => $validated['monthly_rent'] ?? 0,
                 'fixed_monthly_recurring_cost' => $validated['fixed_monthly_recurring_cost'] ?? 0,

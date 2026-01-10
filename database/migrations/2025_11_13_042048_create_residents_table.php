@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('address')->nullable();
             $table->enum('payment_frequency', ['monthly', 'quarterly', 'yearly'])->default('monthly');
+            $table->date('payment_deadline')->nullable();
             $table->boolean('auto_rent_reminder')->default(false);
             //next page
             $table->decimal('monthly_rent', 10, 2)->nullable();
