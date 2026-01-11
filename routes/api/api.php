@@ -4,6 +4,8 @@ use App\Http\Controllers\Api\Faq\FaqController;
 use App\Http\Controllers\Api\V1\Firebase\FirebaseTokenController;
 use App\Http\Controllers\Api\V1\Messaging\MessageController;
 use App\Http\Controllers\Api\V1\Notification\NotificationController;
+use App\Http\Controllers\Api\V1\payment\PaymentController;
+use App\Http\Controllers\Api\V1\SSLCommerz\SSLCommerzPaymentController;
 use Illuminate\Support\Facades\Route;
 
 /**
@@ -42,3 +44,12 @@ Route::middleware(['auth:api'])->group(function () {
 Route::post("firebase/token/add", [FirebaseTokenController::class, "store"]);
 Route::post("firebase/token/get", [FirebaseTokenController::class, "getToken"]);
 Route::post("firebase/token/delete", [FirebaseTokenController::class, "deleteToken"]);
+
+
+
+// SSLCommerz routes API (Postman)
+Route::get('/payment/create', [SSLCommerzPaymentController::class, 'PaymentCreate'])->name('payment.create')->middleware('auth:api');
+Route::post('/payment/success', [SSLCommerzPaymentController::class, 'PaymentSuccess'])->name('payment.success');
+Route::post('/payment/fail', [SSLCommerzPaymentController::class, 'PaymentFail'])->name('payment.fail');
+Route::post('/payment/cancel', [SSLCommerzPaymentController::class, 'PaymentCancel'])->name('payment.cancel');
+Route::post('/payment/ipn', [SSLCommerzPaymentController::class, 'PaymentIPN'])->name('payment.ipn');

@@ -42,7 +42,7 @@ use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
-        channels: __DIR__.'/../routes/channels.php',
+        channels: __DIR__ . '/../routes/channels.php',
         web: __DIR__ . '/../routes/web/web.php',
         api: __DIR__ . '/../routes/api/api.php',
         commands: __DIR__ . '/../routes/console.php',
@@ -57,6 +57,10 @@ return Application::configure(basePath: dirname(__DIR__))
         // }
     )
     ->withMiddleware(function (Middleware $middleware) {
+        $middleware->validateCsrfTokens(except: [
+            'api/payment/*',
+        ]);
+
         $middleware->alias([
             'guest.api'      => EnsureGuestJwt::class,          // only for guest users
             'verified.api'   => IsVerifyed::class,              // is user verified
