@@ -143,20 +143,12 @@ class ResidentController
     {
         try {
             //Fatch resident user data
-            $data = Resident::with('resientUser:id,name,phone,email,avatar,address')
-                ->select(['id', 'property_id', 'phone', 'unit_flat_number', 'monthly_rent', 'payment_frequency', 'tenant_file', 'agreement_file'])->find($id);
+            $data = Resident::where('status', 'active')->find($id);
 
             if (! $data) {
                 return Helper::jsonResponse(false, 'Resident Not Found', 404);
             }
-            //get payment history
-            $paymentHistory = Payment::select('id', 'user_id', 'invoice_number', 'total_amount', 'payment_date')->where('user_id', $data->resientUser->id ?? null)->latest()->get();
 
-            //build response
-            $data = [
-                'resident'        => $data,
-                'payment_history' => $paymentHistory,
-            ];
             return Helper::jsonResponse(true, 'Data retrieved successfully', 200, $data);
         } catch (Exception $e) {
             return Helper::jsonResponse(false, 'Failed to retrieve data', 500, [
@@ -285,6 +277,33 @@ class ResidentController
             return Helper::jsonResponse(true, 'Resident deleted successfully.', 200);
         } catch (\Exception $e) {
             return Helper::jsonResponse(false, 'Resident deletion failed.', 500, [
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    //
+    public function resientPaymentDetails($id)
+    {
+        try {
+            //Fatch resident user data
+            $data = Resident::with('resientUser:id,name,phone,email,avatar,address')
+                ->select(['id', 'property_id', 'phone', 'unit_flat_number', 'monthly_rent', 'payment_frequency', 'tenant_file', 'agreement_file'])->find($id);
+
+            if (! $data) {
+                return Helper::jsonResponse(false, 'Resident Not Found', 404);
+            }
+            //get payment history
+            $paymentHistory = Payment::select('id', 'user_id', 'invoice_number', 'total_amount', 'payment_date')->where('user_id', $data->resientUser->id ?? null)->latest()->get();
+
+            //build response
+            $data = [
+                'resident'        => $data,
+                'payment_history' => $paymentHistory,
+            ];
+            return Helper::jsonResponse(true, 'Data retrieved successfully', 200, $data);
+        } catch (Exception $e) {
+            return Helper::jsonResponse(false, 'Failed to retrieve data', 500, [
                 'error' => $e->getMessage(),
             ]);
         }

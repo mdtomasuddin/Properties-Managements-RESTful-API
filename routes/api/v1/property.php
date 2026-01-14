@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::apiResource('property', PropertyController::class);                  //CRUD
 Route::apiResource('residents', ResidentController::class);                 //CRUD
+Route::get('resident-payment-detail/{id}', [ResidentController::class, 'resientPaymentDetails']);
 Route::apiResource('property-resident', PropertyResidentController::class); //property owner first added =>(property|resident|FinancialAccount)
 Route::apiResource('documents', DocumentController::class);
 Route::apiResource('announcement', AnnouncementController::class);      //CRUD
