@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Api\V1\Property\SecurityContact;
 
 use App\Helpers\Helper;
@@ -90,6 +89,63 @@ class SecurityContactController
             return Helper::jsonResponse(true, 'Security Contacts retrieved successfully.', 200, $data);
         } catch (\Exception $e) {
             return Helper::jsonResponse(false, 'Failed to retrieve Security Contacts.', 500, [
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    /**
+     * Update an existing Security Contact.
+     * * @param Request $request
+     * @param int $id  // Assuming the ID is passed in the route
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request, $id)
+    {
+        try {
+            $securityContact = SecurityContact::find($id);
+            if (! $securityContact) {
+                return Helper::jsonResponse(false, 'Security Contact not found.', 404);
+            }
+            $validator = Validator::make($request->all(), [
+                'property_id' => 'nullable|integer|exists:properties,id',
+                'category_id' => 'nullable|integer|exists:categories,id',
+                'phone'       => 'nullable|string|max:20',
+                'description' => 'nullable|string|max:1000',
+            ]);
+
+            if ($validator->fails()) {
+                return Helper::jsonResponse(false, $validator->errors()->first(), 422);
+            }
+
+            $validated            = $validator->validated();
+            $validated['user_id'] = Auth::id();
+
+            $securityContact->update($validated);
+            return Helper::jsonResponse(true, 'Security Contact updated successfully.', 200, $securityContact);
+        } catch (Exception $e) {
+            return Helper::jsonResponse(false, 'Security Contact update failed.', 500, [
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    /**
+     * Remove an existing Security Contact.
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy($id)
+    {
+        try {
+            $securityContact = SecurityContact::find($id);
+            if (! $securityContact) {
+                return Helper::jsonResponse(false, 'Security Contact not found.', 404);
+            }
+            $securityContact->delete();
+            return Helper::jsonResponse(true, 'Security Contact deleted successfully.', 200);
+        } catch (Exception $e) {
+            return Helper::jsonResponse(false, 'Security Contact deletion failed.', 500, [
                 'error' => $e->getMessage(),
             ]);
         }
