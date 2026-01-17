@@ -1,8 +1,10 @@
 <?php
+
 namespace App\Http\Controllers\Api\Property;
 
 use App\Helpers\Helper;
 use App\Models\Property;
+use App\Models\Resident;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -208,13 +210,24 @@ class PropertyController
     {
         try {
             $property = Property::where('id', $id)->where('user_id', Auth::id())->first();
-
             if (! $property) {
                 return Helper::jsonResponse(false, 'Property not found.', 404);
             }
-            // Get property owner's referral code.
+
+            //owner referral code get
             $referralCode = Auth::user()->reffer_code;
-            $residents    = User::where('invitation_code', $referralCode)->select('id', 'name', 'email', 'role', 'phone')->get();
+            //only property id incluede residents get
+            $residents = User::where('users.invitation_code', $referralCode)
+                ->join('residents', function ($join) use ($id) {
+                    $join->on('users.phone', '=', 'residents.phone')->where('residents.property_id', '=', $id);
+                })->select([
+                    'users.id',
+                    'users.name',
+                    'users.email',
+                    'users.role',
+                    'users.phone',
+                    'residents.unit_flat_number',
+                ])->get();
 
             return Helper::jsonResponse(true, 'Residents retrieved successfully.', 200, $residents);
         } catch (Exception $e) {
