@@ -112,6 +112,12 @@ class PropertyResidentService
                 throw new Exception($validator->errors()->first());
             }
 
+            // Check if the phone number already exists
+            $user = User::where('phone', $request->phone)->first();
+            if ($user) {
+                throw new Exception('Resident already exists with this phone number.');
+            }
+
             // Handle Agreement File
             $agreement_files = [];
             if ($request->hasFile('agreement_file')) {
