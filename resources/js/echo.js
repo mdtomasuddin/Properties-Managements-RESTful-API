@@ -21,3 +21,11 @@ window.Echo.private(channelName)
     .listen('MessageSent', (e) => {
         console.log(e);
     });
+
+
+// listening to private channel UnreadCount
+let conversationId = 1;
+window.Echo.private('latest-message-channel.' + conversationId)
+    .listen('LatestMassageEvent', (e) => {
+        console.log("UnreadCount:", e);
+    });

@@ -294,7 +294,7 @@ class ResidentController
                 return Helper::jsonResponse(false, 'Resident Not Found', 404);
             }
             //get payment history
-            $paymentHistory = Payment::select('id', 'user_id', 'invoice_number', 'total_amount', 'payment_date')->where('user_id', $data->resientUser->id ?? null)->latest()->get();
+            $paymentHistory = Payment::select('id', 'user_id', 'invoice_number', 'total_amount', 'payment_date', 'status')->where('user_id', $data->resientUser->id ?? null)->latest()->get();
 
             //build response
             $data = [
