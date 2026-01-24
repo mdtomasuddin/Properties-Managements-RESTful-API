@@ -1,6 +1,8 @@
 <?php
+
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Announcement extends Model
@@ -69,5 +71,21 @@ class Announcement extends Model
     public function residents()
     {
         return $this->belongsToMany(Resident::class);
+    }
+
+    /**
+     * Get the created_at attribute and convert it to Bangladesh Time (BST).
+     */
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->setTimezone('Asia/Dhaka')->toIso8601String();
+    }
+
+    /**
+     * Accessor to format the updated_at to Bangladesh Time.
+     */
+    public function getUpdatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->setTimezone('Asia/Dhaka')->toIso8601String();
     }
 }

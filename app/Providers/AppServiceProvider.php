@@ -10,6 +10,7 @@ use App\Repositories\V1\Auth\ForgetPasswordRepository;
 use App\Repositories\V1\Auth\OTPRepository;
 use App\Repositories\V1\Auth\PasswordRepository;
 use App\Repositories\V1\Auth\UserRepository;
+use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 
@@ -34,6 +35,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+
+        Carbon::setLocale('en');
+        config(['app.timezone' => 'Asia/Dhaka']);
+        date_default_timezone_set('Asia/Dhaka');
         Paginator::useBootstrapFive();
     }
 }
