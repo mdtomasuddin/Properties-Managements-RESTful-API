@@ -19,7 +19,8 @@ class PropertyOrResidentMiddleware
     {
         // Check if the user is authenticated
         if (! Auth::check() || ! (Auth::user()->role === 'property_owner' || Auth::user()->role === 'resident')) {
-            return Helper::jsonResponse(false, 'Unauthorized action', 403);
+            // return Helper::jsonResponse(false, 'Unauthorized action', 403);
+            return Helper::jsonResponse(false, 'Invalid credentials', 403);
         }
 
         return $next($request);

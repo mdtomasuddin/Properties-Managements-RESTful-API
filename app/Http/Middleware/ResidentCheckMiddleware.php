@@ -19,7 +19,8 @@ class ResidentCheckMiddleware
     {
         // return $next($request);
         if (! Auth::check() || Auth::user()->role !== 'resident') {
-            return Helper::jsonResponse(false, 'Unauthorized action', 403);
+            return Helper::jsonResponse(false, 'Invalid credentials', 403);
+            // return Helper::jsonResponse(false, 'Unauthorized action', 403);
         }
         return $next($request);
     }

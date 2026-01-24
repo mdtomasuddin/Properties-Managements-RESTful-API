@@ -19,7 +19,8 @@ class PropertyCheckMiddleware
     {
         // return $next($request);
         if (! Auth::check() || Auth::user()->role !== 'property_owner') {
-            return Helper::jsonResponse(false, 'Unauthorized action', 403);
+            // return Helper::jsonResponse(false, 'Unauthorized action', 403);
+            return Helper::jsonResponse(false, 'Invalid credentials', 403);
         }
         return $next($request);
     }

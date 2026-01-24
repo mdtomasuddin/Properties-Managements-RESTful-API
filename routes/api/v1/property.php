@@ -19,6 +19,7 @@ Route::apiResource('property-resident', PropertyResidentController::class); //pr
 Route::apiResource('documents', DocumentController::class);
 Route::apiResource('announcement', AnnouncementController::class);      //CRUD
 Route::apiResource('payment-request', PaymentRequestController::class); //C
+Route::get('search-resident', [PropertyController::class, 'searchResident']); //property homepage search
 
 //get residents by property
 Route::get('property-by-resident/{id}', [PropertyController::class, 'getResidentsByProperty']);

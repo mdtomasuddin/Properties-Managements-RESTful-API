@@ -282,7 +282,12 @@ class ResidentController
         }
     }
 
-    //
+    /**
+     * Retrieves the payment details for a specific Resident.
+     * This method retrieves the details of a Resident by its ID, including the payment history.
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function resientPaymentDetails($id)
     {
         try {

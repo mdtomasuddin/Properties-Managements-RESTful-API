@@ -236,4 +236,42 @@ class PropertyController
             ]);
         }
     }
+
+    public function searchResident(Request $request)
+    {
+        try {
+            $search     = $request->query('search');
+            $authUserId = Auth::id();
+            $refferCode = Auth::user()->reffer_code;
+
+            $query = User::query()
+                ->join('residents', 'users.phone', '=', 'residents.phone')
+                ->where('residents.user_id', $authUserId)->where('users.invitation_code', $refferCode)
+                ->select([
+                    'users.id',
+                    'residents.property_id',
+                    'residents.unit_flat_number',
+                    'users.name',
+                    'users.email',
+                    'users.role',
+                    'users.phone',
+                ]);
+
+            // Search logic for name or phone
+            if (! empty($search)) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('users.name', 'LIKE', "%{$search}%")
+                        ->orWhere('users.phone', 'LIKE', "%{$search}%");
+                });
+            }
+
+            $data = $query->get();
+            //response with data
+            return Helper::jsonResponse(true, 'Data retrieved successfully.', 200, $data);
+        } catch (Exception $e) {
+            return Helper::jsonResponse(false, 'Failed to retrieve data.', 500, [
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
 }
