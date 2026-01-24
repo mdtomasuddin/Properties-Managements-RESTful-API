@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Faq\FaqController;
+use App\Http\Controllers\Api\User\UserController;
 use App\Http\Controllers\Api\V1\Firebase\FirebaseTokenController;
 use App\Http\Controllers\Api\V1\Messaging\MessageController;
 use App\Http\Controllers\Api\V1\Notification\NotificationController;
@@ -38,6 +39,7 @@ Route::middleware(['auth:api'])->group(function () {
 
     // Notification Section All API Endpoint .
     Route::get('/notification', [NotificationController::class, 'getNotification']);
+    Route::post('delete-account', [UserController::class, 'deleteAccount']); //delete account
 });
 
 // Firebase Token Module
