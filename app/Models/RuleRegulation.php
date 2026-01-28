@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class RuleRegulation extends Model
 {
     protected $guarded = [];
-    protected $hidden  = ['updated_at', 'deleted_at', 'title', 'user_id', 'status'];
+    protected $hidden  = ['updated_at', 'deleted_at',  'user_id', 'status'];
 
     protected $casts = [
         'id'          => 'integer',

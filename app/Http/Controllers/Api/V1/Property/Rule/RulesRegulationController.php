@@ -52,6 +52,7 @@ class RulesRegulationController
             // Validate request
             $validator = Validator::make($request->all(), [
                 'property_id' => 'required|exists:properties,id',
+                'title'       => 'required|string|max:255',
                 'description' => 'required|string|max:2000',
             ]);
             // Validation fails
@@ -105,6 +106,7 @@ class RulesRegulationController
             // Validate request
             $validator = Validator::make($request->all(), [
                 'property_id' => 'nullable|exists:properties,id',
+                'title'       => 'nullable|string|max:255',
                 'description' => 'nullable|string|max:2000',
             ]);
             // Validation fails
