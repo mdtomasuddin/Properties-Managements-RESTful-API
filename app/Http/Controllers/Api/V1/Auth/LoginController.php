@@ -57,10 +57,10 @@ class LoginController
             ], 422);
         } catch (Exception $e) {
             Log::error('Login Error: ' . $e->getMessage());
-            $status = $e->getMessage() === 'Unauthorized' ? 401 : 500;
+            $status = $e->getMessage() === 'Invalid credentials' ? 401 : 500;
             return $this->helper->jsonResponse(
                 false,
-                $status === 401 ? 'Unauthorized' : 'An error occurred during login.',
+                $status === 401 ? 'Invalid credentials' : 'An error occurred during login.',
                 $status,
                 ['error' => $e->getMessage()],
                 $status

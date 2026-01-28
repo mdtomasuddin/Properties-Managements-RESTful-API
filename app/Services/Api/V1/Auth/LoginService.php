@@ -20,7 +20,7 @@ class LoginService
         ]);
 
         if (! $token) {
-            throw new Exception('Unauthorized');
+            throw new Exception('Invalid credentials');
         }
 
         return [

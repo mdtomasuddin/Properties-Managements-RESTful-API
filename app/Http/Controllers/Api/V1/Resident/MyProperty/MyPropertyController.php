@@ -20,6 +20,7 @@ class MyPropertyController
         try {
             $phone    = Auth::user()->phone;
             $resident = Resident::with('property:id,property_name,property_address')->where('phone', $phone)->select('property_id', 'unit_flat_number')->first();
+            // dd($resident);
             return Helper::jsonResponse(true, 'Data retrieved successfully.', 200, $resident);
         } catch (Exception $e) {
             return Helper::jsonResponse(false, 'Failed to retrieve data.', 500, [
