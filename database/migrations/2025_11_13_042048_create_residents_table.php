@@ -33,6 +33,7 @@ return new class extends Migration
             $table->json('agreement_file')->nullable();
             $table->json('tenant_file')->nullable();
             $table->text('sms_invitation')->nullable();
+            $table->string('invitation_code')->nullable();
             $table->enum('status', ['active', 'inactive', 'moved_out'])->default('active');
             $table->timestamps();
             $table->softDeletes();

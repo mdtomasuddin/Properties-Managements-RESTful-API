@@ -16,7 +16,7 @@ class ResidentSeeder extends Seeder
     {
         DB::table('residents')->insert([
             [
-                'user_id'              => 3, 
+                'user_id'              => 3,
                 'property_id'          => 1,
                 'unit_flat_number'     => '1A',
                 'name'                 => 'Resident 1',
@@ -34,6 +34,7 @@ class ResidentSeeder extends Seeder
                 'agreement_file'       => json_encode([]),
                 'tenant_file'          => json_encode([]),
                 'sms_invitation'       => 'Welcome to your new home! Your rent is due monthly.',
+                'invitation_code'      => '123456',
                 'status'               => 'active',
                 'created_at'           => now(),
                 'updated_at'           => now(),

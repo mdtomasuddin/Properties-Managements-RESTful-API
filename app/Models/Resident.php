@@ -8,7 +8,7 @@ class Resident extends Model
 {
     protected $guarded = [];
 
-    protected $hidden = ['updated_at', 'deleted_at', 'created_at', 'status'];
+    protected $hidden = ['updated_at', 'deleted_at', 'created_at', 'status', 'invitation_code'];
 
     protected $casts = [
         'user_id'                      => 'integer',

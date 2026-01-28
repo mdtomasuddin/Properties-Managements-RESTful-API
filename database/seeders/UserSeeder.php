@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -72,7 +73,7 @@ class UserSeeder extends Seeder
                 'password'             => Hash::make('12345678'),
                 'avatar'               => null,
                 'role'                 => "resident",
-                'reffer_code'          => '123456',
+                'reffer_code'          => '123467',
                 'invitation_code'      => '123456',
                 'status'               => 'active',
                 'is_otp_verified'      => true, // or false if not verified
