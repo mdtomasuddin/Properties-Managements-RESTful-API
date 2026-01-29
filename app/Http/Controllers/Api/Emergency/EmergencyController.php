@@ -136,4 +136,24 @@ class EmergencyController
             ]);
         }
     }
+
+    /**
+     * This method deletes Emergency by its ID.
+     * @param int $id
+     */
+    public function destroy($id)
+    {
+        try {
+            $data = Emergency::find($id);
+            if (! $data) {
+                return Helper::jsonResponse(false, 'Emergency not found.', 404);
+            }
+            $data->delete();
+            return Helper::jsonResponse(true, 'Emergency deleted successfully.', 200);
+        } catch (Exception $e) {
+            return Helper::jsonResponse(false, 'Failed to delete Emergency.', 500, [
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
 }

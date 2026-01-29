@@ -167,4 +167,50 @@ class MaintenanceController
             return Helper::jsonResponse(false, 'Error: ' . $e->getMessage(), 500);
         }
     }
+
+    /**
+     * Retrieves a Maintenance by its ID.
+     * This method retrieves a Maintenance by its ID and returns the information.
+     * @param Request $request
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function show(Request $request, $id)
+    {
+        try {
+            $data = Maintenance::with(['property:id,property_name', 'category:id,name'])->where('user_id', Auth::id())->find($id);
+            if (! $data) {
+                return Helper::jsonResponse(false, 'Maintenance not found.', 404);
+            }
+            return Helper::jsonResponse(true, 'Maintenance retrieved successfully.', 200, $data);
+        } catch (Exception $e) {
+            return Helper::jsonResponse(false, 'Failed to retrieve Maintenance.', 500, [
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    /**
+     * Deletes a Maintenance by its ID.
+     * This method deletes a Maintenance by its ID and returns a JSON response.
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function destroy($id)
+    {
+        try {
+            $data = Maintenance::where('user_id', Auth::id())->find($id);
+            if (! $data) {
+                return Helper::jsonResponse(false, 'Maintenance not found.', 404);
+            }
+            $data->delete();
+            return Helper::jsonResponse(true, 'Maintenance deleted successfully.', 200);
+        } catch (Exception $e) {
+            return Helper::jsonResponse(false, 'Failed to delete Maintenance.', 500, [
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
 }

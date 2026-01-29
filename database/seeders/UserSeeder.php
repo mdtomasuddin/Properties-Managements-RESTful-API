@@ -67,7 +67,7 @@ class UserSeeder extends Seeder
                 'updated_at'           => now(),
             ],
             [
-                'name'                 => 'resident',
+                'name'                 => 'Resident 1',
                 'email'                => 'resident@resident.com',
                 'phone'                => '01822221111', // or add a phone number
                 'password'             => Hash::make('12345678'),
@@ -83,7 +83,40 @@ class UserSeeder extends Seeder
                 'created_at'           => now(),
                 'updated_at'           => now(),
             ],
-
+            [
+                'name'                 => 'Azizul Islam',
+                'email'                => 'azizul@gmail.com',
+                'phone'                => '01822222222', // or add a phone number
+                'password'             => Hash::make('12345678'),
+                'avatar'               => null,
+                'role'                 => "resident",
+                'reffer_code'          => '123497',
+                'invitation_code'      => '123456',
+                'status'               => 'active',
+                'is_otp_verified'      => true, // or false if not verified
+                'email_verified_at'    => now(),
+                'phone_verified_at'    => now(),
+                'terms_and_conditions' => true,
+                'created_at'           => now(),
+                'updated_at'           => now(),
+            ],
+            [
+                'name'                 => 'Rakibul Islam',
+                'email'                => 'rakibul@gmail.com',
+                'phone'                => '01833333333', // or add a phone number
+                'password'             => Hash::make('12345678'),
+                'avatar'               => null,
+                'role'                 => "resident",
+                'reffer_code'          => '123495',
+                'invitation_code'      => '123456',
+                'status'               => 'active',
+                'is_otp_verified'      => true, // or false if not verified
+                'email_verified_at'    => now(),
+                'phone_verified_at'    => now(),
+                'terms_and_conditions' => true,
+                'created_at'           => now(),
+                'updated_at'           => now(),
+            ],
         ]);
     }
 }
