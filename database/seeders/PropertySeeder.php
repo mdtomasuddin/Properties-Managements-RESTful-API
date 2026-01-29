@@ -7,24 +7,55 @@ use Illuminate\Database\Seeder;
 
 class PropertySeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        $propertyData = [
-            'user_id'            => 3,
-            'property_type'      => 'multi_unit',
-            'property_name'      => 'Property A',
-            'property_address'   => 'Dhaka',
-            'number_of_units'    => 2,
-            'documents'          => [
-                'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1073&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                'https://images.unsplash.com/photo-1632400990400-416d5460f337?q=80&w=918&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        $properties = [
+            [
+                'user_id'            => 3,
+                'property_type'      => 'multi_unit',
+                'property_name'      => 'Skyline Apartments',
+                'property_address'   => 'Gulshan 2, Dhaka',
+                'number_of_units'    => 24,
+                'documents'          => [
+                    'https://images.unsplash.com/photo-1560518883-ce09059eeffa',
+                    'https://images.unsplash.com/photo-1632400990400-416d5460f337',
+                ],
+                'security_contact'   => '018111111111',
+                'additional_details' => 'Luxury multi-unit complex with 24/7 security and rooftop access.',
             ],
-            'security_contact'   => '018111111111',
-            'additional_details' => 'Property A details description.',
+            [
+                'user_id'            => 3,
+                'property_type'      => 'multi_unit',
+                'property_name'      => 'Green Valley Residency',
+                'property_address'   => 'Uttara Sector 4, Dhaka',
+                'number_of_units'    => 12,
+                'documents'          => [
+                    'https://images.unsplash.com/photo-1560518883-ce09059eeffa',
+                    'https://images.unsplash.com/photo-1632400990400-416d5460f337',
+                ],
+                'security_contact'   => '018222222222',
+                'additional_details' => 'Family-oriented apartment building near the main park.',
+            ],
+            [
+                'user_id'            => 3,
+                'property_type'      => 'single_unit',
+                'property_name'      => 'Lakeview Villa',
+                'property_address'   => 'Banani, Dhaka',
+                'number_of_units'    => 4,
+                'documents'          => [
+                    'https://images.unsplash.com/photo-1560518883-ce09059eeffa',
+                    'https://images.unsplash.com/photo-1632400990400-416d5460f337',
+                ],
+                'security_contact'   => '018333333333',
+                'additional_details' => 'Private single-unit villa with a lake view.',
+            ],
         ];
-        Property::create($propertyData);
+
+        foreach ($properties as $property) {
+            Property::updateOrCreate(
+                ['property_name' => $property['property_name']],
+                $property
+            );
+        }
     }
 }

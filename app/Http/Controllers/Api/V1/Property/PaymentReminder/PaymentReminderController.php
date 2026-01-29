@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Api\V1\Property\PaymentReminder;
 
 use App\Helpers\Helper;
@@ -54,7 +55,7 @@ class PaymentReminderController
             // Validate request
             $validator = Validator::make($request->all(), [
                 'property_id'                => 'required|exists:properties,id',
-                'resident_id'                => 'nullable|exists:residents,id',
+                'resident_id'                => 'nullable',
                 'auto_reminders'             => 'sometimes|boolean',
                 'start_reminder_days_before' => 'required_if:auto_reminders,true|integer|min:1|max:31',
                 'manual_reminder_date'       => 'nullable|date|after_or_equal:today',

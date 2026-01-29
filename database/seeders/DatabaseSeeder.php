@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Payment;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -21,6 +23,14 @@ class DatabaseSeeder extends Seeder
             DocumentSeeder::class,
             PlanSeeder::class,
             ResidentSeeder::class,
+            MaintenanceSeeder::class,
+            EmergencySeeder::class,
+            AnnouncementSeeder::class,
+            PaymentRequestSeeder::class,
+            SecurityContactSeeder::class,
+            RuleRegulationSeeder::class,
+            PaymentReminderSeeder::class,
+            PaymentSeeder::class
         ]);
     }
 }

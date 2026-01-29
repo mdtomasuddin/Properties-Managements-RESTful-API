@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('property_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
-            $table->foreignId('resident_id')->nullable()->constrained()->onDelete('set null');
+            // $table->interger('resident_id')->nullable();
+            $table->integer('resident_id')->nullable();
             $table->boolean('auto_reminders')->default(false);
             $table->integer('start_reminder_days_before')->nullable();
             $table->date('manual_reminder_date')->nullable();

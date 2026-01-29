@@ -44,9 +44,4 @@ class PaymentReminder extends Model
     {
         return $this->belongsTo(Category::class);
     }
-
-    public function residents()
-    {
-        return $this->belongsToMany(Resident::class);
-    }
 }

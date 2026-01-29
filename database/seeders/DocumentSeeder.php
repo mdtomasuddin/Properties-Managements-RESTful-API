@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Seeders;
 
 use App\Models\Document;
@@ -13,7 +14,7 @@ class DocumentSeeder extends Seeder
     {
         $documents = [
             [
-                'user_id'     => 1,
+                'user_id'     => 3,
                 'property_id' => 1,
                 'category_id' => 21,
                 'name'        => 'Lease Agreement',
@@ -21,7 +22,7 @@ class DocumentSeeder extends Seeder
 
             ],
             [
-                'user_id'     => 1,
+                'user_id'     => 3,
                 'property_id' => 1,
                 'category_id' => 19,
                 'name'        => 'Maintenance Report',
@@ -29,7 +30,7 @@ class DocumentSeeder extends Seeder
 
             ],
             [
-                'user_id'     => 1,
+                'user_id'     => 3,
                 'property_id' => 1,
                 'category_id' => 21,
                 'name'        => 'Property Image',
@@ -37,7 +38,7 @@ class DocumentSeeder extends Seeder
 
             ],
             [
-                'user_id'     => 1,
+                'user_id'     => 3,
                 'property_id' => 1,
                 'category_id' => 1,
                 'name'        => 'Inspection Report',
@@ -45,7 +46,7 @@ class DocumentSeeder extends Seeder
 
             ],
             [
-                'user_id'     => 1,
+                'user_id'     => 3,
                 'property_id' => 1,
                 'category_id' => 20,
                 'name'        => 'Tenant Agreement',
