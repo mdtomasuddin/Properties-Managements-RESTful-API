@@ -143,7 +143,7 @@ class ResidentController
     {
         try {
             //Fatch resident user data
-            $data = Resident::where('status', 'active')->find($id);
+            $data = Resident::with('resientUser:id,name,phone,email,avatar,address')->where('status', 'active')->find($id);
 
             if (! $data) {
                 return Helper::jsonResponse(false, 'Resident Not Found', 404);
