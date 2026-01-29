@@ -126,7 +126,7 @@ class MessageController
         try {
             $user         = Auth::user();
             $message      = $request->input('message');
-            $conversation = Conversation::findOrFail($id);
+            $conversation = Conversation::find($id);
 
             // Check if the conversation exists
             if (! $conversation) {
