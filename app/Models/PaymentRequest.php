@@ -73,4 +73,8 @@ class PaymentRequest extends Model
     {
         return $this->hasMany(PaymentPaymentRequest::class);
     }
+    public function resident()
+    {
+        return $this->belongsTo(User::class, 'resident_id')->withTrashed(); //unique ta get
+    }
 }
