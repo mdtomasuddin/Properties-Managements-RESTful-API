@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Api\PaymentRequest;
 
 use App\Helpers\Helper;
@@ -135,6 +134,27 @@ class PaymentRequestController
         $resident = User::find($paymentRequest->resident_id);
         if ($resident) {
             $resident->notify(new PaymentRequestNotification($paymentRequest));
+        }
+    }
+
+    /**
+     * Retrieve a specific Payment Request by ID.
+     * @param Request $request
+     * @param int $id
+     * @throws \Illuminate\Http\JsonResponse
+     */
+    public function show(Request $request, $id)
+    {
+        try {
+            $data = PaymentRequest::with(['property:id,property_name', 'category:id,name'])->where('user_id', Auth::id())->find($id);
+            if (! $data) {
+                return Helper::jsonResponse(false, 'Data not found.', 404);
+            }
+            return Helper::jsonResponse(true, 'Data retrieved successfully.', 200, $data);
+        } catch (Exception $e) {
+            return Helper::jsonResponse(false, 'Failed to retrieve', 500, [
+                'error' => $e->getMessage(),
+            ]);
         }
     }
 }

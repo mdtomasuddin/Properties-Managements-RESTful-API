@@ -11,15 +11,16 @@ use App\Http\Controllers\Api\V1\Property\HomePage\HomePageController;
 use App\Http\Controllers\Api\V1\Property\PaymentReminder\PaymentReminderController;
 use App\Http\Controllers\Api\V1\Property\Rule\RulesRegulationController;
 use App\Http\Controllers\Api\V1\Property\SecurityContact\SecurityContactController;
+use App\Http\Controllers\Api\V1\Property\Statement\StatementController;
 use Illuminate\Support\Facades\Route;
 
-Route::apiResource('property', PropertyController::class);                  //CRUD
-Route::apiResource('residents', ResidentController::class);                 //CRUD
+Route::apiResource('property', PropertyController::class);  //CRUD
+Route::apiResource('residents', ResidentController::class); //CRUD
 Route::get('resident-payment-detail/{id}', [ResidentController::class, 'resientPaymentDetails']);
 Route::apiResource('property-resident', PropertyResidentController::class); //property owner first added =>(property|resident|FinancialAccount)
 Route::apiResource('documents', DocumentController::class);
-Route::apiResource('announcement', AnnouncementController::class);      //CRUD
-Route::apiResource('payment-request', PaymentRequestController::class); //C
+Route::apiResource('announcement', AnnouncementController::class);            //CRUD
+Route::apiResource('payment-request', PaymentRequestController::class);       //C
 Route::get('search-resident', [PropertyController::class, 'searchResident']); //property homepage search
 
 //get residents by property
@@ -29,5 +30,7 @@ Route::apiResource('security-contact', SecurityContactController::class); //secu
 Route::apiResource('payment-reminder', PaymentReminderController::class); //payment reminder
 
 //home page
-Route::apiResource('property-homepage', HomePageController::class); //home-page
+Route::apiResource('property-homepage', HomePageController::class);       //home-page
 Route::apiResource('rules-regulation', RulesRegulationController::class); //rules regulation CRUD
+//statement.
+Route::apiResource('statement', StatementController::class);
