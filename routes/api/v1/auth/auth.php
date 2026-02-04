@@ -24,6 +24,7 @@ Route::prefix('/v1/auth')->name('api.auth.')->group(function () {
 
     Route::controller(PasswordResetController::class)->group(function () {
         Route::post('/forget-password', 'sendOtpToPhone');
+        Route::post('/otp-resend', 'otpResend');
         Route::post('/verify-otp', 'verifyOTP');
         Route::post('/reset-password', 'resetPassword');
         Route::post('/update-password', 'changePassword')->middleware('auth:api');

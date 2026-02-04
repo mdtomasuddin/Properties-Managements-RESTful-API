@@ -47,6 +47,41 @@ class PasswordResetService
     }
 
     /**
+     * Resends a new OTP code to the user's phone number.
+     * @return array An array containing the OTP code and a success message.
+     * @throws Exception
+     */
+    public function otpResend(string $phone): array
+    {
+        try {
+            $user = User::where('phone', $phone)->first();
+            if (! $user) {
+                throw new Exception('No account associated with this phone number.');
+            }
+
+            $otp = "1234";
+            // $otp = rand(1000, 9999);
+            // You can later integrate SMS sending logic here.
+
+            //OTP MODEL
+            $otpRecord = OTP::updateOrCreate(
+                ['phone' => $phone],
+                [
+                    'user_id' => $user->id,
+                    'otp'     => $otp,
+                    'status'  => true,
+                ]
+            );
+            return [
+                'message' => 'Resend OTP Code Successfully',
+                'otp'     => $otpRecord->otp,
+            ];
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
+    /**
      * Verify the provided OTP code.
      * @param array $data An array containing the user's phone number and the OTP code.
      * @return array An array containing a success message.

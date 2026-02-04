@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\Payment;
 use Illuminate\Database\Seeder;
+use Mockery\Matcher\Not;
 
 class DatabaseSeeder extends Seeder
 {
@@ -30,7 +31,8 @@ class DatabaseSeeder extends Seeder
             SecurityContactSeeder::class,
             RuleRegulationSeeder::class,
             PaymentReminderSeeder::class,
-            PaymentSeeder::class
+            PaymentSeeder::class,
+            NotificationSeeder::class
         ]);
     }
 }

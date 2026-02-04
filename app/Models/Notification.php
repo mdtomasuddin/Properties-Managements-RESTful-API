@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 class Notification extends Model
 {
 
-    protected $table = 'notifications';
     use HasFactory;
     protected $guarded = [];
 
+    protected $hidden = ['updated_at', 'notifiable_type', 'type'];
+
+    //Casts Datatype
     protected $casts = [
         'id'            => 'string',
         'type'          => 'string',

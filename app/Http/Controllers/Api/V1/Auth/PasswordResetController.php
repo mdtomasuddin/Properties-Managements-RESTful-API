@@ -18,6 +18,11 @@ class PasswordResetController
     private PasswordResetService $passwordResetService;
     private Helper $helper;
 
+    /**
+     * Construct a new instance of the PasswordResetController.
+     * @param PasswordResetService $passwordResetService The service to use for password reset functionality.
+     * @param Helper $helper The helper to use for general functionality.
+     */
     public function __construct(PasswordResetService $passwordResetService, Helper $helper)
     {
         $this->passwordResetService = $passwordResetService;
@@ -25,7 +30,10 @@ class PasswordResetController
     }
 
     /**
-     * Send OTP code to the user's phone for password reset.
+     * Send an OTP code to the user's phone number.
+     * @param OTPRequest $request
+     * @return JsonResponse
+     * @throws Exception
      */
     public function sendOtpToPhone(OTPRequest $request): JsonResponse
     {
@@ -41,9 +49,31 @@ class PasswordResetController
     }
 
 
+    /**
+     * Resend a new OTP code to the user's phone number.
+     * Phone number is already verified.
+     * @param OTPRequest $request
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function otpResend(OTPRequest $request): JsonResponse
+    {
+        try {
+            $phone = $request->input('phone');
+
+            $response = $this->passwordResetService->otpResend($phone);
+
+            return $this->helper->jsonResponse(true, $response['message'], 200, ['otp' => $response['otp']]);
+        } catch (Exception $e) {
+            return $this->helper->jsonResponse(false, $e->getMessage(), 400);
+        }
+    }
+
+
 
     /**
      * Verify the provided OTP code.
+     * @param OTPVerificationRequest $request
      */
     public function verifyOTP(OTPVerificationRequest $request): JsonResponse
     {
@@ -62,10 +92,11 @@ class PasswordResetController
     }
 
 
-
-
     /**
-     * Reset the user's password.
+     * Resets the user's password.
+     * @param PasswordResetRequest $request
+     * @return JsonResponse
+     * @throws Exception
      */
     public function resetPassword(PasswordResetRequest $request): JsonResponse
     {
@@ -83,9 +114,6 @@ class PasswordResetController
             return $this->helper->jsonResponse(false, $e->getMessage(), 400);
         }
     }
-
-
-
 
     /**
      * Change the user's password

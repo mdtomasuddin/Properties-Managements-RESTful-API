@@ -36,9 +36,6 @@ Route::middleware(['auth:api'])->group(function () {
         Route::get('/chat/{id}', 'getChat');
         Route::get('/conversations', 'conversations');
     });
-
-    // Notification Section All API Endpoint .
-    Route::get('/notification', [NotificationController::class, 'getNotification']);
     Route::post('delete-account', [UserController::class, 'deleteAccount']); //delete account
 });
 
@@ -55,3 +52,7 @@ Route::post('/payment/success', [SSLCommerzPaymentController::class, 'PaymentSuc
 Route::post('/payment/fail', [SSLCommerzPaymentController::class, 'PaymentFail'])->name('payment.fail');
 Route::post('/payment/cancel', [SSLCommerzPaymentController::class, 'PaymentCancel'])->name('payment.cancel');
 Route::post('/payment/ipn', [SSLCommerzPaymentController::class, 'PaymentIPN'])->name('payment.ipn');
+
+
+// Notification Section All API Endpoint .
+Route::get('/notification', [NotificationController::class, 'getNotification'])->middleware('auth:api');
