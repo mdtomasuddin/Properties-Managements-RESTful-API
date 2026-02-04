@@ -52,8 +52,12 @@ class PaymentController
     }
 
     /**
-     * Store a newly created resource in storage.
-     * payment all due  and paymentrequest status update.
+     * This method creates a new Payment.
+     * The Payment is created with the PaymentRequests that are due for the Resident.
+     * The Payment is then linked to the PaymentRequests.
+     * A notification is then sent to the Property Owner.
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -65,6 +69,7 @@ class PaymentController
             'bank_name'      => 'nullable|string|max:255',
             'branch_name'    => 'nullable|string|max:255',
             'swift_code'     => 'nullable|string|max:255',
+            'status'         => 'nullable|in:paid,unpaid,pending,due,overdue,cancelled,refunded',
         ]);
 
         if ($validator->fails()) {
@@ -94,6 +99,7 @@ class PaymentController
                 'bank_name'      => $request->bank_name,
                 'branch_name'    => $request->branch_name,
                 'swift_code'     => $request->swift_code,
+                'status'         => $request->status ?? 'pending',
             ]);
 
             //Prepare Pivot Data (Efficient Bulk Insert)

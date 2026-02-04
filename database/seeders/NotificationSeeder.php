@@ -15,9 +15,9 @@ class NotificationSeeder extends Seeder
     {
         $notifications = [
 
-            /**
-             * Maintenance Notifications Seed -> Starting
-             */
+            // /**
+            //  * Maintenance Notifications Seed -> Starting
+            //  */
             // [
             //     'id'              => Str::uuid()->toString(),
             //     'type'            => 'App\\Notifications\\MaintenanceNotification',
@@ -109,75 +109,126 @@ class NotificationSeeder extends Seeder
             //     'updated_at'      => now(),
             // ],
 
-            /***
-             * Emergency Notification Seeder->
-             */
+            // /***
+            //  * Emergency Notification Seeder->
+            //  */
 
-            [
-                'id'              => Str::uuid()->toString(),
-                'type'            => 'App\\Notifications\\EmergencyNotification',
-                'notifiable_type' => 'App\\Models\\User',
-                'notifiable_id'   => 3,
-                'data'            => [
-                    "emergency_id" => 1,
-                    "category"     => 10,
-                    "type"         => "emergency",
-                    "title"        => "🚨Alert-=>Security Alert. Location=>dhaka at Skyline Apartments",
-                    "body"         => "Notices-Recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ip",
-                    "location"     => "dhaka",
-                ],
-                'read_at'         => null,
-                'created_at'      => now(),
-                'updated_at'      => now(),
-            ],
-            [
-                'id'              => Str::uuid()->toString(),
-                'type'            => 'App\\Notifications\\EmergencyNotification',
-                'notifiable_type' => 'App\\Models\\User',
-                'notifiable_id'   => 3,
-                'data'            => [
-                    'emergency_id' => 2,
-                    'type'         => 'emergency',
-                    'title'        => '🚨Alert-: Earthquake. Location: Skyline Apartments. Dhaka',
-                    'body'         => 'Notices-Earthquake. Minor tremors felt; checking structural integrity.',
-                    "location"     => "dhaka",
-                ],
-                'read_at'         => null,
-                'created_at'      => now(),
-                'updated_at'      => now(),
-            ],
-            [
-                'id'              => Str::uuid()->toString(),
-                'type'            => 'App\\Notifications\\EmergencyNotification',
-                'notifiable_type' => 'App\\Models\\User',
-                'notifiable_id'   => 3,
-                'data'            => [
-                    'emergency_id' => 3,
-                    'type'         => 'emergency',
-                    'title'        => '🚨Alert-: Security. Location: Skyline Apartments. Main Gate',
-                    'body'         => 'Notices-Security. Unauthorized individual attempting to enter premises.',
-                    "location"     => "dhaka",
-                ],
-                'read_at'         => null,
-                'created_at'      => now(),
-                'updated_at'      => now(),
-            ],
-            [
-                'id'              => Str::uuid()->toString(),
-                'type'            => 'App\\Notifications\\EmergencyNotification',
-                'notifiable_type' => 'App\\Models\\User',
-                'notifiable_id'   => 3,
-                'data'            => [
-                    'emergency_id' => 4,
-                    'type'         => 'emergency',
-                    'title'        => '🚨Alert-: Gas Leak. Location: Skyline Apartments. Basement',
-                    'body'         => 'Notices-Utility. Main gas line leak detected; immediate shutoff required.',
-                    "location"     => "dhaka",
-                ],
-                'read_at'         => null,
-                'created_at'      => now(),
-                'updated_at'      => now(),
-            ],
+            // [
+            //     'id'              => Str::uuid()->toString(),
+            //     'type'            => 'App\\Notifications\\EmergencyNotification',
+            //     'notifiable_type' => 'App\\Models\\User',
+            //     'notifiable_id'   => 3,
+            //     'data'            => [
+            //         "emergency_id" => 1,
+            //         "category"     => 10,
+            //         "type"         => "emergency",
+            //         "title"        => "🚨Alert-=>Security Alert. Location=>dhaka at Skyline Apartments",
+            //         "body"         => "Notices-Recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ip",
+            //         "location"     => "dhaka",
+            //     ],
+            //     'read_at'         => null,
+            //     'created_at'      => now(),
+            //     'updated_at'      => now(),
+            // ],
+            // [
+            //     'id'              => Str::uuid()->toString(),
+            //     'type'            => 'App\\Notifications\\EmergencyNotification',
+            //     'notifiable_type' => 'App\\Models\\User',
+            //     'notifiable_id'   => 3,
+            //     'data'            => [
+            //         'emergency_id' => 2,
+            //         'type'         => 'emergency',
+            //         'title'        => '🚨Alert-: Earthquake. Location: Skyline Apartments. Dhaka',
+            //         'body'         => 'Notices-Earthquake. Minor tremors felt; checking structural integrity.',
+            //         "location"     => "dhaka",
+            //     ],
+            //     'read_at'         => null,
+            //     'created_at'      => now(),
+            //     'updated_at'      => now(),
+            // ],
+            // [
+            //     'id'              => Str::uuid()->toString(),
+            //     'type'            => 'App\\Notifications\\EmergencyNotification',
+            //     'notifiable_type' => 'App\\Models\\User',
+            //     'notifiable_id'   => 3,
+            //     'data'            => [
+            //         'emergency_id' => 3,
+            //         'type'         => 'emergency',
+            //         'title'        => '🚨Alert-: Security. Location: Skyline Apartments. Main Gate',
+            //         'body'         => 'Notices-Security. Unauthorized individual attempting to enter premises.',
+            //         "location"     => "dhaka",
+            //     ],
+            //     'read_at'         => null,
+            //     'created_at'      => now(),
+            //     'updated_at'      => now(),
+            // ],
+            // [
+            //     'id'              => Str::uuid()->toString(),
+            //     'type'            => 'App\\Notifications\\EmergencyNotification',
+            //     'notifiable_type' => 'App\\Models\\User',
+            //     'notifiable_id'   => 3,
+            //     'data'            => [
+            //         'emergency_id' => 4,
+            //         'type'         => 'emergency',
+            //         'title'        => '🚨Alert-: Gas Leak. Location: Skyline Apartments. Basement',
+            //         'body'         => 'Notices-Utility. Main gas line leak detected; immediate shutoff required.',
+            //         "location"     => "dhaka",
+            //     ],
+            //     'read_at'         => null,
+            //     'created_at'      => now(),
+            //     'updated_at'      => now(),
+            // ],
+
+            // /**
+            //  * Payment Notifications Seed -> Starting
+            //  */
+            // [
+            //     'id'              => Str::uuid()->toString(),
+            //     'type'            => 'App\\Notifications\\PaymentSendNotification',
+            //     'notifiable_type' => 'App\\Models\\User',
+            //     'notifiable_id'   => 3,
+            //     'data'            => [
+            //         'payment_id'  => 3,
+            //         'type'        => 'payment',
+            //         'title'       => 'Payment-: at property name: Skyline Apartments.- total_amount : 505.50Taka.',
+            //         'body'        => 'Resident name: Resident 1 at property name: Skyline Apartments .- total_amount : 505.50Taka.',
+            //         'amount'      => '505.50',
+            //         'method'      => 'cash',
+            //         'resident_id' => 4,
+            //         'property_id' => 1,
+            //         'status'      => 'pending',
+            //     ],
+            //     'read_at'         => null,
+            //     'created_at'      => now(),
+            //     'updated_at'      => now(),
+            // ],
+            // [
+            //     'id'              => Str::uuid()->toString(),
+            //     'type'            => 'App\\Notifications\\PaymentSendNotification',
+            //     'notifiable_type' => 'App\\Models\\User',
+            //     'notifiable_id'   => 3,
+            //     'data'            => [
+            //         'payment_id'  => 4,
+            //         'type'        => 'payment',
+            //         'title'       => 'Payment-: at property name: Skyline Apartments.- total_amount : 1200.00Taka.',
+            //         'body'        => 'Resident name: Resident 2 at property name: Skyline Apartments .- total_amount : 1200.00Taka.',
+            //         'amount'      => '1200.00',
+            //         'method'      => 'cash',
+            //         'resident_id' => 5,
+            //         'property_id' => 1,
+            //         'status'      => 'paid',
+            //     ],
+            //     'read_at'         => null,
+            //     'created_at'      => now(),
+            //     'updated_at'      => now(),
+            // ],
+
+            //     //ending Resident Notifications Seed =============================================================================================================================================
+
+            //     /**
+            //  * Starting Property Notifications Seed
+            //  */
+
 
         ];
 
