@@ -1,9 +1,9 @@
 <?php
+
 namespace App\Services\Api\V1\Auth;
 
 use App\Models\OTP;
 use App\Models\User;
-use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Hash;
 
@@ -48,28 +48,19 @@ class PasswordResetService
 
     /**
      * Verify the provided OTP code.
+     * @param array $data An array containing the user's phone number and the OTP code.
+     * @return array An array containing a success message.
+     * @throws Exception
      */
     public function verifyOtp(array $data): array
     {
         try {
-            $user = User::where('phone', $data['phone'])
-                ->where('otp', $data['otp'])
-                ->where('otp_expires_at', '>=', Carbon::now())
-                ->first();
-            // dd($user);
-
+            $user = OTP::where('phone', $data['phone'])->where('otp', $data['otp'])->where('status', true)->first();
             if (! $user) {
                 throw new Exception('Invalid OTP Code');
             }
 
-            $user->update([
-                'otp_verified_at'      => Carbon::now(),
-                'otp'                  => null,
-                'otp_expires_at'       => null,
-                'is_otp_verified'      => true,
-                'terms_and_conditions' => true,
-            ]);
-
+            $user->delete(); //verifcation success and otp deleted
             return ['message' => 'OTP Verified Successfully'];
         } catch (Exception $e) {
             throw $e;
@@ -78,6 +69,9 @@ class PasswordResetService
 
     /**
      * Reset the user's password.
+     * @param array $data An array containing the user's phone number and the new password.
+     * @return array An array containing a success message.
+     * @throws Exception
      */
     public function resetPassword(array $data): array
     {
