@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Api\V1\Notification;
 
 use App\Helpers\Helper;
@@ -40,8 +41,10 @@ class NotificationController
 
     /**
      * Mark a notification as read.
-     * @param Request $request
-     * @return JsonResponse
+     * This method marks a notification as read for the current user.
+     * @param Request $request notification_id | The ID of the notification to mark as read
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function MarkAsRead(Request $request)
     {
@@ -70,4 +73,18 @@ class NotificationController
             return Helper::jsonResponse(false, 'Failed to mark notification as read', 500, ['error' => $e->getMessage()]);
         }
     }
+
+    /**
+     * Mark all notifications as read.
+     * This function marks all the unread notifications of the current user as read.
+     * @return JsonResponse
+     */
+    public function markAllAsRead(Request $request)
+    {
+        $user = Auth::user();
+        $user->unreadNotifications->markAsRead();
+        return Helper::jsonResponse(true, 'Notifications marked as read', 200);
+    }
+
+
 }
