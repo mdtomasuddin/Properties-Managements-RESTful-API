@@ -1,7 +1,7 @@
 <?php
-
 namespace App\Services\Api\V1\Auth;
 
+use App\Models\OTP;
 use App\Models\User;
 use Carbon\Carbon;
 use Exception;
@@ -9,29 +9,37 @@ use Illuminate\Support\Facades\Hash;
 
 class PasswordResetService
 {
+
     /**
-     * Send an OTP to the provided Phone.
+     * Sends a random OTP code to the user's phone number.
+     * @param string $phone The user's phone number.
+     * @return array An array containing the OTP code and a success message.
+     * @throws Exception
      */
     public function sendOtpToPhone(string $phone): array
     {
         try {
             $user = User::where('phone', $phone)->first();
             if (! $user) {
-                throw new Exception('Invalid phone number');
+                throw new Exception('No account associated with this phone number.');
             }
 
             $otp = "1234";
-
             // $otp = rand(1000, 9999);
             // You can later integrate SMS sending logic here.
-            $user->update([
-                'otp'            => $otp,
-                'otp_expires_at' => Carbon::now()->addMinutes(10),
-            ]);
 
+            //OTP MODEL
+            $otpRecord = OTP::updateOrCreate(
+                ['phone' => $phone],
+                [
+                    'user_id' => $user->id,
+                    'otp'     => $otp,
+                    'status'  => true,
+                ]
+            );
             return [
                 'message' => 'OTP Code Sent Successfully',
-                'otp'     => $otp,
+                'otp'     => $otpRecord->otp,
             ];
         } catch (Exception $e) {
             throw $e;
