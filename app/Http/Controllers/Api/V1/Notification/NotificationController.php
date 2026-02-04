@@ -46,7 +46,7 @@ class NotificationController
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function MarkAsRead(Request $request)
+    public function markAsRead(Request $request)
     {
         try {
             $request->validate([
@@ -86,5 +86,20 @@ class NotificationController
         return Helper::jsonResponse(true, 'Notifications marked as read', 200);
     }
 
-
+    /**
+     * Delete a notification.
+     * This function deletes a notification based on the provided notification_id.
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function deleteNotification($id)
+    {
+        $user         = Auth::user();
+        $notification = $user->notifications()->find($id);
+        if (! $notification) {
+            return Helper::jsonResponse(false, 'Notification not found', 404);
+        }
+        $notification->delete();
+        return Helper::jsonResponse(true, 'Notification deleted', 200);
+    }
 }
