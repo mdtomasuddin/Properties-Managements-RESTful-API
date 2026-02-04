@@ -1,7 +1,9 @@
 <?php
+
 namespace App\Http\Controllers\Api\V1\Resident\ReferralManagement;
 
 use App\Helpers\Helper;
+use App\Models\Property;
 use App\Models\Resident;
 use App\Models\User;
 use Exception;
@@ -75,6 +77,25 @@ class ReferralManagementController
         } catch (Exception $e) {
             DB::rollBack();
             return Helper::jsonResponse(false, 'Update failed: ' . $e->getMessage(), 500);
+        }
+    }
+
+    /**
+     * Retrieves all active properties.
+     * This method retrieves a list of all active properties.
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function AllProperty()
+    {
+        try {
+            $data = Property::where('status', 'active')->get(); //get
+
+            return Helper::jsonResponse(true, 'All Property retrieved successfully.', 200, $data);
+        } catch (Exception $e) {
+            return Helper::jsonResponse(false, 'Failed to retrieve Property.', 500, [
+                'error' => $e->getMessage(),
+            ]);
         }
     }
 }

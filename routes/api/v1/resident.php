@@ -20,3 +20,4 @@ Route::apiResource('rule-regulations', RulesRegulationController::class);
 Route::apiResource('support', SupportController::class);
 // ReferralManagementController
 Route::apiResource('referral-management', ReferralManagementController::class);
+Route::get('all-property', [ReferralManagementController::class, 'AllProperty']);   //all property 
