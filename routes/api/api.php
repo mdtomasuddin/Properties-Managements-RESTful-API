@@ -56,3 +56,4 @@ Route::post('/payment/ipn', [SSLCommerzPaymentController::class, 'PaymentIPN'])-
 
 // Notification Section All API Endpoint .
 Route::get('/notification', [NotificationController::class, 'getNotification'])->middleware('auth:api');
+Route::post('/notifications/read', [NotificationController::class, 'MarkAsRead'])->middleware('auth:api');
