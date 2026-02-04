@@ -9,20 +9,32 @@ class NotificationController
 {
 
 
+    /**
+     * Retrieves notifications for the current user.
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @queryParam per_page int Number of items to return per page. Defaults to 10.
+     *Type = MaintenanceNotification || AnnouncementNotification ||PaymentRequestNotification||PaymentSendNotification||EmergencyNotification
+     */
     public function getNotification(Request $request)
     {
-        $perPage = $request->query('per_page', 10); //pagination default 10
-        $type = $request->query('type');
-
         $user = auth()->user();
 
         if (! $user) {
-            return Helper::jsonResponse(false, 'Unauthorized action', 404);
+            return Helper::jsonResponse(false, 'Unauthorized action', 401);
         }
-        $data = $user->notifications()->latest()->paginate($perPage);
 
-        //makeHidden
-        // $data->makeHidden(['type', 'notifiable_type', 'updated_at', 'notifiable_id']);
-        return Helper::jsonResponse(true, 'Notification fetched successfully', 200, $data);
+        $perPage = $request->query('per_page', 10);
+        $type    = $request->query('type'); //type of notification
+        $query   = $user->notifications();
+
+        // Filter by type
+        if ($type) {
+            $fullType = str_contains($type, 'App\\Notifications\\') ? $type : 'App\\Notifications\\' . $type;
+            $query->where('type', $fullType);
+        }
+        $notifications = $query->latest()->paginate($perPage);
+
+        return Helper::jsonResponse(true, 'Notifications fetched successfully', 200, $notifications, true);
     }
 }
