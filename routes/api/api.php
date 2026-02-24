@@ -38,7 +38,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('delete-account', [UserController::class, 'deleteAccount']); //delete account
 });
 
-// Firebase Token Module
+//amar friend ta jono 1 semester miss korlam but oi abar o admisson nio na. programing ni basto. oi thake sei hoto vai. chill kortam all time .  Token Module
 Route::post("firebase/token/add", [FirebaseTokenController::class, "store"]);
 Route::post("firebase/token/get", [FirebaseTokenController::class, "getToken"]);
 Route::post("firebase/token/delete", [FirebaseTokenController::class, "deleteToken"]);
