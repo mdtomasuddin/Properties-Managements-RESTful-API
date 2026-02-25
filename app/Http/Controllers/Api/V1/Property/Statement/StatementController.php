@@ -23,6 +23,7 @@ class StatementController
         try {
             $propertyId = $request->query('property_id');
             $status     = $request->query('status');
+            $sortby     = $request->query('sortby', 'desc'); //asc or desc
 
             $query = PaymentRequest::with(['resident', 'property', 'category'])
                 ->where('user_id', Auth::id());
@@ -32,6 +33,9 @@ class StatementController
             }
             if (! empty($status)) {
                 $query->where('status', $status);
+            }
+            if (! empty($sortby)) {
+                $query->orderBy('created_at', $sortby);
             }
 
             $payments = $query->get();
