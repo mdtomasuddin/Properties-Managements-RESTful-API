@@ -21,8 +21,8 @@ class PropertyOwnerController
     {
         try {
             if ($request->ajax()) {
-                $data = User::where('role', 'property_owner')->latest()->get();
-                return DataTables::of($data)
+                $query = User::where('role', 'property_owner')->latest();
+                return DataTables::of($query)
                     ->filter(function ($query) use ($request) {
                         if ($request->has('search') && ! empty($request->search['value'])) {
                             $searchValue = $request->search['value'];

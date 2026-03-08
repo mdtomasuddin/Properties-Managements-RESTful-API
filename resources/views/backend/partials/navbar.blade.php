@@ -14,7 +14,7 @@
                 <!-- Nav item -->
                 <li class="nav-item">
                     <a class="nav-link {{ Route::is('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
-                        <i data-feather="home" class="nav-icon me-2 icon-xxs"></i>Dashboard
+                        <i data-feather="grid" class="nav-icon me-2 icon-xxs"></i>Dashboard
                     </a>
                 </li>
 
@@ -22,9 +22,16 @@
                 <li class="nav-item">
                     <a class="nav-link {{ Route::is('property-owner.index') ? 'active' : '' }}"
                         href="{{ route('property-owner.index') }}">
-                        <i data-feather="user" class="nav-icon me-2 icon-xxs"></i> Properties Users</a>
+                        <i data-feather="home" class="nav-icon me-2 icon-xxs"></i> Properties Users
+                    </a>
                 </li>
-
+                {{-- resident-information --}}
+                <li class="nav-item">
+                    <a class="nav-link {{ Route::is('resident-information.index') ? 'active' : '' }}"
+                        href="{{ route('resident-information.index') }}">
+                        <i data-feather="users" class="nav-icon me-2 icon-xxs"></i> Resident Users
+                    </a>
+                </li>
                 {{-- faq section   --}}
                 <li class="nav-item">
                     <a class="nav-link {{ Route::is('faq.index') ? 'active' : '' }}" href="{{ route('faq.index') }}">

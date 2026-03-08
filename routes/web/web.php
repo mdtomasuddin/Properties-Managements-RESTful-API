@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Web\CMS\FaqController;
 use App\Http\Controllers\Web\User\Properties\PropertyOwnerController;
+use App\Http\Controllers\Web\User\Resident\ResidentInformationController;
 use App\Http\Controllers\Web\V1\Plan\PlanController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,3 +30,4 @@ Route::prefix('plan')->name('plan.')->group(function () {
 
 //properties 
 Route::resource('property-owner', PropertyOwnerController::class);
+Route::resource('resident-information', ResidentInformationController::class); //resident information

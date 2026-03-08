@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -230,5 +231,10 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     public function firebaseTokens()
     {
         return $this->hasMany(FirebaseToken::class);
+    }
+    //resident
+    public function resident()
+    {
+        return $this->hasOne(Resident::class);
     }
 }
