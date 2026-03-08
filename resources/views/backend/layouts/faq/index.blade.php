@@ -4,6 +4,18 @@
     {{ env('APP_NAME') }} ||FAQ
 @endsection
 
+@push('styles')
+    <style>
+        .dataTables_filter {
+            text-align: right;
+        }
+        .dataTables_filter input {
+            max-width: 250px;
+            display: inline-block;
+        }
+    </style>
+@endpush
+
 @section('content')
     <div id="app-content">
         <div class="app-content-area">
@@ -18,8 +30,8 @@
                                 </div>
 
                                 <div class="card mb-4">
-                                    <div class="card-body">
-                                        <table class="table table-bordered" id="datatable">
+                                    <div class="card-body table-responsive">
+                                        <table class="table table-bordered w-100" id="datatable">
                                             <thead>
                                                 <tr>
                                                     <th class="column-id">#</th>

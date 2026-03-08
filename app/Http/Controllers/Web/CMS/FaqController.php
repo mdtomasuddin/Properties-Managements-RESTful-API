@@ -26,6 +26,15 @@ class FaqController
                 $data = FAQ::latest();
 
                 return DataTables::of($data)
+                    ->filter(function ($query) use ($request) {
+                        if ($request->has('search') && !empty($request->search['value'])) {
+                            $searchValue = $request->search['value'];
+                            $query->where(function ($q) use ($searchValue) {
+                                $q->where('question', 'like', "%{$searchValue}%")
+                                    ->orWhere('answer', 'like', "%{$searchValue}%");
+                            });
+                        }
+                    })
                     ->addIndexColumn()
                     ->addColumn('question', function ($data) {
                         $question      = $data->question;
@@ -44,8 +53,8 @@ class FaqController
                         return $status;
                     })
                     ->addColumn('action', function ($data) {
-                        return ' <a href="' . route('faq.edit', $data->id) . '" class="btn btn-sm btn-primary">Edit</a>
-                        <button onclick="showDeleteConfirm(' . $data->id . ')" class="btn btn-sm btn-danger">Delete</button>';
+                        return '<a href="' . route('faq.edit', $data->id) . '" class="text-primary fs-5 me-2"><i class="bi bi-pencil-square"></i></a>
+                        <a href="javascript:void(0)" onclick="showDeleteConfirm(' . $data->id . ')" class="text-danger fs-5"><i class="bi bi-trash"></i></a>';
                     })
                     ->rawColumns(['question', 'answer', 'status', 'action'])
                     ->make(true);
