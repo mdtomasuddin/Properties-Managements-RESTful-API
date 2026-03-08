@@ -32,6 +32,14 @@
                         <i data-feather="users" class="nav-icon me-2 icon-xxs"></i> Resident Users
                     </a>
                 </li>
+                {{-- emergencies --}}
+                <li class="nav-item">
+                    <a class="nav-link {{ Route::is('admin-emergency.index') ? 'active' : '' }}"
+                        href="{{ route('admin-emergency.index') }}">
+                        <i data-feather="alert-triangle" class="nav-icon me-2 icon-xxs"></i> Emergencies
+                    </a>
+                </li>
+
                 {{-- faq section   --}}
                 <li class="nav-item">
                     <a class="nav-link {{ Route::is('faq.index') ? 'active' : '' }}" href="{{ route('faq.index') }}">

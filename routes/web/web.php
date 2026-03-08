@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Web\CMS\FaqController;
+use App\Http\Controllers\Web\Emergency\EmergencyAdminController;
 use App\Http\Controllers\Web\User\DashboardController;
 use App\Http\Controllers\Web\User\Properties\PropertyOwnerController;
 use App\Http\Controllers\Web\User\Resident\ResidentInformationController;
@@ -29,3 +30,4 @@ Route::prefix('plan')->name('plan.')->group(function () {
 //properties 
 Route::resource('property-owner', PropertyOwnerController::class);
 Route::resource('resident-information', ResidentInformationController::class); //resident information
+Route::resource('admin-emergency', EmergencyAdminController::class);
