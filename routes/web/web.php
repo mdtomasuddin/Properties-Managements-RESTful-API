@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Web\CMS\FaqController;
+use App\Http\Controllers\Web\User\Properties\PropertyOwnerController;
 use App\Http\Controllers\Web\V1\Plan\PlanController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,3 +26,6 @@ Route::prefix('plan')->name('plan.')->group(function () {
     Route::patch('/{plan}', [PlanController::class, 'update'])->name('update');
     Route::post('/{plan}/toggle-status', [PlanController::class, 'toggleStatus'])->name('toggle-status');
 });
+
+//properties 
+Route::resource('property-owner', PropertyOwnerController::class);

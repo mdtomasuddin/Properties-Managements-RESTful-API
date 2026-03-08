@@ -17,6 +17,14 @@
                         <i data-feather="home" class="nav-icon me-2 icon-xxs"></i>Dashboard
                     </a>
                 </li>
+
+                {{-- properties Users --}}
+                <li class="nav-item">
+                    <a class="nav-link {{ Route::is('property-owner.index') ? 'active' : '' }}"
+                        href="{{ route('property-owner.index') }}">
+                        <i data-feather="user" class="nav-icon me-2 icon-xxs"></i> Properties Users</a>
+                </li>
+
                 {{-- faq section   --}}
                 <li class="nav-item">
                     <a class="nav-link {{ Route::is('faq.index') ? 'active' : '' }}" href="{{ route('faq.index') }}">
@@ -32,7 +40,8 @@
 
                 {{-- pricing & plan   --}}
                 <li class="nav-item">
-                    <a class="nav-link {{ Route::is('plan.index') ? 'active' : '' }}" href="{{ route('plan.index') }}">
+                    <a class="nav-link {{ Route::is('plan.index') ? 'active' : '' }}"
+                        href="{{ route('plan.index') }}">
                         <i data-feather="credit-card" class="nav-icon me-2 icon-xxs"></i> Subscription Plans
                     </a>
                 </li>

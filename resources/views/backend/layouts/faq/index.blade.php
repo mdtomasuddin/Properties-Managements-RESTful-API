@@ -9,6 +9,7 @@
         .dataTables_filter {
             text-align: right;
         }
+
         .dataTables_filter input {
             max-width: 250px;
             display: inline-block;
