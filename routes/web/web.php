@@ -9,6 +9,7 @@ use App\Http\Controllers\Web\User\Resident\ResidentInformationController;
 use App\Http\Controllers\Web\V1\Plan\PlanController;
 use App\Http\Controllers\Web\Category\CategoryController;
 use App\Http\Controllers\Web\Maintenance\MaintenanceAdminController;
+use App\Http\Controllers\Web\Property\PropertyAdminController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -37,4 +38,4 @@ Route::resource('admin-emergency', EmergencyAdminController::class);
 Route::resource('admin-announcement', AnnouncementAdminController::class);
 Route::resource('admin-maintenance', MaintenanceAdminController::class);
 Route::resource('categories', CategoryController::class); //categories routes
-//maintenances
+Route::resource('admin-property', PropertyAdminController::class);

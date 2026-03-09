@@ -17,12 +17,19 @@
                         <i data-feather="grid" class="nav-icon me-2 icon-xxs"></i>Dashboard
                     </a>
                 </li>
+                {{-- pricing & plan   --}}
+                <li class="nav-item">
+                    <a class="nav-link {{ Route::is('plan.index') ? 'active' : '' }}" href="{{ route('plan.index') }}">
+                        <i data-feather="package" class="nav-icon me-2 icon-xxs"></i> Subscription
+                    </a>
+                </li>
+
 
                 {{-- properties Users --}}
                 <li class="nav-item">
                     <a class="nav-link {{ Route::is('property-owner.index') ? 'active' : '' }}"
                         href="{{ route('property-owner.index') }}">
-                        <i data-feather="home" class="nav-icon me-2 icon-xxs"></i> Properties Users
+                        <i data-feather="home" class="nav-icon me-2 icon-xxs"></i>Porichalok Users
                     </a>
                 </li>
                 {{-- resident-information --}}
@@ -32,37 +39,39 @@
                         <i data-feather="users" class="nav-icon me-2 icon-xxs"></i> Resident Users
                     </a>
                 </li>
+                {{-- Properties --}}
+                <li class="nav-item">
+                    <a class="nav-link {{ Route::is('admin-property.*') ? 'active' : '' }}"
+                        href="{{ route('admin-property.index') }}">
+                        <i data-feather="home" class="nav-icon me-2 icon-xxs"></i> Properties
+                    </a>
+                </li>
+
                 {{-- emergencies --}}
                 <li class="nav-item">
-                    <a class="nav-link {{ Route::is('admin-emergency.index') ? 'active' : '' }}"
+                    <a class="nav-link {{ Route::is('admin-emergency.*') ? 'active' : '' }}"
                         href="{{ route('admin-emergency.index') }}">
                         <i data-feather="alert-triangle" class="nav-icon me-2 icon-xxs"></i> Emergencies
                     </a>
                 </li>
                 {{-- announcements --}}
                 <li class="nav-item">
-                    <a class="nav-link {{ Route::is('admin-announcement.index') ? 'active' : '' }}"
+                    <a class="nav-link {{ Route::is('admin-announcement.*') ? 'active' : '' }}"
                         href="{{ route('admin-announcement.index') }}">
                         <i data-feather="alert-circle" class="nav-icon me-2 icon-xxs"></i> Announcements
                     </a>
                 </li>
                 {{-- admin-maintenance --}}
                 <li class="nav-item">
-                    <a class="nav-link {{ Route::is('admin-maintenance.index') ? 'active' : '' }}"
+                    <a class="nav-link {{ Route::is('admin-maintenance.*') ? 'active' : '' }}"
                         href="{{ route('admin-maintenance.index') }}">
-                        <i data-feather="tool" class="nav-icon me-2 icon-xxs"></i> Maintenance
+                        <i data-feather="tool" class="nav-icon me-2 icon-xxs"></i> Maintenances
                     </a>
-                </li>
-
-                {{-- faq section   --}}
-                <li class="nav-item">
-                    <a class="nav-link {{ Route::is('faq.index') ? 'active' : '' }}" href="{{ route('faq.index') }}">
-                        <i data-feather="help-circle" class="nav-icon me-2 icon-xxs"></i> FAQ </a>
                 </li>
 
                 {{-- Categories section --}}
                 <li class="nav-item">
-                    <a class="nav-link collapsed {{ Route::is('categories.index') ? 'active' : '' }}" href="#!"
+                    <a class="nav-link collapsed {{ Route::is('categories.index') ? 'active' : '' }}" href#!"
                         data-bs-toggle="collapse" data-bs-target="#navCategories" aria-expanded="false"
                         aria-controls="navCategories">
                         <i data-feather="list" class="nav-icon me-2 icon-xxs"></i> Categories
@@ -101,6 +110,12 @@
                     </div>
                 </li>
 
+                {{-- faq section   --}}
+                <li class="nav-item">
+                    <a class="nav-link {{ Route::is('faq.index') ? 'active' : '' }}" href="{{ route('faq.index') }}">
+                        <i data-feather="help-circle" class="nav-icon me-2 icon-xxs"></i> FAQ </a>
+                </li>
+
                 <li class="nav-item">
                     <a class="nav-link {{ Route::is('v1.setting.mail.show') ? 'active' : '' }}"
                         href="{{ route('v1.setting.mail.show') }}">
@@ -108,13 +123,7 @@
                     </a>
                 </li>
 
-                {{-- pricing & plan   --}}
-                <li class="nav-item">
-                    <a class="nav-link {{ Route::is('plan.index') ? 'active' : '' }}"
-                        href="{{ route('plan.index') }}">
-                        <i data-feather="credit-card" class="nav-icon me-2 icon-xxs"></i> Subscription Plans
-                    </a>
-                </li>
+
             </ul>
         </div>
     </div>
