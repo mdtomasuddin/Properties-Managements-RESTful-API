@@ -68,6 +68,13 @@
                         <i data-feather="tool" class="nav-icon me-2 icon-xxs"></i> Maintenances
                     </a>
                 </li>
+                {{-- admin-rule-regulation --}}
+                <li class="nav-item">
+                    <a class="nav-link {{ Route::is('admin-rule-regulation.*') ? 'active' : '' }}"
+                        href="{{ route('admin-rule-regulation.index') }}">
+                        <i data-feather="book-open" class="nav-icon me-2 icon-xxs"></i> Rule Regulations
+                    </a>
+                </li>
 
                 {{-- Categories section --}}
                 <li class="nav-item">

@@ -10,6 +10,7 @@ use App\Http\Controllers\Web\V1\Plan\PlanController;
 use App\Http\Controllers\Web\Category\CategoryController;
 use App\Http\Controllers\Web\Maintenance\MaintenanceAdminController;
 use App\Http\Controllers\Web\Property\PropertyAdminController;
+use App\Http\Controllers\Web\Property\RuleRegulationAdminController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -39,3 +40,4 @@ Route::resource('admin-announcement', AnnouncementAdminController::class);
 Route::resource('admin-maintenance', MaintenanceAdminController::class);
 Route::resource('categories', CategoryController::class); //categories routes
 Route::resource('admin-property', PropertyAdminController::class);
+Route::resource('admin-rule-regulation', RuleRegulationAdminController::class);
