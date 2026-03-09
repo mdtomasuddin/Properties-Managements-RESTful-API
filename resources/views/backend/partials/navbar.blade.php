@@ -5,13 +5,14 @@
         <div class="h-100" data-simplebar>
             <!-- Brand logo -->
             <a class="navbar-brand" href="{{ route('dashboard') }}">
-                <img src="{{ asset('assets/backend/images/brand/logo/logo-2.png') }}"
-                    alt="dash ui - bootstrap 5 admin dashboard template">
+                <img src="{{ asset('assets/backend/images/brand/logo/logo-2.png') }}" alt="Saam Property Management Logo">
             </a>
             <!-- Navbar nav -->
             <ul class="navbar-nav flex-column" id="sideNavbar">
-
                 <!-- Nav item -->
+                <li class="nav-item">
+                    <div class="navbar-heading">Overview</div>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link {{ Route::is('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
                         <i data-feather="grid" class="nav-icon me-2 icon-xxs"></i>Dashboard
@@ -24,12 +25,14 @@
                     </a>
                 </li>
 
-
+                <li class="nav-item">
+                    <div class="navbar-heading">User Management</div>
+                </li>
                 {{-- properties Users --}}
                 <li class="nav-item">
                     <a class="nav-link {{ Route::is('property-owner.index') ? 'active' : '' }}"
                         href="{{ route('property-owner.index') }}">
-                        <i data-feather="home" class="nav-icon me-2 icon-xxs"></i>Porichalok Users
+                        <i data-feather="home" class="nav-icon me-2 icon-xxs"></i>Property Owners
                     </a>
                 </li>
                 {{-- resident-information --}}
@@ -39,6 +42,9 @@
                         <i data-feather="users" class="nav-icon me-2 icon-xxs"></i> Resident Users
                     </a>
                 </li>
+                <li class="nav-item">
+                    <div class="navbar-heading">Property Management</div>
+                </li>
                 {{-- Properties --}}
                 <li class="nav-item">
                     <a class="nav-link {{ Route::is('admin-property.*') ? 'active' : '' }}"
@@ -46,7 +52,6 @@
                         <i data-feather="home" class="nav-icon me-2 icon-xxs"></i> Properties
                     </a>
                 </li>
-
                 {{-- emergencies --}}
                 <li class="nav-item">
                     <a class="nav-link {{ Route::is('admin-emergency.*') ? 'active' : '' }}"
@@ -68,6 +73,12 @@
                         <i data-feather="tool" class="nav-icon me-2 icon-xxs"></i> Maintenances
                     </a>
                 </li>
+
+
+
+                <li class="nav-item">
+                    <div class="navbar-heading">Rules & Security</div>
+                </li>
                 {{-- admin-rule-regulation --}}
                 <li class="nav-item">
                     <a class="nav-link {{ Route::is('admin-rule-regulation.*') ? 'active' : '' }}"
@@ -80,6 +91,10 @@
                         href="{{ route('admin-security-contact.index') }}">
                         <i data-feather="phone" class="nav-icon me-2 icon-xxs"></i> Security Contact
                     </a>
+                </li>
+
+                <li class="nav-item">
+                    <div class="navbar-heading">Dynamic Content</div>
                 </li>
 
                 {{-- Categories section --}}
@@ -125,10 +140,14 @@
 
                 {{-- faq section   --}}
                 <li class="nav-item">
-                    <a class="nav-link {{ Route::is('faq.index') ? 'active' : '' }}" href="{{ route('faq.index') }}">
+                    <a class="nav-link {{ Route::is('faq.index') ? 'active' : '' }}"
+                        href="{{ route('faq.index') }}">
                         <i data-feather="help-circle" class="nav-icon me-2 icon-xxs"></i> FAQ </a>
                 </li>
 
+                <li class="nav-item">
+                    <div class="navbar-heading">System Settings</div>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link {{ Route::is('v1.setting.mail.show') ? 'active' : '' }}"
                         href="{{ route('v1.setting.mail.show') }}">
