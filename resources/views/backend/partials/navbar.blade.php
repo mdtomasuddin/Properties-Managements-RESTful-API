@@ -53,6 +53,47 @@
                         <i data-feather="help-circle" class="nav-icon me-2 icon-xxs"></i> FAQ </a>
                 </li>
 
+                {{-- Categories section --}}
+                <li class="nav-item">
+                    <a class="nav-link collapsed {{ Route::is('categories.index') ? 'active' : '' }}" href="#!"
+                        data-bs-toggle="collapse" data-bs-target="#navCategories" aria-expanded="false"
+                        aria-controls="navCategories">
+                        <i data-feather="list" class="nav-icon me-2 icon-xxs"></i> Categories
+                    </a>
+                    <div id="navCategories" class="collapse {{ Request::is('categories*') ? 'show' : '' }}"
+                        data-bs-parent="#sideNavbar">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link {{ request('section') == 'payment' ? 'active' : '' }}"
+                                    href="{{ route('categories.index', ['section' => 'payment']) }}"> Payment </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request('section') == 'emergency' ? 'active' : '' }}"
+                                    href="{{ route('categories.index', ['section' => 'emergency']) }}"> Emergency </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request('section') == 'maintenance' ? 'active' : '' }}"
+                                    href="{{ route('categories.index', ['section' => 'maintenance']) }}"> Maintenance
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request('section') == 'announcement' ? 'active' : '' }}"
+                                    href="{{ route('categories.index', ['section' => 'announcement']) }}"> Announcement
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request('section') == 'document' ? 'active' : '' }}"
+                                    href="{{ route('categories.index', ['section' => 'document']) }}"> Document </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request('section') == 'security_contact' ? 'active' : '' }}"
+                                    href="{{ route('categories.index', ['section' => 'security_contact']) }}"> Security
+                                    Contact </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
                 <li class="nav-item">
                     <a class="nav-link {{ Route::is('v1.setting.mail.show') ? 'active' : '' }}"
                         href="{{ route('v1.setting.mail.show') }}">
