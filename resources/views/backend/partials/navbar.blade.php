@@ -75,6 +75,12 @@
                         <i data-feather="book-open" class="nav-icon me-2 icon-xxs"></i> Rule Regulations
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ Route::is('admin-security-contact.*') ? 'active' : '' }}"
+                        href="{{ route('admin-security-contact.index') }}">
+                        <i data-feather="phone" class="nav-icon me-2 icon-xxs"></i> Security Contact
+                    </a>
+                </li>
 
                 {{-- Categories section --}}
                 <li class="nav-item">

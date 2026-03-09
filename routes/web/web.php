@@ -11,6 +11,7 @@ use App\Http\Controllers\Web\Category\CategoryController;
 use App\Http\Controllers\Web\Maintenance\MaintenanceAdminController;
 use App\Http\Controllers\Web\Property\PropertyAdminController;
 use App\Http\Controllers\Web\Property\RuleRegulationAdminController;
+use App\Http\Controllers\Web\Property\SecurityContactAdminController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -41,3 +42,4 @@ Route::resource('admin-maintenance', MaintenanceAdminController::class);
 Route::resource('categories', CategoryController::class); //categories routes
 Route::resource('admin-property', PropertyAdminController::class);
 Route::resource('admin-rule-regulation', RuleRegulationAdminController::class);
+Route::resource('admin-security-contact', SecurityContactAdminController::class);
