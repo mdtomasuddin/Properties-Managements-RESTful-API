@@ -39,6 +39,13 @@
                         <i data-feather="alert-triangle" class="nav-icon me-2 icon-xxs"></i> Emergencies
                     </a>
                 </li>
+                {{-- announcements --}}
+                <li class="nav-item">
+                    <a class="nav-link {{ Route::is('admin-announcement.index') ? 'active' : '' }}"
+                        href="{{ route('admin-announcement.index') }}">
+                        <i data-feather="alert-circle" class="nav-icon me-2 icon-xxs"></i> Announcements
+                    </a>
+                </li>
 
                 {{-- faq section   --}}
                 <li class="nav-item">
