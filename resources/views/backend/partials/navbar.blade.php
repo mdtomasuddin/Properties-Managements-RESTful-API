@@ -46,6 +46,13 @@
                         <i data-feather="alert-circle" class="nav-icon me-2 icon-xxs"></i> Announcements
                     </a>
                 </li>
+                {{-- admin-maintenance --}}
+                <li class="nav-item">
+                    <a class="nav-link {{ Route::is('admin-maintenance.index') ? 'active' : '' }}"
+                        href="{{ route('admin-maintenance.index') }}">
+                        <i data-feather="tool" class="nav-icon me-2 icon-xxs"></i> Maintenance
+                    </a>
+                </li>
 
                 {{-- faq section   --}}
                 <li class="nav-item">
