@@ -35,11 +35,11 @@ Route::prefix('plan')->name('plan.')->group(function () {
 
 //properties 
 Route::resource('property-owner', PropertyOwnerController::class);
-Route::resource('resident-information', ResidentInformationController::class); //resident information
+Route::resource('resident-information', ResidentInformationController::class); 
 Route::resource('admin-emergency', EmergencyAdminController::class);
 Route::resource('admin-announcement', AnnouncementAdminController::class);
 Route::resource('admin-maintenance', MaintenanceAdminController::class);
-Route::resource('categories', CategoryController::class); //categories routes
+Route::resource('categories', CategoryController::class);
 Route::resource('admin-property', PropertyAdminController::class);
 Route::resource('admin-rule-regulation', RuleRegulationAdminController::class);
 Route::resource('admin-security-contact', SecurityContactAdminController::class);
