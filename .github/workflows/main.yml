@@ -1,21 +1,20 @@
+name: Softvence
 on:
   push:
     branches:
-      - dev
-name: 🚀 Deploy website on push
+      - main
 jobs:
-  web-deploy:
-    name: 🎉 Deploy
+  FTP-Deploy-Action:
+    name: FTP-Deploy-Action
     runs-on: ubuntu-latest
     steps:
-    - name: 🚚 Get latest code
-      uses: actions/checkout@v4
-
-    - name: 📂 Sync files
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-      with:
-        server: ftp.*****.xyz
-        username: api@****.xyz
-        password: ${{ secrets.ftp_password }}
-        port: 21
-        protocol: "ftp"
+      - uses: actions/checkout@v2.1.0
+        with:
+          fetch-depth: 2
+      - name: FTP-Deploy-Action
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
+        with:
+          server: ftp.thesyndicates.team
+          username: thesyndicates@saam.thesyndicates.team
+          password: "ckbt%U?GszwZK!Y?"
+          port: 21
