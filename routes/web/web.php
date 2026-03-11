@@ -8,6 +8,10 @@ use App\Http\Controllers\Web\User\Properties\PropertyOwnerController;
 use App\Http\Controllers\Web\User\Resident\ResidentInformationController;
 use App\Http\Controllers\Web\V1\Plan\PlanController;
 use App\Http\Controllers\Web\Category\CategoryController;
+use App\Http\Controllers\Web\Maintenance\MaintenanceAdminController;
+use App\Http\Controllers\Web\Property\PropertyAdminController;
+use App\Http\Controllers\Web\Property\RuleRegulationAdminController;
+use App\Http\Controllers\Web\Property\SecurityContactAdminController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -34,4 +38,8 @@ Route::resource('property-owner', PropertyOwnerController::class);
 Route::resource('resident-information', ResidentInformationController::class); //resident information
 Route::resource('admin-emergency', EmergencyAdminController::class);
 Route::resource('admin-announcement', AnnouncementAdminController::class);
+Route::resource('admin-maintenance', MaintenanceAdminController::class);
 Route::resource('categories', CategoryController::class); //categories routes
+Route::resource('admin-property', PropertyAdminController::class);
+Route::resource('admin-rule-regulation', RuleRegulationAdminController::class);
+Route::resource('admin-security-contact', SecurityContactAdminController::class);
