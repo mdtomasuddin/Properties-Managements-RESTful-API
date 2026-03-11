@@ -56,4 +56,5 @@ Route::group(['prefix' => 'notifications', 'middleware' => 'auth:api'], function
     Route::post('/read', [NotificationController::class, 'markAsRead']);
     Route::post('/read-all', [NotificationController::class, 'markAllAsRead']);
     Route::delete('/{id}', [NotificationController::class, 'deleteNotification']);
+    Route::post('/update-payment-status', [NotificationController::class, 'updatePaymentStatus']);//payment status update
 });

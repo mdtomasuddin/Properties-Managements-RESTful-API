@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Api\V1\Notification;
 
 use App\Helpers\Helper;
+use App\Models\Notification;
+use App\Models\Payment;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class NotificationController
 {
@@ -101,5 +104,57 @@ class NotificationController
         }
         $notification->delete();
         return Helper::jsonResponse(true, 'Notification deleted', 200);
+    }
+
+    /**
+     * Update payment status from notification.
+     * This method updates the payment status (paid/cancelled) based on the notification_id.
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updatePaymentStatus(Request $request)
+    {
+        try {
+            //validation
+            $validator = Validator::make($request->all(), [
+                'notification_id' => 'required|exists:notifications,id',
+                'status'          => 'required|in:paid,cancelled',
+            ]);
+            //Fail if validation fails
+            if ($validator->fails()) {
+                return Helper::jsonResponse(false, $validator->errors()->first(), 422);
+            }
+
+            $user         = Auth::user();
+            $notification = $user->notifications()->where('id', $request->notification_id)->first();
+            if (! $notification) {
+                return Helper::jsonResponse(false, 'Notification not found', 404);
+            }
+
+            //Get payment id
+            $notificationData = $notification->data;
+            $paymentId        = $notificationData['payment_id'] ?? null;
+            if (! $paymentId) {
+                return Helper::jsonResponse(false, 'Payment ID not found in notification', 400);
+            }
+
+            // Update payment status
+            $payment = Payment::find($paymentId);
+            if (! $payment) {
+                return Helper::jsonResponse(false, 'Payment not found', 404);
+            }
+            $payment->status = $request->status;
+            $payment->save();
+            $notificationData['status'] = $request->status;
+            $notification->data         = $notificationData;
+            $notification->save();
+            //Response
+            return Helper::jsonResponse(true, 'Payment status updated successfully', 200, [
+                'payment_id' => $payment->id,
+                'status'     => $payment->status,
+            ]);
+        } catch (Exception $e) {
+            return Helper::jsonResponse(false, 'Failed to update payment status', 500, ['error' => $e->getMessage()]);
+        }
     }
 }
