@@ -39,6 +39,18 @@ class PaymentSeeder extends Seeder
                 "branch_name"    => null,
                 "swift_code"     => null,
             ],
+            [
+                "user_id"        => 3,
+                "property_id"    => 1,
+                "total_amount"   => "505.50",
+                "payment_date"   => now(),
+                "payment_method" => "cash",
+                "account_name"   => null,
+                "account_number" => null,
+                "bank_name"      => null,
+                "branch_name"    => null,
+                "swift_code"     => null,
+            ],
 
         ];
 
