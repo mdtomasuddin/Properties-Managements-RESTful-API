@@ -18,7 +18,7 @@ window.Echo = new Echo({
 // listening to private channel conversation1
 let channelName = 'chat.1';
 window.Echo.private(channelName)
-    .listen('MessageSent', (e) => {
+    .listen('.MessageSent', (e) => {
         console.log(e);
     });
 
@@ -26,6 +26,6 @@ window.Echo.private(channelName)
 // listening to private channel UnreadCount
 let conversationId = 1;
 window.Echo.private('latest-message-channel.' + conversationId)
-    .listen('LatestMassageEvent', (e) => {
+    .listen('.LatestMassageEvent', (e) => {
         console.log("UnreadCount:", e);
     });

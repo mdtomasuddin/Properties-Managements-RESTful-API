@@ -14,6 +14,11 @@ class LatestMassageEvent implements ShouldBroadcastNow
 
     public $message;
     public $unreadCount;
+
+    public function broadcastAs(): string
+    {
+        return 'LatestMassageEvent';
+    }
     public function __construct($message, $unreadCount)
     {
         $this->message     = $message;

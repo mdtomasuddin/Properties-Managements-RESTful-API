@@ -15,6 +15,11 @@ class MessageSent implements ShouldBroadcastNow
 
     public $data;
 
+    public function broadcastAs(): string
+    {
+        return 'MessageSent';
+    }
+
     /**
      * Create a new event instance.
      */
