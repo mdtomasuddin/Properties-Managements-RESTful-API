@@ -9,7 +9,8 @@ return [
     | Your Firebase project ID from the Firebase Console
     |
     */
-    'project_id'       => 'touchpnt-062',
+    // 'project_id'       => 'touchpnt-062',
+    'project_id'       => 'property-porichalok',
 
     /*
     |--------------------------------------------------------------------------
@@ -23,7 +24,7 @@ return [
     | If you need to use a different location, you can modify this value directly in the published config.
     |
     */
-    'credentials_path' => storage_path('app/private/property-porichalok-firebase-adminsdk-fbsvc-8881e65668.json'),
+    'credentials_path' => storage_path('app/private/propertyporichalok.json'),
     // 'credentials_path' => storage_path('app/private/touchpnt-062-firebase-adminsdk-fbsvc-80b1a7d81b.json'),
 
     /*

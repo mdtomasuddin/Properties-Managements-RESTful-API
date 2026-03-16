@@ -117,9 +117,9 @@ class PasswordResetService
             if (! $user) {
                 throw new Exception('Invalid phone number');
             }
-            if (is_null($user->otp_verified_at)) {
-                throw new Exception('OTP not verified');
-            }
+            // if (is_null($user->otp_verified_at)) {
+            //     throw new Exception('OTP not verified');
+            // }
 
             $user->update([
                 'password'        => Hash::make($data['password']),
